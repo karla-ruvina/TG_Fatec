@@ -1,13 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TG_fatec" Class="DataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Table Name="dbo.Avaliacao" Member="Avaliacaos">
-    <Type Name="Avaliacao">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="IdEntrega" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Estrelas" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Comentario" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
-      <Association Name="Entrega_Avaliacao" Member="Entrega" ThisKey="IdEntrega" OtherKey="Id" Type="Entrega" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Usuario" Member="Usuarios">
     <Type Name="Usuario">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -134,6 +125,15 @@
       <Column Name="DataCadastro" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Produto_ProdutosProdutor" Member="Produto" ThisKey="IdProduto" OtherKey="Id" Type="Produto" IsForeignKey="true" />
       <Association Name="Produtor_ProdutosProdutor" Member="Produtor" ThisKey="IdProdutor" OtherKey="Id" Type="Produtor" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Avaliacao" Member="Avaliacaos">
+    <Type Name="Avaliacao">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdEntrega" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Estrelas" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Comentario" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Association Name="Entrega_Avaliacao" Member="Entrega" ThisKey="IdEntrega" OtherKey="Id" Type="Entrega" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
