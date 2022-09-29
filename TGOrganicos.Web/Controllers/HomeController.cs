@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TGOrganicos.Data;
 
 namespace TGOrganicos.Web.Controllers
 {
@@ -10,6 +11,8 @@ namespace TGOrganicos.Web.Controllers
     {
         public ActionResult Index()
         {
+            DataLinq db = new DataLinq();
+
             return View();
         }
 
