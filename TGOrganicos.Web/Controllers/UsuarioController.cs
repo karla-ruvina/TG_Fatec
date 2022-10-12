@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TGOrganicos.Data;
+using TGOrganicos.Web.Models;
 
 namespace TGOrganicos.Web.Controllers
 {
@@ -20,27 +21,11 @@ namespace TGOrganicos.Web.Controllers
         public ActionResult Cadastro(int? id)
         {
             DataLinq db = new DataLinq();
-            Usuario usuario = new Usuario();
 
-            if (id.HasValue && id.Value > 0)
-            {
-                var aux = db.Usuarios.FirstOrDefault(c => c.Id == id);
-                usuario.Id = aux.Id;
-                usuario.Nome = aux.Nome;
-                usuario.CPF = aux.CPF;
-                usuario.DataNascimento = aux.DataNascimento;
-                usuario.Telefone = aux.Telefone;
-                usuario.Email = aux.Email;
-                usuario.Senha = aux.Senha;
-                usuario.CEP = aux.CEP;
-                usuario.Cidade = aux.Cidade;
-                usuario.Estado = aux.Estado;
-                usuario.UF = aux.UF;
-                usuario.Logradouro = aux.Logradouro;
-                usuario.Numero = aux.Bairro;
-                usuario.Complemento = aux.Complemento;
-                usuario.TipoUsuario = aux.TipoUsuario;
-            }
+            var usuario = new Models.Usuarios();
+            usuario.User = new Usuario();
+            usuario.UserCli = new UsuarioCliente();
+            usuario.UserProd = new UsuarioProdutor();
 
             return View(usuario);
         }

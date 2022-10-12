@@ -1,4 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TG_fatec" Class="DataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.Avaliacao" Member="Avaliacaos">
+    <Type Name="Avaliacao">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdEntrega" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Estrelas" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Comentario" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Association Name="Entrega_Avaliacao" Member="Entrega" ThisKey="IdEntrega" OtherKey="Id" Type="Entrega" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Usuario" Member="Usuarios">
     <Type Name="Usuario">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -18,7 +27,6 @@
       <Column Name="Complemento" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="TipoUsuario" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Usuario_Cliente" Member="Clientes" ThisKey="Id" OtherKey="IdUsuario" Type="Cliente" />
-      <Association Name="Usuario_Entregador" Member="Entregadors" ThisKey="Id" OtherKey="IdUsuario" Type="Entregador" />
       <Association Name="Usuario_Produtor" Member="Produtors" ThisKey="Id" OtherKey="IdUsuario" Type="Produtor" />
     </Type>
   </Table>
@@ -36,7 +44,6 @@
     <Type Name="Entrega">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="IdPedido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IdEntregador" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="Saida" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="PrevisaoEntrega" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Entrega" Member="Entrega1" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
@@ -46,26 +53,7 @@
       <Column Name="ValorTroco" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
       <Column Name="Cartao" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Association Name="Entrega_Avaliacao" Member="Avaliacaos" ThisKey="Id" OtherKey="IdEntrega" Type="Avaliacao" />
-      <Association Name="Entregador_Entrega" Member="Entregador" ThisKey="IdEntregador" OtherKey="Id" Type="Entregador" IsForeignKey="true" />
       <Association Name="Pedido_Entrega" Member="Pedido" ThisKey="IdPedido" OtherKey="Id" Type="Pedido" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Entregador" Member="Entregadors">
-    <Type Name="Entregador">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="IdUsuario" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="NumeroRegistroCNH" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="DataEmissaoCNH" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="OrgaoEmissorCNH" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="UFCNH" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
-      <Column Name="CategoriaCNH" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
-      <Column Name="ModeloVeiculo" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
-      <Column Name="MarcaVeiculo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="AnoVeiculo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="CorVeiculo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="PlacaVeiculo" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Association Name="Entregador_Entrega" Member="Entregas" ThisKey="Id" OtherKey="IdEntregador" Type="Entrega" />
-      <Association Name="Usuario_Entregador" Member="Usuario" ThisKey="IdUsuario" OtherKey="Id" Type="Usuario" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ItensPedido" Member="ItensPedidos">
@@ -125,15 +113,6 @@
       <Column Name="DataCadastro" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Produto_ProdutosProdutor" Member="Produto" ThisKey="IdProduto" OtherKey="Id" Type="Produto" IsForeignKey="true" />
       <Association Name="Produtor_ProdutosProdutor" Member="Produtor" ThisKey="IdProdutor" OtherKey="Id" Type="Produtor" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Avaliacao" Member="Avaliacaos">
-    <Type Name="Avaliacao">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="IdEntrega" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Estrelas" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Comentario" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
-      <Association Name="Entrega_Avaliacao" Member="Entrega" ThisKey="IdEntrega" OtherKey="Id" Type="Entrega" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

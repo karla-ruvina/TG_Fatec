@@ -30,6 +30,9 @@ namespace TGOrganicos.Data
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertAvaliacao(Avaliacao instance);
+    partial void UpdateAvaliacao(Avaliacao instance);
+    partial void DeleteAvaliacao(Avaliacao instance);
     partial void InsertUsuario(Usuario instance);
     partial void UpdateUsuario(Usuario instance);
     partial void DeleteUsuario(Usuario instance);
@@ -39,9 +42,6 @@ namespace TGOrganicos.Data
     partial void InsertEntrega(Entrega instance);
     partial void UpdateEntrega(Entrega instance);
     partial void DeleteEntrega(Entrega instance);
-    partial void InsertEntregador(Entregador instance);
-    partial void UpdateEntregador(Entregador instance);
-    partial void DeleteEntregador(Entregador instance);
     partial void InsertItensPedido(ItensPedido instance);
     partial void UpdateItensPedido(ItensPedido instance);
     partial void DeleteItensPedido(ItensPedido instance);
@@ -57,9 +57,6 @@ namespace TGOrganicos.Data
     partial void InsertProdutosProdutor(ProdutosProdutor instance);
     partial void UpdateProdutosProdutor(ProdutosProdutor instance);
     partial void DeleteProdutosProdutor(ProdutosProdutor instance);
-    partial void InsertAvaliacao(Avaliacao instance);
-    partial void UpdateAvaliacao(Avaliacao instance);
-    partial void DeleteAvaliacao(Avaliacao instance);
     #endregion
 		
 		public DataLinq(string connection) : 
@@ -86,6 +83,14 @@ namespace TGOrganicos.Data
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<Avaliacao> Avaliacaos
+		{
+			get
+			{
+				return this.GetTable<Avaliacao>();
+			}
+		}
+		
 		public System.Data.Linq.Table<Usuario> Usuarios
 		{
 			get
@@ -107,14 +112,6 @@ namespace TGOrganicos.Data
 			get
 			{
 				return this.GetTable<Entrega>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Entregador> Entregadors
-		{
-			get
-			{
-				return this.GetTable<Entregador>();
 			}
 		}
 		
@@ -157,12 +154,179 @@ namespace TGOrganicos.Data
 				return this.GetTable<ProdutosProdutor>();
 			}
 		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Avaliacao")]
+	public partial class Avaliacao : INotifyPropertyChanging, INotifyPropertyChanged
+	{
 		
-		public System.Data.Linq.Table<Avaliacao> Avaliacaos
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _IdEntrega;
+		
+		private System.Nullable<int> _Estrelas;
+		
+		private string _Comentario;
+		
+		private EntityRef<Entrega> _Entrega;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnIdEntregaChanging(int value);
+    partial void OnIdEntregaChanged();
+    partial void OnEstrelasChanging(System.Nullable<int> value);
+    partial void OnEstrelasChanged();
+    partial void OnComentarioChanging(string value);
+    partial void OnComentarioChanged();
+    #endregion
+		
+		public Avaliacao()
+		{
+			this._Entrega = default(EntityRef<Entrega>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
 		{
 			get
 			{
-				return this.GetTable<Avaliacao>();
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEntrega", DbType="Int NOT NULL")]
+		public int IdEntrega
+		{
+			get
+			{
+				return this._IdEntrega;
+			}
+			set
+			{
+				if ((this._IdEntrega != value))
+				{
+					if (this._Entrega.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdEntregaChanging(value);
+					this.SendPropertyChanging();
+					this._IdEntrega = value;
+					this.SendPropertyChanged("IdEntrega");
+					this.OnIdEntregaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Estrelas", DbType="Int")]
+		public System.Nullable<int> Estrelas
+		{
+			get
+			{
+				return this._Estrelas;
+			}
+			set
+			{
+				if ((this._Estrelas != value))
+				{
+					this.OnEstrelasChanging(value);
+					this.SendPropertyChanging();
+					this._Estrelas = value;
+					this.SendPropertyChanged("Estrelas");
+					this.OnEstrelasChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comentario", DbType="VarChar(500)")]
+		public string Comentario
+		{
+			get
+			{
+				return this._Comentario;
+			}
+			set
+			{
+				if ((this._Comentario != value))
+				{
+					this.OnComentarioChanging(value);
+					this.SendPropertyChanging();
+					this._Comentario = value;
+					this.SendPropertyChanged("Comentario");
+					this.OnComentarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Entrega_Avaliacao", Storage="_Entrega", ThisKey="IdEntrega", OtherKey="Id", IsForeignKey=true)]
+		public Entrega Entrega
+		{
+			get
+			{
+				return this._Entrega.Entity;
+			}
+			set
+			{
+				Entrega previousValue = this._Entrega.Entity;
+				if (((previousValue != value) 
+							|| (this._Entrega.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Entrega.Entity = null;
+						previousValue.Avaliacaos.Remove(this);
+					}
+					this._Entrega.Entity = value;
+					if ((value != null))
+					{
+						value.Avaliacaos.Add(this);
+						this._IdEntrega = value.Id;
+					}
+					else
+					{
+						this._IdEntrega = default(int);
+					}
+					this.SendPropertyChanged("Entrega");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -207,8 +371,6 @@ namespace TGOrganicos.Data
 		
 		private EntitySet<Cliente> _Clientes;
 		
-		private EntitySet<Entregador> _Entregadors;
-		
 		private EntitySet<Produtor> _Produtors;
 		
     #region Extensibility Method Definitions
@@ -252,7 +414,6 @@ namespace TGOrganicos.Data
 		public Usuario()
 		{
 			this._Clientes = new EntitySet<Cliente>(new Action<Cliente>(this.attach_Clientes), new Action<Cliente>(this.detach_Clientes));
-			this._Entregadors = new EntitySet<Entregador>(new Action<Entregador>(this.attach_Entregadors), new Action<Entregador>(this.detach_Entregadors));
 			this._Produtors = new EntitySet<Produtor>(new Action<Produtor>(this.attach_Produtors), new Action<Produtor>(this.detach_Produtors));
 			OnCreated();
 		}
@@ -590,19 +751,6 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Entregador", Storage="_Entregadors", ThisKey="Id", OtherKey="IdUsuario")]
-		public EntitySet<Entregador> Entregadors
-		{
-			get
-			{
-				return this._Entregadors;
-			}
-			set
-			{
-				this._Entregadors.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Produtor", Storage="_Produtors", ThisKey="Id", OtherKey="IdUsuario")]
 		public EntitySet<Produtor> Produtors
 		{
@@ -643,18 +791,6 @@ namespace TGOrganicos.Data
 		}
 		
 		private void detach_Clientes(Cliente entity)
-		{
-			this.SendPropertyChanging();
-			entity.Usuario = null;
-		}
-		
-		private void attach_Entregadors(Entregador entity)
-		{
-			this.SendPropertyChanging();
-			entity.Usuario = this;
-		}
-		
-		private void detach_Entregadors(Entregador entity)
 		{
 			this.SendPropertyChanging();
 			entity.Usuario = null;
@@ -886,8 +1022,6 @@ namespace TGOrganicos.Data
 		
 		private int _IdPedido;
 		
-		private System.Nullable<int> _IdEntregador;
-		
 		private System.Nullable<System.DateTime> _Saida;
 		
 		private System.Nullable<System.DateTime> _PrevisaoEntrega;
@@ -906,8 +1040,6 @@ namespace TGOrganicos.Data
 		
 		private EntitySet<Avaliacao> _Avaliacaos;
 		
-		private EntityRef<Entregador> _Entregador;
-		
 		private EntityRef<Pedido> _Pedido;
 		
     #region Extensibility Method Definitions
@@ -918,8 +1050,6 @@ namespace TGOrganicos.Data
     partial void OnIdChanged();
     partial void OnIdPedidoChanging(int value);
     partial void OnIdPedidoChanged();
-    partial void OnIdEntregadorChanging(System.Nullable<int> value);
-    partial void OnIdEntregadorChanged();
     partial void OnSaidaChanging(System.Nullable<System.DateTime> value);
     partial void OnSaidaChanged();
     partial void OnPrevisaoEntregaChanging(System.Nullable<System.DateTime> value);
@@ -941,7 +1071,6 @@ namespace TGOrganicos.Data
 		public Entrega()
 		{
 			this._Avaliacaos = new EntitySet<Avaliacao>(new Action<Avaliacao>(this.attach_Avaliacaos), new Action<Avaliacao>(this.detach_Avaliacaos));
-			this._Entregador = default(EntityRef<Entregador>);
 			this._Pedido = default(EntityRef<Pedido>);
 			OnCreated();
 		}
@@ -986,30 +1115,6 @@ namespace TGOrganicos.Data
 					this._IdPedido = value;
 					this.SendPropertyChanged("IdPedido");
 					this.OnIdPedidoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEntregador", DbType="Int")]
-		public System.Nullable<int> IdEntregador
-		{
-			get
-			{
-				return this._IdEntregador;
-			}
-			set
-			{
-				if ((this._IdEntregador != value))
-				{
-					if (this._Entregador.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdEntregadorChanging(value);
-					this.SendPropertyChanging();
-					this._IdEntregador = value;
-					this.SendPropertyChanged("IdEntregador");
-					this.OnIdEntregadorChanged();
 				}
 			}
 		}
@@ -1187,40 +1292,6 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Entregador_Entrega", Storage="_Entregador", ThisKey="IdEntregador", OtherKey="Id", IsForeignKey=true)]
-		public Entregador Entregador
-		{
-			get
-			{
-				return this._Entregador.Entity;
-			}
-			set
-			{
-				Entregador previousValue = this._Entregador.Entity;
-				if (((previousValue != value) 
-							|| (this._Entregador.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Entregador.Entity = null;
-						previousValue.Entregas.Remove(this);
-					}
-					this._Entregador.Entity = value;
-					if ((value != null))
-					{
-						value.Entregas.Add(this);
-						this._IdEntregador = value.Id;
-					}
-					else
-					{
-						this._IdEntregador = default(Nullable<int>);
-					}
-					this.SendPropertyChanged("Entregador");
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_Entrega", Storage="_Pedido", ThisKey="IdPedido", OtherKey="Id", IsForeignKey=true)]
 		public Pedido Pedido
 		{
@@ -1285,401 +1356,6 @@ namespace TGOrganicos.Data
 		{
 			this.SendPropertyChanging();
 			entity.Entrega = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Entregador")]
-	public partial class Entregador : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private int _IdUsuario;
-		
-		private string _NumeroRegistroCNH;
-		
-		private System.Nullable<System.DateTime> _DataEmissaoCNH;
-		
-		private string _OrgaoEmissorCNH;
-		
-		private string _UFCNH;
-		
-		private string _CategoriaCNH;
-		
-		private string _ModeloVeiculo;
-		
-		private string _MarcaVeiculo;
-		
-		private string _AnoVeiculo;
-		
-		private string _CorVeiculo;
-		
-		private string _PlacaVeiculo;
-		
-		private EntitySet<Entrega> _Entregas;
-		
-		private EntityRef<Usuario> _Usuario;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnIdUsuarioChanging(int value);
-    partial void OnIdUsuarioChanged();
-    partial void OnNumeroRegistroCNHChanging(string value);
-    partial void OnNumeroRegistroCNHChanged();
-    partial void OnDataEmissaoCNHChanging(System.Nullable<System.DateTime> value);
-    partial void OnDataEmissaoCNHChanged();
-    partial void OnOrgaoEmissorCNHChanging(string value);
-    partial void OnOrgaoEmissorCNHChanged();
-    partial void OnUFCNHChanging(string value);
-    partial void OnUFCNHChanged();
-    partial void OnCategoriaCNHChanging(string value);
-    partial void OnCategoriaCNHChanged();
-    partial void OnModeloVeiculoChanging(string value);
-    partial void OnModeloVeiculoChanged();
-    partial void OnMarcaVeiculoChanging(string value);
-    partial void OnMarcaVeiculoChanged();
-    partial void OnAnoVeiculoChanging(string value);
-    partial void OnAnoVeiculoChanged();
-    partial void OnCorVeiculoChanging(string value);
-    partial void OnCorVeiculoChanged();
-    partial void OnPlacaVeiculoChanging(string value);
-    partial void OnPlacaVeiculoChanged();
-    #endregion
-		
-		public Entregador()
-		{
-			this._Entregas = new EntitySet<Entrega>(new Action<Entrega>(this.attach_Entregas), new Action<Entrega>(this.detach_Entregas));
-			this._Usuario = default(EntityRef<Usuario>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdUsuario", DbType="Int NOT NULL")]
-		public int IdUsuario
-		{
-			get
-			{
-				return this._IdUsuario;
-			}
-			set
-			{
-				if ((this._IdUsuario != value))
-				{
-					if (this._Usuario.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdUsuarioChanging(value);
-					this.SendPropertyChanging();
-					this._IdUsuario = value;
-					this.SendPropertyChanged("IdUsuario");
-					this.OnIdUsuarioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NumeroRegistroCNH", DbType="VarChar(50)")]
-		public string NumeroRegistroCNH
-		{
-			get
-			{
-				return this._NumeroRegistroCNH;
-			}
-			set
-			{
-				if ((this._NumeroRegistroCNH != value))
-				{
-					this.OnNumeroRegistroCNHChanging(value);
-					this.SendPropertyChanging();
-					this._NumeroRegistroCNH = value;
-					this.SendPropertyChanged("NumeroRegistroCNH");
-					this.OnNumeroRegistroCNHChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataEmissaoCNH", DbType="DateTime")]
-		public System.Nullable<System.DateTime> DataEmissaoCNH
-		{
-			get
-			{
-				return this._DataEmissaoCNH;
-			}
-			set
-			{
-				if ((this._DataEmissaoCNH != value))
-				{
-					this.OnDataEmissaoCNHChanging(value);
-					this.SendPropertyChanging();
-					this._DataEmissaoCNH = value;
-					this.SendPropertyChanged("DataEmissaoCNH");
-					this.OnDataEmissaoCNHChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrgaoEmissorCNH", DbType="VarChar(50)")]
-		public string OrgaoEmissorCNH
-		{
-			get
-			{
-				return this._OrgaoEmissorCNH;
-			}
-			set
-			{
-				if ((this._OrgaoEmissorCNH != value))
-				{
-					this.OnOrgaoEmissorCNHChanging(value);
-					this.SendPropertyChanging();
-					this._OrgaoEmissorCNH = value;
-					this.SendPropertyChanged("OrgaoEmissorCNH");
-					this.OnOrgaoEmissorCNHChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UFCNH", DbType="VarChar(2)")]
-		public string UFCNH
-		{
-			get
-			{
-				return this._UFCNH;
-			}
-			set
-			{
-				if ((this._UFCNH != value))
-				{
-					this.OnUFCNHChanging(value);
-					this.SendPropertyChanging();
-					this._UFCNH = value;
-					this.SendPropertyChanged("UFCNH");
-					this.OnUFCNHChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoriaCNH", DbType="VarChar(2)")]
-		public string CategoriaCNH
-		{
-			get
-			{
-				return this._CategoriaCNH;
-			}
-			set
-			{
-				if ((this._CategoriaCNH != value))
-				{
-					this.OnCategoriaCNHChanging(value);
-					this.SendPropertyChanging();
-					this._CategoriaCNH = value;
-					this.SendPropertyChanged("CategoriaCNH");
-					this.OnCategoriaCNHChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModeloVeiculo", DbType="VarChar(500)")]
-		public string ModeloVeiculo
-		{
-			get
-			{
-				return this._ModeloVeiculo;
-			}
-			set
-			{
-				if ((this._ModeloVeiculo != value))
-				{
-					this.OnModeloVeiculoChanging(value);
-					this.SendPropertyChanging();
-					this._ModeloVeiculo = value;
-					this.SendPropertyChanged("ModeloVeiculo");
-					this.OnModeloVeiculoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MarcaVeiculo", DbType="VarChar(50)")]
-		public string MarcaVeiculo
-		{
-			get
-			{
-				return this._MarcaVeiculo;
-			}
-			set
-			{
-				if ((this._MarcaVeiculo != value))
-				{
-					this.OnMarcaVeiculoChanging(value);
-					this.SendPropertyChanging();
-					this._MarcaVeiculo = value;
-					this.SendPropertyChanged("MarcaVeiculo");
-					this.OnMarcaVeiculoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AnoVeiculo", DbType="VarChar(50)")]
-		public string AnoVeiculo
-		{
-			get
-			{
-				return this._AnoVeiculo;
-			}
-			set
-			{
-				if ((this._AnoVeiculo != value))
-				{
-					this.OnAnoVeiculoChanging(value);
-					this.SendPropertyChanging();
-					this._AnoVeiculo = value;
-					this.SendPropertyChanged("AnoVeiculo");
-					this.OnAnoVeiculoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CorVeiculo", DbType="VarChar(50)")]
-		public string CorVeiculo
-		{
-			get
-			{
-				return this._CorVeiculo;
-			}
-			set
-			{
-				if ((this._CorVeiculo != value))
-				{
-					this.OnCorVeiculoChanging(value);
-					this.SendPropertyChanging();
-					this._CorVeiculo = value;
-					this.SendPropertyChanged("CorVeiculo");
-					this.OnCorVeiculoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PlacaVeiculo", DbType="VarChar(50)")]
-		public string PlacaVeiculo
-		{
-			get
-			{
-				return this._PlacaVeiculo;
-			}
-			set
-			{
-				if ((this._PlacaVeiculo != value))
-				{
-					this.OnPlacaVeiculoChanging(value);
-					this.SendPropertyChanging();
-					this._PlacaVeiculo = value;
-					this.SendPropertyChanged("PlacaVeiculo");
-					this.OnPlacaVeiculoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Entregador_Entrega", Storage="_Entregas", ThisKey="Id", OtherKey="IdEntregador")]
-		public EntitySet<Entrega> Entregas
-		{
-			get
-			{
-				return this._Entregas;
-			}
-			set
-			{
-				this._Entregas.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Usuario_Entregador", Storage="_Usuario", ThisKey="IdUsuario", OtherKey="Id", IsForeignKey=true)]
-		public Usuario Usuario
-		{
-			get
-			{
-				return this._Usuario.Entity;
-			}
-			set
-			{
-				Usuario previousValue = this._Usuario.Entity;
-				if (((previousValue != value) 
-							|| (this._Usuario.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Usuario.Entity = null;
-						previousValue.Entregadors.Remove(this);
-					}
-					this._Usuario.Entity = value;
-					if ((value != null))
-					{
-						value.Entregadors.Add(this);
-						this._IdUsuario = value.Id;
-					}
-					else
-					{
-						this._IdUsuario = default(int);
-					}
-					this.SendPropertyChanged("Usuario");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Entregas(Entrega entity)
-		{
-			this.SendPropertyChanging();
-			entity.Entregador = this;
-		}
-		
-		private void detach_Entregas(Entrega entity)
-		{
-			this.SendPropertyChanging();
-			entity.Entregador = null;
 		}
 	}
 	
@@ -2906,181 +2582,6 @@ namespace TGOrganicos.Data
 						this._IdProdutor = default(int);
 					}
 					this.SendPropertyChanged("Produtor");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Avaliacao")]
-	public partial class Avaliacao : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private int _IdEntrega;
-		
-		private System.Nullable<int> _Estrelas;
-		
-		private string _Comentario;
-		
-		private EntityRef<Entrega> _Entrega;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnIdEntregaChanging(int value);
-    partial void OnIdEntregaChanged();
-    partial void OnEstrelasChanging(System.Nullable<int> value);
-    partial void OnEstrelasChanged();
-    partial void OnComentarioChanging(string value);
-    partial void OnComentarioChanged();
-    #endregion
-		
-		public Avaliacao()
-		{
-			this._Entrega = default(EntityRef<Entrega>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEntrega", DbType="Int NOT NULL")]
-		public int IdEntrega
-		{
-			get
-			{
-				return this._IdEntrega;
-			}
-			set
-			{
-				if ((this._IdEntrega != value))
-				{
-					if (this._Entrega.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdEntregaChanging(value);
-					this.SendPropertyChanging();
-					this._IdEntrega = value;
-					this.SendPropertyChanged("IdEntrega");
-					this.OnIdEntregaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Estrelas", DbType="Int")]
-		public System.Nullable<int> Estrelas
-		{
-			get
-			{
-				return this._Estrelas;
-			}
-			set
-			{
-				if ((this._Estrelas != value))
-				{
-					this.OnEstrelasChanging(value);
-					this.SendPropertyChanging();
-					this._Estrelas = value;
-					this.SendPropertyChanged("Estrelas");
-					this.OnEstrelasChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comentario", DbType="VarChar(500)")]
-		public string Comentario
-		{
-			get
-			{
-				return this._Comentario;
-			}
-			set
-			{
-				if ((this._Comentario != value))
-				{
-					this.OnComentarioChanging(value);
-					this.SendPropertyChanging();
-					this._Comentario = value;
-					this.SendPropertyChanged("Comentario");
-					this.OnComentarioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Entrega_Avaliacao", Storage="_Entrega", ThisKey="IdEntrega", OtherKey="Id", IsForeignKey=true)]
-		public Entrega Entrega
-		{
-			get
-			{
-				return this._Entrega.Entity;
-			}
-			set
-			{
-				Entrega previousValue = this._Entrega.Entity;
-				if (((previousValue != value) 
-							|| (this._Entrega.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Entrega.Entity = null;
-						previousValue.Avaliacaos.Remove(this);
-					}
-					this._Entrega.Entity = value;
-					if ((value != null))
-					{
-						value.Avaliacaos.Add(this);
-						this._IdEntrega = value.Id;
-					}
-					else
-					{
-						this._IdEntrega = default(int);
-					}
-					this.SendPropertyChanged("Entrega");
 				}
 			}
 		}
