@@ -30,27 +30,27 @@ namespace TGOrganicos.Web.Controllers
             return View(usuario);
         }
 
-        public ActionResult Salvar(Usuario model)
+        public ActionResult Salvar(Usuarios model)
         {
             DataLinq db = new DataLinq();
 
             try
             {
-                var obj = model.Id > 0 ? db.Usuarios.SingleOrDefault(c => c.Id == model.Id) : new Usuario();
-                obj.Nome = model.Nome;
-                obj.CPF = model.CPF;
-                obj.DataNascimento = model.DataNascimento;
-                obj.Telefone = model.Telefone;
-                obj.Email = model.Email;
-                obj.Senha = model.Senha;
-                obj.CEP = model.CEP;
-                obj.Cidade = model.Cidade;
-                obj.Estado = model.Estado;
-                obj.UF = model.UF;
-                obj.Logradouro = model.Logradouro;
-                obj.Numero = model.Bairro;
-                obj.Complemento = model.Complemento;
-                obj.TipoUsuario = model.TipoUsuario;
+                var obj = model.User.Id > 0 ? db.Usuarios.SingleOrDefault(c => c.Id == model.User.Id) : new Usuario();
+                obj.Nome = model.User.Nome;
+                obj.CPF = model.User.CPF;
+                obj.DataNascimento = model.User.DataNascimento;
+                obj.Telefone = model.User.Telefone;
+                obj.Email = model.User.Email;
+                obj.Senha = model.User.Senha;
+                obj.CEP = model.User.CEP;
+                obj.Cidade = model.User.Cidade;
+                obj.Estado = model.User.Estado;
+                obj.UF = model.User.UF;
+                obj.Logradouro = model.User.Logradouro;
+                obj.Numero = model.User.Bairro;
+                obj.Complemento = model.User.Complemento;
+                obj.TipoUsuario = model.User.TipoUsuario;
 
                 if (obj.Id == 0)
                 {
@@ -58,6 +58,26 @@ namespace TGOrganicos.Web.Controllers
                 }
                 db.SubmitChanges();
 
+                if(model.User.TipoUsuario == 1)
+                {
+                    var objprod = new Produtor();
+                    objprod.IdUsuario = obj.Id;
+                    objprod.AceitaPix = model.UserProd.AceitaPix;
+                    objprod.AceitaCartao = model.UserProd.AceitaCartao;
+                    objprod.CertificadoOrganico = model.UserProd.CertificadoOrganico;
+                    objprod.EnderecoProducao = model.UserProd.EnderecoProducao;
+                    objprod.RealizaEntregas = model.UserProd.RealizaEntrega;
+                }
+
+                if (model.User.TipoUsuario == 2)
+                {
+                    var objcli = new Cliente();
+                    objcli.IdUsuario = obj.Id;
+                    objcli.AceitaReceberEmails = model.UserCli.AceitaReceberEmail;
+                    objcli.AceitaReceberSMS = model.UserCli.AceitaReceberSMS;
+                }
+
+                db.SubmitChanges();
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
