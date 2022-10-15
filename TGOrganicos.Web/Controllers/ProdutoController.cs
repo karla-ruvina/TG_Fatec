@@ -17,6 +17,27 @@ namespace TGOrganicos.Web.Controllers
             return View(db.Produtos.ToList());
         }
 
+        public ActionResult Detalhe(int? id)
+        {
+            DataLinq db = new DataLinq();
+            Produto produto = new Produto();
+
+            if (id.HasValue && id.Value > 0)
+            {
+                var aux = db.Produtos.FirstOrDefault(c => c.Id == id);
+                produto.Id = aux.Id;
+                produto.Nome = aux.Nome;
+                produto.Quantidade = aux.Quantidade;
+                produto.Valor = aux.Valor;
+                produto.Descricao = aux.Descricao;
+                produto.UnidadeMedida = aux.UnidadeMedida;
+                produto.Medida = aux.Medida;
+            }
+
+
+            return View(produto);
+        }
+
         public ActionResult Cadastro(int? id)
         {
             DataLinq db = new DataLinq();
@@ -55,6 +76,13 @@ namespace TGOrganicos.Web.Controllers
                 {
                     db.Produtos.InsertOnSubmit(obj);
                 }
+                db.SubmitChanges();
+
+                var prodprodutor = new ProdutosProdutor();
+                prodprodutor.IdProduto = obj.Id;
+                prodprodutor.IdProdutor = Models.Credential.Current.Id;
+                prodprodutor.DataCadastro = DateTime.Now;
+
                 db.SubmitChanges();
 
                 return RedirectToAction("Index");

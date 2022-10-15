@@ -1,0 +1,109 @@
+﻿@using TGOrganicos.Data
+@model TGOrganicos.Data.Produto
+
+<style>
+
+    .ftco-section {
+        padding-top: 6em 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+</style>
+
+
+@using (Html.BeginForm("Salvar", "Produto", FormMethod.Post, new { @class = "form-prod", role = "form", @id = "form-prod", @autocomplete = "off", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(c => c.Id)
+
+    <div class="py-3" id="produtor">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-12 ftco-animate">
+                    <h3 class="mb-4 billing-heading">Cadastrar um Produto</h3>
+                    <div class="row align-items-end">
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="firstname">Nome</label>
+                                @Html.TextBoxFor(c => c.Nome, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="w-100"></div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="country">Valor</label>
+                                @Html.TextBoxFor(c => c.Valor, new { @class = "form-control " })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="country">Quantidade</label>
+                                @Html.TextBoxFor(c => c.Quantidade, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="country">Unidade Medida</label>
+                                @Html.TextBoxFor(c => c.UnidadeMedida, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="w-100"></div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="emailaddress">Descrição</label>
+                                @Html.TextBoxFor(c => c.Descricao, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="text-center py-3">
+            <button class="btn btn-primary" type="submit">Salvar</button>
+        </div>
+    </div>
+
+}
+
+@section Scripts{
+
+    <script src="~/Scripts/jquery.mask.js"></script>
+    <script src="~/Scripts/jquery.maskMoney.min.js.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            formatInputs()
+
+        });
+
+
+        function formatInputs() {
+
+            $(".cep").mask("00000-000");
+
+            var maskCpfCnpj = function (val) {
+                return val.replace(/\D/g, '').length < 12 ? '000.000.000-009' : '00.000.000/0000-00';
+            },
+                optionsCpfCnpj = {
+                    onKeyPress: function (val, e, field, options) {
+                        field.mask(maskCpfCnpj.apply({}, arguments), options);
+                    }
+                };
+
+            $('.cpf-cnpj').mask(maskCpfCnpj, optionsCpfCnpj);
+
+        }
+
+
+    </script>
+}
