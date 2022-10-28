@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TGOrganicos.Data;
+using TGOrganicos.Web.Models;
+using TGOrganicos.Web.Models.Enums;
+using TGOrganicos.Web.Models.Helpers;
 
 namespace TGOrganicos.Web.Controllers
 {
@@ -43,6 +46,14 @@ namespace TGOrganicos.Web.Controllers
             DataLinq db = new DataLinq();
             Produto produto = new Produto();
 
+            var listatipoprodutos = Enum.GetValues(typeof(TipoProduto)).Cast<TipoProduto>().Select(c => new SelectItem
+            {
+                Id = (int)c,
+                Texto = c.GetDescription()
+            }).ToList();
+
+            ViewBag.TipoProduto = ComboBox.GerarBox(listatipoprodutos, true, true);
+
             if (id.HasValue && id.Value > 0)
             {
                 var aux = db.Produtos.FirstOrDefault(c => c.Id == id);
@@ -53,6 +64,8 @@ namespace TGOrganicos.Web.Controllers
                 produto.Descricao = aux.Descricao;
                 produto.UnidadeMedida = aux.UnidadeMedida;
                 produto.Medida = aux.Medida;
+                produto.TipoProduto = aux.TipoProduto;
+                produto.Imagem = aux.Imagem;
             }
 
             return View(produto);
@@ -71,6 +84,8 @@ namespace TGOrganicos.Web.Controllers
                 obj.Descricao = model.Descricao;
                 obj.UnidadeMedida = model.UnidadeMedida;
                 obj.Medida = model.Medida;
+                obj.TipoProduto = model.TipoProduto;
+                obj.Imagem = model.Imagem;
 
                 if (obj.Id == 0)
                 {

@@ -1,0 +1,106 @@
+﻿@using TGOrganicos.Data
+@model TGOrganicos.Data.Produto
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout _login.cshtml";
+}
+
+<style>
+    .hero-wrap.hero-bread {
+        padding: 5em 0;
+    }
+</style>
+
+<div class="hero-wrap hero-bread" style="background-image: linear-gradient(rgb(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(/Content/images/bg_2.jpg);">
+    <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+            <div class="col-md-9 ftco-animate text-center">
+                <h1 class="mb-0 bread">Seja bem vindo!</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="py-5" id="login">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 ftco-animate">
+
+                <div class="text-center">
+                    <h4>Olá!</h4>
+                    <h6>Entre com seu usuário e senha.</h6>
+                </div>
+
+                @using (Html.BeginForm("Logar", "Login", FormMethod.Post, new { @class = "form-edit form-side", role = "form", @id = "form-login", }))
+                {
+                    if (ViewBag.ReturnURL != null)
+                    {
+                        <input type="hidden" value="@ViewBag.ReturnURL" name="ReturnURL" />
+                    }
+
+                    <div class="form-group">
+                        <label>Email</label>
+                        @Html.TextBox("Login", null, new { @class = "form-control", placeholder = "Email", @required = "required" })
+                    </div>
+
+                    <div class="form-group">
+                        <label>Senha</label>
+                        @Html.Password("Senha", null, new { @class = "form-control", placeholder = "Senha", @required = "required" })
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Entrar</button>
+                    </div>
+
+                    if (ViewBag.Erro != null)
+                    {
+                        <div style="text-align: center;margin-top: 10px;">
+                            <div style="color: red;">Usuário não encontrado</div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+
+    <script src="~/Scripts/jquery.mask.js"></script>
+    <script src="~/Scripts/jquery.maskMoney.min.js.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            formatInputs()
+
+        });
+
+
+        function formatInputs() {
+
+            $(".cep").mask("00000-000");
+
+            var maskCpfCnpj = function (val) {
+                return val.replace(/\D/g, '').length < 12 ? '000.000.000-009' : '00.000.000/0000-00';
+            },
+                optionsCpfCnpj = {
+                    onKeyPress: function (val, e, field, options) {
+                        field.mask(maskCpfCnpj.apply({}, arguments), options);
+                    }
+                };
+
+            $('.cpf-cnpj').mask(maskCpfCnpj, optionsCpfCnpj);
+
+        }
+
+
+    </script>
+}

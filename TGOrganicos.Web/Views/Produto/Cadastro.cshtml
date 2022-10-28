@@ -22,10 +22,24 @@
                     <h3 class="mb-4 billing-heading">Cadastrar um Produto</h3>
                     <div class="row align-items-end">
 
-                        <div class="col-md-12">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="firstname">Nome</label>
                                 @Html.TextBoxFor(c => c.Nome, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="firstname">Imagem</label>
+                                <input type="file" class="form-control" placeholder="Inserir imagem"/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="firstname">Tipo</label>
+                                @Html.DropDownListFor(c=> c.TipoProduto, (SelectList)ViewBag.TipoProduto, new { @class = "form-control select2", data_placeholder = "Selecione o Atributo", data_init_plugin = "select2" })
                             </div>
                         </div>
 

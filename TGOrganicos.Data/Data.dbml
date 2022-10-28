@@ -88,6 +88,8 @@
       <Column Name="Descricao" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
       <Column Name="UnidadeMedida" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="Medida" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="Imagem" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
+      <Column Name="TipoProduto" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Produto_ItensPedido" Member="ItensPedidos" ThisKey="Id" OtherKey="IdProduto" Type="ItensPedido" />
       <Association Name="Produto_ProdutosProdutor" Member="ProdutosProdutors" ThisKey="Id" OtherKey="IdProduto" Type="ProdutosProdutor" />
     </Type>

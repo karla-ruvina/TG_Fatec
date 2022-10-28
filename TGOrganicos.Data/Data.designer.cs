@@ -1874,6 +1874,10 @@ namespace TGOrganicos.Data
 		
 		private System.Nullable<decimal> _Medida;
 		
+		private string _Imagem;
+		
+		private System.Nullable<int> _TipoProduto;
+		
 		private EntitySet<ItensPedido> _ItensPedidos;
 		
 		private EntitySet<ProdutosProdutor> _ProdutosProdutors;
@@ -1896,6 +1900,10 @@ namespace TGOrganicos.Data
     partial void OnUnidadeMedidaChanged();
     partial void OnMedidaChanging(System.Nullable<decimal> value);
     partial void OnMedidaChanged();
+    partial void OnImagemChanging(string value);
+    partial void OnImagemChanged();
+    partial void OnTipoProdutoChanging(System.Nullable<int> value);
+    partial void OnTipoProdutoChanged();
     #endregion
 		
 		public Produto()
@@ -2041,6 +2049,46 @@ namespace TGOrganicos.Data
 					this._Medida = value;
 					this.SendPropertyChanged("Medida");
 					this.OnMedidaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Imagem", DbType="VarChar(5000)")]
+		public string Imagem
+		{
+			get
+			{
+				return this._Imagem;
+			}
+			set
+			{
+				if ((this._Imagem != value))
+				{
+					this.OnImagemChanging(value);
+					this.SendPropertyChanging();
+					this._Imagem = value;
+					this.SendPropertyChanged("Imagem");
+					this.OnImagemChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TipoProduto", DbType="Int")]
+		public System.Nullable<int> TipoProduto
+		{
+			get
+			{
+				return this._TipoProduto;
+			}
+			set
+			{
+				if ((this._TipoProduto != value))
+				{
+					this.OnTipoProdutoChanging(value);
+					this.SendPropertyChanging();
+					this._TipoProduto = value;
+					this.SendPropertyChanged("TipoProduto");
+					this.OnTipoProdutoChanged();
 				}
 			}
 		}

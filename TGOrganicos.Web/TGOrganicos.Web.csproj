@@ -158,6 +158,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Credential.cs" />
+    <Compile Include="Models\Enums\Enum.cs" />
+    <Compile Include="Models\Enums\TipoProduto.cs" />
+    <Compile Include="Models\Helpers\ComboBox.cs" />
+    <Compile Include="Models\SelectItem.cs" />
     <Compile Include="Models\Usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -395,10 +399,11 @@
     <Content Include="Views\Produto\Index.cshtml" />
     <Content Include="Views\Produto\Cadastro.cshtml" />
     <Content Include="Views\Produto\Detalhe.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Shared\_Layout _login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Login\" />
     <Folder Include="Views\Pedido\" />
   </ItemGroup>
   <ItemGroup>
