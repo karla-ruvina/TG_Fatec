@@ -23,7 +23,7 @@ namespace TGOrganicos.Data
 	
 	
 	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="TG_fatec")]
-	public partial class DataDataContext : System.Data.Linq.DataContext
+	public partial class DataLinq : System.Data.Linq.DataContext
 	{
 		
 		private static System.Data.Linq.Mapping.MappingSource mappingSource = new AttributeMappingSource();
@@ -59,25 +59,25 @@ namespace TGOrganicos.Data
     partial void DeleteProdutosProdutor(ProdutosProdutor instance);
     #endregion
 		
-		public DataDataContext(string connection) : 
+		public DataLinq(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public DataDataContext(System.Data.IDbConnection connection) : 
+		public DataLinq(System.Data.IDbConnection connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public DataDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public DataLinq(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
 		}
 		
-		public DataDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
+		public DataLinq(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();

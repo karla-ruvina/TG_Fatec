@@ -62,15 +62,19 @@
             </button>
 
 
-            @if (TGOrganicos.Web.Models.Credential.Current.Id > 0)
+            @if (Context.User.Identity != null && Context.User.Identity.Name != null && Context.User.Identity.Name != "")
             {
+                var user = Json.Decode(Context.User.Identity.Name).Nome;
+                var tipo = Json.Decode(Context.User.Identity.Name).Tipo;
+
+                <h1> Oi, @user @tipo </h1>
 
                 if (TGOrganicos.Web.Models.Credential.IsProdutor())
                 {
                     <div class="collapse navbar-collapse" id="ftco-nav">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item active"><a href="@Url.Action("Index", "Home")" class="nav-link">Inicio</a></li>
-                           
+
                             <li class="nav-item"><a href="@Url.Action("Index", "Produto")" class="nav-link">Vender</a></li>
                             <li class="nav-item"><a href="@Url.Action("About", "Home")" class="nav-link">Sobre</a></li>
                             <li class="nav-item"><a href="@Url.Action("Contact", "Home")" class="nav-link">Contato</a></li>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Text.Json;
 using TGOrganicos.Data;
+using Anexs.Lib.Extensoes;
 
 namespace TGOrganicos.Web.Models
 {
@@ -32,7 +33,7 @@ namespace TGOrganicos.Web.Models
             get
             {
                 if (HttpContext.Current != null && HttpContext.Current.User != null && HttpContext.Current.User.Identity != null && HttpContext.Current.User.Identity.Name != "")
-                    return JsonSerializer.Deserialize<Credential>(HttpContext.Current.User.Identity.Name);
+                    return JSON.Deserialize<Credential>(HttpContext.Current.User.Identity.Name);
                 return new Credential();
             }
         }

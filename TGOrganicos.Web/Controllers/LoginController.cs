@@ -7,6 +7,7 @@ using System.Web.Security;
 using System.Text.Json;
 using TGOrganicos.Data;
 using TGOrganicos.Web.Models;
+using Anexs.Lib.Extensoes;
 
 namespace TGOrganicos.Web.Controllers
 {
@@ -53,11 +54,11 @@ namespace TGOrganicos.Web.Controllers
 
                 if (infouser != null)
                 {
-                    Credential user = new Credential(login, infouser.Nome, infouser.Id, (int)infouser.TipoUsuario);
+                    var user = new Models.Credential(login, infouser.Nome, infouser.Id, (int)infouser.TipoUsuario);
 
                     var authTicket = new FormsAuthenticationTicket(
                              1,                                    // version
-                             JsonSerializer.Serialize(user),
+                             JSON.Serialize<Models.Credential>(user),
                              DateTime.Now,                         // created
                              DateTime.Now.AddMinutes(60),          // expires
                              false,                                // persistent?
