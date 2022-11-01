@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Text.Json;
 using TGOrganicos.Data;
+using TGOrganicos.Web.Models;
 
 namespace TGOrganicos.Web.Controllers
 {
@@ -36,7 +37,6 @@ namespace TGOrganicos.Web.Controllers
         {
             string msg = "";
             int erro = 0;
-            DataLinq db = new DataLinq();
 
             if (login == null || senha == null)
             {
@@ -46,17 +46,18 @@ namespace TGOrganicos.Web.Controllers
 
             try
             {
+
+                DataLinq db = new DataLinq();
+
                 var infouser = db.Usuarios.SingleOrDefault(c => c.Senha == senha && c.Email.Trim() == login.Trim());
 
                 if (infouser != null)
                 {
-                    FormsAuthentication.SignOut();
-
-                    Models.Credential user = new Models.Credential(login, infouser.Nome, infouser.Id, (int)infouser.TipoUsuario);
+                    Credential user = new Credential(login, infouser.Nome, infouser.Id, (int)infouser.TipoUsuario);
 
                     var authTicket = new FormsAuthenticationTicket(
                              1,                                    // version
-                             JsonSerializer.Serialize<Models.Credential>(user),
+                             JsonSerializer.Serialize(user),
                              DateTime.Now,                         // created
                              DateTime.Now.AddMinutes(60),          // expires
                              false,                                // persistent?

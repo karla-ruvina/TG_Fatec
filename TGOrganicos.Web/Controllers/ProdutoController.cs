@@ -13,11 +13,16 @@ namespace TGOrganicos.Web.Controllers
     public class ProdutoController : Controller
     {
         // GET: Produto
-        public ActionResult Index()
+        public ActionResult Index(int? tipo)
         {
             DataLinq db = new DataLinq();
 
-            return View(db.Produtos.ToList());
+            var prod = tipo != null && tipo > 0 ? db.Produtos.Where(c => c.TipoProduto == tipo).ToList() : db.Produtos.ToList();
+
+            ViewBag.Tipo = tipo;
+
+
+            return View(prod);
         }
 
         public ActionResult Detalhe(int? id)
@@ -75,6 +80,8 @@ namespace TGOrganicos.Web.Controllers
         {
             DataLinq db = new DataLinq();
 
+            var session = Newtonsoft.Json.JsonConvert.DeserializeObject<Credential>(HttpContext.User.Identity.Name);
+
             try
             {
                 var obj = model.Id > 0 ? db.Produtos.SingleOrDefault(c => c.Id == model.Id) : new Produto();
@@ -95,7 +102,7 @@ namespace TGOrganicos.Web.Controllers
 
                 var prodprodutor = new ProdutosProdutor();
                 prodprodutor.IdProduto = obj.Id;
-                prodprodutor.IdProdutor = Models.Credential.Current.Id;
+                prodprodutor.IdProdutor = session.Id;
                 prodprodutor.DataCadastro = DateTime.Now;
 
                 db.SubmitChanges();

@@ -8,14 +8,14 @@ namespace TGOrganicos.Web.Models.Enums
 {
     public enum TipoProduto
     {
-        [Description("Vegetais")]
-        Vegetais = 1,
-        [Description("Frutas")]
-        Frutas = 2,
-        [Description("Sucos")]
-        Sucos = 3,
-        [Description("Grãos")]
-        Graos = 4,
+        [Description("Vegetal")]
+        Vegetal = 1,
+        [Description("Fruta")]
+        Fruta = 2,
+        [Description("Suco")]
+        Suco = 3,
+        [Description("Grão")]
+        Grao = 4,
 
     }
 }

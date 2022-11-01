@@ -11,12 +11,12 @@
         <div class="row justify-content-center">
             <div class="col-md-10 mb-5 text-center">
                 <ul class="product-category">
-                    <li><a href="#" class="active">Todos</a></li>
-                    <li><a href="#">Vegetais</a></li>
-                    <li><a href="#">Frutas</a></li>
-                    <li><a href="#">Sucos</a></li>
-                    <li><a href="#">Grãos</a></li>
-                </ul>
+                    <li><a class="@(ViewBag.Tipo == null || ViewBag.Tipo == 0 ? "active" : "")" href="@Url.Action("Index", "Produto", new { tipo = 0})">Todos</a></li>
+                    <li><a class="@(ViewBag.Tipo == 1 ? "active" : "") " href="@Url.Action("Index", "Produto", new { tipo = 1})">Vegetais</a></li>
+                    <li><a class="@(ViewBag.Tipo == 2 ? "active" : "")" href="@Url.Action("Index", "Produto", new { tipo = 2})">Frutas</a></li>
+                    <li><a class="@(ViewBag.Tipo == 3 ? "active" : "")" href="@Url.Action("Index", "Produto", new { tipo = 3})">Sucos</a></li>
+                    <li><a class="@(ViewBag.Tipo == 4 ? "active" : "")" href="@Url.Action("Index", "Produto", new { tipo = 4})">Grãos</a></li>
+                </ul>              
             </div>
         </div>
         <div class="row">
@@ -27,7 +27,7 @@
                 <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
                         <a href="#" class="img-prod">
-                            <img class="img-fluid" src="~/Content/images/product-2.jpg" alt="Colorlib Template">
+                            <img class="img-fluid" src="~/Content/images/product-2.jpg">
                             <div class="overlay"></div>
                         </a>
                         <div class="text py-3 pb-4 px-3 text-center">
@@ -92,3 +92,20 @@
         </div>
     </div>
 </section>
+
+@section Scripts{
+    <script>
+
+        
+        $(document).ready(function () {
+
+            
+
+        });
+
+
+
+    </script>
+    
+    
+    } 
