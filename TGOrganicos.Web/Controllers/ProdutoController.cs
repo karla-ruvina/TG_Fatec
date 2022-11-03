@@ -16,11 +16,22 @@ namespace TGOrganicos.Web.Controllers
         public ActionResult Index(int? tipo)
         {
             DataLinq db = new DataLinq();
+            ViewBag.Tipo = tipo;
 
             var prod = tipo != null && tipo > 0 ? db.Produtos.Where(c => c.TipoProduto == tipo).ToList() : db.Produtos.ToList();
 
-            ViewBag.Tipo = tipo;
+            if (Credential.IsProdutor())
+            {
+                var user = Credential.Current.Id;
 
+                var query = (from prodprod in db.ProdutosProdutors
+                             join produtor in db.Produtors on prodprod.IdProdutor equals produtor.Id
+                             join prodtos in db.Produtos on prodprod.IdProduto equals prodtos.Id
+                             where produtor.Id == user 
+                             select prodtos.Id).Distinct().ToList();
+
+                prod = prod.Where(c => query.Contains(c.Id)).ToList();
+            }
 
             return View(prod);
         }
