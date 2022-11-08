@@ -42,12 +42,6 @@ namespace TGOrganicos.Data
     partial void InsertEntrega(Entrega instance);
     partial void UpdateEntrega(Entrega instance);
     partial void DeleteEntrega(Entrega instance);
-    partial void InsertItensPedido(ItensPedido instance);
-    partial void UpdateItensPedido(ItensPedido instance);
-    partial void DeleteItensPedido(ItensPedido instance);
-    partial void InsertPedido(Pedido instance);
-    partial void UpdatePedido(Pedido instance);
-    partial void DeletePedido(Pedido instance);
     partial void InsertProduto(Produto instance);
     partial void UpdateProduto(Produto instance);
     partial void DeleteProduto(Produto instance);
@@ -57,6 +51,12 @@ namespace TGOrganicos.Data
     partial void InsertProdutosProdutor(ProdutosProdutor instance);
     partial void UpdateProdutosProdutor(ProdutosProdutor instance);
     partial void DeleteProdutosProdutor(ProdutosProdutor instance);
+    partial void InsertPedido(Pedido instance);
+    partial void UpdatePedido(Pedido instance);
+    partial void DeletePedido(Pedido instance);
+    partial void InsertItensPedido(ItensPedido instance);
+    partial void UpdateItensPedido(ItensPedido instance);
+    partial void DeleteItensPedido(ItensPedido instance);
     #endregion
 		
 		public DataLinq(string connection) : 
@@ -115,22 +115,6 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		public System.Data.Linq.Table<ItensPedido> ItensPedidos
-		{
-			get
-			{
-				return this.GetTable<ItensPedido>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Pedido> Pedidos
-		{
-			get
-			{
-				return this.GetTable<Pedido>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Produto> Produtos
 		{
 			get
@@ -152,6 +136,22 @@ namespace TGOrganicos.Data
 			get
 			{
 				return this.GetTable<ProdutosProdutor>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Pedido> Pedidos
+		{
+			get
+			{
+				return this.GetTable<Pedido>();
+			}
+		}
+		
+		public System.Data.Linq.Table<ItensPedido> ItensPedidos
+		{
+			get
+			{
+				return this.GetTable<ItensPedido>();
 			}
 		}
 	}
@@ -1359,501 +1359,6 @@ namespace TGOrganicos.Data
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ItensPedido")]
-	public partial class ItensPedido : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private int _IdProduto;
-		
-		private int _IdPedido;
-		
-		private System.Nullable<System.DateTime> _DataCadastro;
-		
-		private EntityRef<Pedido> _Pedido;
-		
-		private EntityRef<Produto> _Produto;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnIdProdutoChanging(int value);
-    partial void OnIdProdutoChanged();
-    partial void OnIdPedidoChanging(int value);
-    partial void OnIdPedidoChanged();
-    partial void OnDataCadastroChanging(System.Nullable<System.DateTime> value);
-    partial void OnDataCadastroChanged();
-    #endregion
-		
-		public ItensPedido()
-		{
-			this._Pedido = default(EntityRef<Pedido>);
-			this._Produto = default(EntityRef<Produto>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdProduto", DbType="Int NOT NULL")]
-		public int IdProduto
-		{
-			get
-			{
-				return this._IdProduto;
-			}
-			set
-			{
-				if ((this._IdProduto != value))
-				{
-					if (this._Produto.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdProdutoChanging(value);
-					this.SendPropertyChanging();
-					this._IdProduto = value;
-					this.SendPropertyChanged("IdProduto");
-					this.OnIdProdutoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdPedido", DbType="Int NOT NULL")]
-		public int IdPedido
-		{
-			get
-			{
-				return this._IdPedido;
-			}
-			set
-			{
-				if ((this._IdPedido != value))
-				{
-					if (this._Pedido.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdPedidoChanging(value);
-					this.SendPropertyChanging();
-					this._IdPedido = value;
-					this.SendPropertyChanged("IdPedido");
-					this.OnIdPedidoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataCadastro", DbType="DateTime")]
-		public System.Nullable<System.DateTime> DataCadastro
-		{
-			get
-			{
-				return this._DataCadastro;
-			}
-			set
-			{
-				if ((this._DataCadastro != value))
-				{
-					this.OnDataCadastroChanging(value);
-					this.SendPropertyChanging();
-					this._DataCadastro = value;
-					this.SendPropertyChanged("DataCadastro");
-					this.OnDataCadastroChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_ItensPedido", Storage="_Pedido", ThisKey="IdPedido", OtherKey="Id", IsForeignKey=true)]
-		public Pedido Pedido
-		{
-			get
-			{
-				return this._Pedido.Entity;
-			}
-			set
-			{
-				Pedido previousValue = this._Pedido.Entity;
-				if (((previousValue != value) 
-							|| (this._Pedido.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Pedido.Entity = null;
-						previousValue.ItensPedidos.Remove(this);
-					}
-					this._Pedido.Entity = value;
-					if ((value != null))
-					{
-						value.ItensPedidos.Add(this);
-						this._IdPedido = value.Id;
-					}
-					else
-					{
-						this._IdPedido = default(int);
-					}
-					this.SendPropertyChanged("Pedido");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Produto_ItensPedido", Storage="_Produto", ThisKey="IdProduto", OtherKey="Id", IsForeignKey=true)]
-		public Produto Produto
-		{
-			get
-			{
-				return this._Produto.Entity;
-			}
-			set
-			{
-				Produto previousValue = this._Produto.Entity;
-				if (((previousValue != value) 
-							|| (this._Produto.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Produto.Entity = null;
-						previousValue.ItensPedidos.Remove(this);
-					}
-					this._Produto.Entity = value;
-					if ((value != null))
-					{
-						value.ItensPedidos.Add(this);
-						this._IdProduto = value.Id;
-					}
-					else
-					{
-						this._IdProduto = default(int);
-					}
-					this.SendPropertyChanged("Produto");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Pedido")]
-	public partial class Pedido : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private int _IdCliente;
-		
-		private System.Nullable<System.DateTime> _DataPedido;
-		
-		private System.Nullable<decimal> _ValorPedido;
-		
-		private string _TipoEntrega;
-		
-		private System.Nullable<decimal> _QuantidadeItens;
-		
-		private EntitySet<Entrega> _Entregas;
-		
-		private EntitySet<ItensPedido> _ItensPedidos;
-		
-		private EntityRef<Cliente> _Cliente;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnIdClienteChanging(int value);
-    partial void OnIdClienteChanged();
-    partial void OnDataPedidoChanging(System.Nullable<System.DateTime> value);
-    partial void OnDataPedidoChanged();
-    partial void OnValorPedidoChanging(System.Nullable<decimal> value);
-    partial void OnValorPedidoChanged();
-    partial void OnTipoEntregaChanging(string value);
-    partial void OnTipoEntregaChanged();
-    partial void OnQuantidadeItensChanging(System.Nullable<decimal> value);
-    partial void OnQuantidadeItensChanged();
-    #endregion
-		
-		public Pedido()
-		{
-			this._Entregas = new EntitySet<Entrega>(new Action<Entrega>(this.attach_Entregas), new Action<Entrega>(this.detach_Entregas));
-			this._ItensPedidos = new EntitySet<ItensPedido>(new Action<ItensPedido>(this.attach_ItensPedidos), new Action<ItensPedido>(this.detach_ItensPedidos));
-			this._Cliente = default(EntityRef<Cliente>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdCliente", DbType="Int NOT NULL")]
-		public int IdCliente
-		{
-			get
-			{
-				return this._IdCliente;
-			}
-			set
-			{
-				if ((this._IdCliente != value))
-				{
-					if (this._Cliente.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdClienteChanging(value);
-					this.SendPropertyChanging();
-					this._IdCliente = value;
-					this.SendPropertyChanged("IdCliente");
-					this.OnIdClienteChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataPedido", DbType="DateTime")]
-		public System.Nullable<System.DateTime> DataPedido
-		{
-			get
-			{
-				return this._DataPedido;
-			}
-			set
-			{
-				if ((this._DataPedido != value))
-				{
-					this.OnDataPedidoChanging(value);
-					this.SendPropertyChanging();
-					this._DataPedido = value;
-					this.SendPropertyChanged("DataPedido");
-					this.OnDataPedidoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorPedido", DbType="Decimal(18,0)")]
-		public System.Nullable<decimal> ValorPedido
-		{
-			get
-			{
-				return this._ValorPedido;
-			}
-			set
-			{
-				if ((this._ValorPedido != value))
-				{
-					this.OnValorPedidoChanging(value);
-					this.SendPropertyChanging();
-					this._ValorPedido = value;
-					this.SendPropertyChanged("ValorPedido");
-					this.OnValorPedidoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TipoEntrega", DbType="VarChar(50)")]
-		public string TipoEntrega
-		{
-			get
-			{
-				return this._TipoEntrega;
-			}
-			set
-			{
-				if ((this._TipoEntrega != value))
-				{
-					this.OnTipoEntregaChanging(value);
-					this.SendPropertyChanging();
-					this._TipoEntrega = value;
-					this.SendPropertyChanged("TipoEntrega");
-					this.OnTipoEntregaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QuantidadeItens", DbType="Decimal(18,0)")]
-		public System.Nullable<decimal> QuantidadeItens
-		{
-			get
-			{
-				return this._QuantidadeItens;
-			}
-			set
-			{
-				if ((this._QuantidadeItens != value))
-				{
-					this.OnQuantidadeItensChanging(value);
-					this.SendPropertyChanging();
-					this._QuantidadeItens = value;
-					this.SendPropertyChanged("QuantidadeItens");
-					this.OnQuantidadeItensChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_Entrega", Storage="_Entregas", ThisKey="Id", OtherKey="IdPedido")]
-		public EntitySet<Entrega> Entregas
-		{
-			get
-			{
-				return this._Entregas;
-			}
-			set
-			{
-				this._Entregas.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_ItensPedido", Storage="_ItensPedidos", ThisKey="Id", OtherKey="IdPedido")]
-		public EntitySet<ItensPedido> ItensPedidos
-		{
-			get
-			{
-				return this._ItensPedidos;
-			}
-			set
-			{
-				this._ItensPedidos.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cliente_Pedido", Storage="_Cliente", ThisKey="IdCliente", OtherKey="Id", IsForeignKey=true)]
-		public Cliente Cliente
-		{
-			get
-			{
-				return this._Cliente.Entity;
-			}
-			set
-			{
-				Cliente previousValue = this._Cliente.Entity;
-				if (((previousValue != value) 
-							|| (this._Cliente.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Cliente.Entity = null;
-						previousValue.Pedidos.Remove(this);
-					}
-					this._Cliente.Entity = value;
-					if ((value != null))
-					{
-						value.Pedidos.Add(this);
-						this._IdCliente = value.Id;
-					}
-					else
-					{
-						this._IdCliente = default(int);
-					}
-					this.SendPropertyChanged("Cliente");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Entregas(Entrega entity)
-		{
-			this.SendPropertyChanging();
-			entity.Pedido = this;
-		}
-		
-		private void detach_Entregas(Entrega entity)
-		{
-			this.SendPropertyChanging();
-			entity.Pedido = null;
-		}
-		
-		private void attach_ItensPedidos(ItensPedido entity)
-		{
-			this.SendPropertyChanging();
-			entity.Pedido = this;
-		}
-		
-		private void detach_ItensPedidos(ItensPedido entity)
-		{
-			this.SendPropertyChanging();
-			entity.Pedido = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Produto")]
 	public partial class Produto : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1878,9 +1383,9 @@ namespace TGOrganicos.Data
 		
 		private System.Nullable<int> _TipoProduto;
 		
-		private EntitySet<ItensPedido> _ItensPedidos;
-		
 		private EntitySet<ProdutosProdutor> _ProdutosProdutors;
+		
+		private EntitySet<ItensPedido> _ItensPedidos;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1908,8 +1413,8 @@ namespace TGOrganicos.Data
 		
 		public Produto()
 		{
-			this._ItensPedidos = new EntitySet<ItensPedido>(new Action<ItensPedido>(this.attach_ItensPedidos), new Action<ItensPedido>(this.detach_ItensPedidos));
 			this._ProdutosProdutors = new EntitySet<ProdutosProdutor>(new Action<ProdutosProdutor>(this.attach_ProdutosProdutors), new Action<ProdutosProdutor>(this.detach_ProdutosProdutors));
+			this._ItensPedidos = new EntitySet<ItensPedido>(new Action<ItensPedido>(this.attach_ItensPedidos), new Action<ItensPedido>(this.detach_ItensPedidos));
 			OnCreated();
 		}
 		
@@ -2093,19 +1598,6 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Produto_ItensPedido", Storage="_ItensPedidos", ThisKey="Id", OtherKey="IdProduto")]
-		public EntitySet<ItensPedido> ItensPedidos
-		{
-			get
-			{
-				return this._ItensPedidos;
-			}
-			set
-			{
-				this._ItensPedidos.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Produto_ProdutosProdutor", Storage="_ProdutosProdutors", ThisKey="Id", OtherKey="IdProduto")]
 		public EntitySet<ProdutosProdutor> ProdutosProdutors
 		{
@@ -2116,6 +1608,19 @@ namespace TGOrganicos.Data
 			set
 			{
 				this._ProdutosProdutors.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Produto_ItensPedido", Storage="_ItensPedidos", ThisKey="Id", OtherKey="IdProduto")]
+		public EntitySet<ItensPedido> ItensPedidos
+		{
+			get
+			{
+				return this._ItensPedidos;
+			}
+			set
+			{
+				this._ItensPedidos.Assign(value);
 			}
 		}
 		
@@ -2139,18 +1644,6 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		private void attach_ItensPedidos(ItensPedido entity)
-		{
-			this.SendPropertyChanging();
-			entity.Produto = this;
-		}
-		
-		private void detach_ItensPedidos(ItensPedido entity)
-		{
-			this.SendPropertyChanging();
-			entity.Produto = null;
-		}
-		
 		private void attach_ProdutosProdutors(ProdutosProdutor entity)
 		{
 			this.SendPropertyChanging();
@@ -2158,6 +1651,18 @@ namespace TGOrganicos.Data
 		}
 		
 		private void detach_ProdutosProdutors(ProdutosProdutor entity)
+		{
+			this.SendPropertyChanging();
+			entity.Produto = null;
+		}
+		
+		private void attach_ItensPedidos(ItensPedido entity)
+		{
+			this.SendPropertyChanging();
+			entity.Produto = this;
+		}
+		
+		private void detach_ItensPedidos(ItensPedido entity)
 		{
 			this.SendPropertyChanging();
 			entity.Produto = null;
@@ -2630,6 +2135,549 @@ namespace TGOrganicos.Data
 						this._IdProdutor = default(int);
 					}
 					this.SendPropertyChanged("Produtor");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Pedido")]
+	public partial class Pedido : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _IdCliente;
+		
+		private System.Nullable<System.DateTime> _DataPedido;
+		
+		private System.Nullable<decimal> _ValorPedido;
+		
+		private string _TipoEntrega;
+		
+		private System.Nullable<decimal> _QuantidadeItens;
+		
+		private string _Status;
+		
+		private EntitySet<Entrega> _Entregas;
+		
+		private EntitySet<ItensPedido> _ItensPedidos;
+		
+		private EntityRef<Cliente> _Cliente;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnIdClienteChanging(int value);
+    partial void OnIdClienteChanged();
+    partial void OnDataPedidoChanging(System.Nullable<System.DateTime> value);
+    partial void OnDataPedidoChanged();
+    partial void OnValorPedidoChanging(System.Nullable<decimal> value);
+    partial void OnValorPedidoChanged();
+    partial void OnTipoEntregaChanging(string value);
+    partial void OnTipoEntregaChanged();
+    partial void OnQuantidadeItensChanging(System.Nullable<decimal> value);
+    partial void OnQuantidadeItensChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public Pedido()
+		{
+			this._Entregas = new EntitySet<Entrega>(new Action<Entrega>(this.attach_Entregas), new Action<Entrega>(this.detach_Entregas));
+			this._ItensPedidos = new EntitySet<ItensPedido>(new Action<ItensPedido>(this.attach_ItensPedidos), new Action<ItensPedido>(this.detach_ItensPedidos));
+			this._Cliente = default(EntityRef<Cliente>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdCliente", DbType="Int NOT NULL")]
+		public int IdCliente
+		{
+			get
+			{
+				return this._IdCliente;
+			}
+			set
+			{
+				if ((this._IdCliente != value))
+				{
+					if (this._Cliente.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdClienteChanging(value);
+					this.SendPropertyChanging();
+					this._IdCliente = value;
+					this.SendPropertyChanged("IdCliente");
+					this.OnIdClienteChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataPedido", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DataPedido
+		{
+			get
+			{
+				return this._DataPedido;
+			}
+			set
+			{
+				if ((this._DataPedido != value))
+				{
+					this.OnDataPedidoChanging(value);
+					this.SendPropertyChanging();
+					this._DataPedido = value;
+					this.SendPropertyChanged("DataPedido");
+					this.OnDataPedidoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorPedido", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> ValorPedido
+		{
+			get
+			{
+				return this._ValorPedido;
+			}
+			set
+			{
+				if ((this._ValorPedido != value))
+				{
+					this.OnValorPedidoChanging(value);
+					this.SendPropertyChanging();
+					this._ValorPedido = value;
+					this.SendPropertyChanged("ValorPedido");
+					this.OnValorPedidoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TipoEntrega", DbType="VarChar(50)")]
+		public string TipoEntrega
+		{
+			get
+			{
+				return this._TipoEntrega;
+			}
+			set
+			{
+				if ((this._TipoEntrega != value))
+				{
+					this.OnTipoEntregaChanging(value);
+					this.SendPropertyChanging();
+					this._TipoEntrega = value;
+					this.SendPropertyChanged("TipoEntrega");
+					this.OnTipoEntregaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QuantidadeItens", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> QuantidadeItens
+		{
+			get
+			{
+				return this._QuantidadeItens;
+			}
+			set
+			{
+				if ((this._QuantidadeItens != value))
+				{
+					this.OnQuantidadeItensChanging(value);
+					this.SendPropertyChanging();
+					this._QuantidadeItens = value;
+					this.SendPropertyChanged("QuantidadeItens");
+					this.OnQuantidadeItensChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="VarChar(15)")]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_Entrega", Storage="_Entregas", ThisKey="Id", OtherKey="IdPedido")]
+		public EntitySet<Entrega> Entregas
+		{
+			get
+			{
+				return this._Entregas;
+			}
+			set
+			{
+				this._Entregas.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_ItensPedido", Storage="_ItensPedidos", ThisKey="Id", OtherKey="IdPedido")]
+		public EntitySet<ItensPedido> ItensPedidos
+		{
+			get
+			{
+				return this._ItensPedidos;
+			}
+			set
+			{
+				this._ItensPedidos.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cliente_Pedido", Storage="_Cliente", ThisKey="IdCliente", OtherKey="Id", IsForeignKey=true)]
+		public Cliente Cliente
+		{
+			get
+			{
+				return this._Cliente.Entity;
+			}
+			set
+			{
+				Cliente previousValue = this._Cliente.Entity;
+				if (((previousValue != value) 
+							|| (this._Cliente.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Cliente.Entity = null;
+						previousValue.Pedidos.Remove(this);
+					}
+					this._Cliente.Entity = value;
+					if ((value != null))
+					{
+						value.Pedidos.Add(this);
+						this._IdCliente = value.Id;
+					}
+					else
+					{
+						this._IdCliente = default(int);
+					}
+					this.SendPropertyChanged("Cliente");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Entregas(Entrega entity)
+		{
+			this.SendPropertyChanging();
+			entity.Pedido = this;
+		}
+		
+		private void detach_Entregas(Entrega entity)
+		{
+			this.SendPropertyChanging();
+			entity.Pedido = null;
+		}
+		
+		private void attach_ItensPedidos(ItensPedido entity)
+		{
+			this.SendPropertyChanging();
+			entity.Pedido = this;
+		}
+		
+		private void detach_ItensPedidos(ItensPedido entity)
+		{
+			this.SendPropertyChanging();
+			entity.Pedido = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ItensPedido")]
+	public partial class ItensPedido : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _IdProduto;
+		
+		private int _IdPedido;
+		
+		private System.Nullable<System.DateTime> _DataCadastro;
+		
+		private string _Status;
+		
+		private EntityRef<Pedido> _Pedido;
+		
+		private EntityRef<Produto> _Produto;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnIdProdutoChanging(int value);
+    partial void OnIdProdutoChanged();
+    partial void OnIdPedidoChanging(int value);
+    partial void OnIdPedidoChanged();
+    partial void OnDataCadastroChanging(System.Nullable<System.DateTime> value);
+    partial void OnDataCadastroChanged();
+    partial void OnStatusChanging(string value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public ItensPedido()
+		{
+			this._Pedido = default(EntityRef<Pedido>);
+			this._Produto = default(EntityRef<Produto>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdProduto", DbType="Int NOT NULL")]
+		public int IdProduto
+		{
+			get
+			{
+				return this._IdProduto;
+			}
+			set
+			{
+				if ((this._IdProduto != value))
+				{
+					if (this._Produto.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdProdutoChanging(value);
+					this.SendPropertyChanging();
+					this._IdProduto = value;
+					this.SendPropertyChanged("IdProduto");
+					this.OnIdProdutoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdPedido", DbType="Int NOT NULL")]
+		public int IdPedido
+		{
+			get
+			{
+				return this._IdPedido;
+			}
+			set
+			{
+				if ((this._IdPedido != value))
+				{
+					if (this._Pedido.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdPedidoChanging(value);
+					this.SendPropertyChanging();
+					this._IdPedido = value;
+					this.SendPropertyChanged("IdPedido");
+					this.OnIdPedidoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DataCadastro", DbType="DateTime")]
+		public System.Nullable<System.DateTime> DataCadastro
+		{
+			get
+			{
+				return this._DataCadastro;
+			}
+			set
+			{
+				if ((this._DataCadastro != value))
+				{
+					this.OnDataCadastroChanging(value);
+					this.SendPropertyChanging();
+					this._DataCadastro = value;
+					this.SendPropertyChanged("DataCadastro");
+					this.OnDataCadastroChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="VarChar(15)")]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_ItensPedido", Storage="_Pedido", ThisKey="IdPedido", OtherKey="Id", IsForeignKey=true)]
+		public Pedido Pedido
+		{
+			get
+			{
+				return this._Pedido.Entity;
+			}
+			set
+			{
+				Pedido previousValue = this._Pedido.Entity;
+				if (((previousValue != value) 
+							|| (this._Pedido.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Pedido.Entity = null;
+						previousValue.ItensPedidos.Remove(this);
+					}
+					this._Pedido.Entity = value;
+					if ((value != null))
+					{
+						value.ItensPedidos.Add(this);
+						this._IdPedido = value.Id;
+					}
+					else
+					{
+						this._IdPedido = default(int);
+					}
+					this.SendPropertyChanged("Pedido");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Produto_ItensPedido", Storage="_Produto", ThisKey="IdProduto", OtherKey="Id", IsForeignKey=true)]
+		public Produto Produto
+		{
+			get
+			{
+				return this._Produto.Entity;
+			}
+			set
+			{
+				Produto previousValue = this._Produto.Entity;
+				if (((previousValue != value) 
+							|| (this._Produto.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Produto.Entity = null;
+						previousValue.ItensPedidos.Remove(this);
+					}
+					this._Produto.Entity = value;
+					if ((value != null))
+					{
+						value.ItensPedidos.Add(this);
+						this._IdProduto = value.Id;
+					}
+					else
+					{
+						this._IdProduto = default(int);
+					}
+					this.SendPropertyChanged("Produto");
 				}
 			}
 		}

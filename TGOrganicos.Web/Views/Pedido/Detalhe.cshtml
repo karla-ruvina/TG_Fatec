@@ -1,0 +1,75 @@
+﻿@model List<TGOrganicos.Data.ItensPedido>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>Status</th>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Valor</th>
+                                <th>Data</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="text-center">
+                                    @if (TGOrganicos.Web.Models.Credential.IsProdutor())
+                                    {
+                                        <td class="product-remove">
+                                            <a href="@Url.Action("AceitarPedido", "Produto", new { idPedido = item.Id})" @(item.Status == "Recusado" ? "hidden" : "")><span class="ion-ios-add-circle" title="Aceitar Pedido"></span></a>
+                                            <a href="@Url.Action("RecusarPedido", "Produto", new { idPedido = item.Id})" @(item.Status == "Em preparação" ? "hidden" : "")><span class="ion-ios-close-circle" title="Recusar Pedido"></span></a>
+                                            <a href="@Url.Action("FinalizarPedido", "Produto", new { idPedido = item.Id}) @(item.Status == "Recusado" ? "hidden" : "")"><span class="ion-ios-checkmark-circle" title="Pedido Finalizado"></span></a>
+                                        </td>
+                                    }
+                                    else if (TGOrganicos.Web.Models.Credential.IsCliente())
+                                    {
+                                        <td class="product-remove">
+                                            <a href="@Url.Action("ConcluirPedido ", "Produto", new { idPedido = item.Id}) @(item.Status == "Recusado" || item.Status == "Processando"  ? "hidden" : "")"><span class="ion-ios-add-circle" title="Recebi meu pedido."></span></a>
+                                            <a href="@Url.Action("NaoConcluirPedido ", "Produto", new { idPedido = item.Id}) @(item.Status == "Recusado" || item.Status == "Processando" ? "hidden" : "")"><span class="ion-ios-close-circle" title="Não recebi meu pedido."></span></a>
+                                        </td>
+                                    }
+
+                                    <td class="qtd">@item.Status</td>
+                                    <td class="qtd">@item.Produto.Nome</td>
+                                    <td class="qtd">@item.Produto.Quantidade</td>
+                                    <td class="qtd">@item.Produto.Valor</td>
+                                    <td class="product-name">@item.DataCadastro.Value.ToString("dd/MM/yyyy")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+
+
+        $(document).ready(function () {
+
+
+        });
+
+
+
+    </script>
+
+
+} 

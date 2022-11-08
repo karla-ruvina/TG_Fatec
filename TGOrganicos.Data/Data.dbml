@@ -57,29 +57,6 @@
       <Association Name="Pedido_Entrega" Member="Pedido" ThisKey="IdPedido" OtherKey="Id" Type="Pedido" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.ItensPedido" Member="ItensPedidos">
-    <Type Name="ItensPedido">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="IdProduto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="IdPedido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DataCadastro" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Association Name="Pedido_ItensPedido" Member="Pedido" ThisKey="IdPedido" OtherKey="Id" Type="Pedido" IsForeignKey="true" />
-      <Association Name="Produto_ItensPedido" Member="Produto" ThisKey="IdProduto" OtherKey="Id" Type="Produto" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Pedido" Member="Pedidos">
-    <Type Name="Pedido">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="IdCliente" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="DataPedido" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="ValorPedido" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Column Name="TipoEntrega" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="QuantidadeItens" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Association Name="Pedido_Entrega" Member="Entregas" ThisKey="Id" OtherKey="IdPedido" Type="Entrega" />
-      <Association Name="Pedido_ItensPedido" Member="ItensPedidos" ThisKey="Id" OtherKey="IdPedido" Type="ItensPedido" />
-      <Association Name="Cliente_Pedido" Member="Cliente" ThisKey="IdCliente" OtherKey="Id" Type="Cliente" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Produto" Member="Produtos">
     <Type Name="Produto">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -91,8 +68,8 @@
       <Column Name="Medida" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
       <Column Name="Imagem" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
       <Column Name="TipoProduto" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Produto_ItensPedido" Member="ItensPedidos" ThisKey="Id" OtherKey="IdProduto" Type="ItensPedido" />
       <Association Name="Produto_ProdutosProdutor" Member="ProdutosProdutors" ThisKey="Id" OtherKey="IdProduto" Type="ProdutosProdutor" />
+      <Association Name="Produto_ItensPedido" Member="ItensPedidos" ThisKey="Id" OtherKey="IdProduto" Type="ItensPedido" />
     </Type>
   </Table>
   <Table Name="dbo.Produtor" Member="Produtors">
@@ -116,6 +93,31 @@
       <Column Name="DataCadastro" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="Produto_ProdutosProdutor" Member="Produto" ThisKey="IdProduto" OtherKey="Id" Type="Produto" IsForeignKey="true" />
       <Association Name="Produtor_ProdutosProdutor" Member="Produtor" ThisKey="IdProdutor" OtherKey="Id" Type="Produtor" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Pedido" Member="Pedidos">
+    <Type Name="Pedido">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdCliente" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DataPedido" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ValorPedido" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="TipoEntrega" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="QuantidadeItens" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Association Name="Pedido_Entrega" Member="Entregas" ThisKey="Id" OtherKey="IdPedido" Type="Entrega" />
+      <Association Name="Pedido_ItensPedido" Member="ItensPedidos" ThisKey="Id" OtherKey="IdPedido" Type="ItensPedido" />
+      <Association Name="Cliente_Pedido" Member="Cliente" ThisKey="IdCliente" OtherKey="Id" Type="Cliente" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ItensPedido" Member="ItensPedidos">
+    <Type Name="ItensPedido">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdProduto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdPedido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DataCadastro" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Association Name="Pedido_ItensPedido" Member="Pedido" ThisKey="IdPedido" OtherKey="Id" Type="Pedido" IsForeignKey="true" />
+      <Association Name="Produto_ItensPedido" Member="Produto" ThisKey="IdProduto" OtherKey="Id" Type="Produto" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

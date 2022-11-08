@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using TGOrganicos.Data;
+using TGOrganicos.Web.Models;
 
 namespace TGOrganicos.Web.Controllers
 {
@@ -13,8 +14,36 @@ namespace TGOrganicos.Web.Controllers
         public ActionResult Index()
         {
             DataLinq db = new DataLinq();
+            var user = Credential.Current.Id;
 
-            return View(db.Pedidos.ToList());
+            var pedido = db.Pedidos.ToList();
+
+            if (Credential.IsProdutor())
+            {
+                var query = (from itens in db.ItensPedidos
+                             
+                             join prodprod in db.ProdutosProdutors on itens.IdProduto equals prodprod.IdProduto
+                             join produtor in db.Produtors on prodprod.IdProdutor equals produtor.Id
+                             join prodtos in db.Produtos on prodprod.IdProduto equals prodtos.Id
+
+                             where produtor.Id == user
+                             select itens.Id).Distinct().ToList();
+
+                pedido = pedido.Where(c => query.Contains(c.Id)).ToList();
+            }
+            if (Credential.IsCliente())
+            {
+                pedido = pedido.Where(c => c.IdCliente == user).ToList();
+            }
+
+            return View(pedido);
+        }
+
+        public ActionResult Carrinho()
+        {
+            DataLinq db = new DataLinq();
+            var user = Credential.Current.Id;
+            return View(db.Pedidos.Where(c=> c.IdCliente == user).ToList());
         }
 
         public ActionResult Cadastro(int? id)
@@ -48,12 +77,19 @@ namespace TGOrganicos.Web.Controllers
                 obj.ValorPedido = model.ValorPedido;
                 obj.TipoEntrega = model.TipoEntrega;
                 obj.QuantidadeItens = model.QuantidadeItens;
+                obj.Status = "Processando";
 
                 if (obj.Id == 0)
                 {
                     db.Pedidos.InsertOnSubmit(obj);
                 }
                 db.SubmitChanges();
+
+                foreach(var itens in model.ItensPedidos)
+                {
+
+                }
+
 
                 return RedirectToAction("Index");
             }
@@ -82,5 +118,132 @@ namespace TGOrganicos.Web.Controllers
 
             return RedirectToAction("Index", "Pedido");
         }
+
+
+        public ActionResult AceitarPedido(int? idPedido)
+        {
+            DataLinq db = new DataLinq();
+
+            try
+            {
+                var pedido = db.ItensPedidos.FirstOrDefault(c => c.Id == idPedido);
+                pedido.Status = "Em preparação";
+
+                db.SubmitChanges();
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                db.Dispose();
+                return RedirectToAction("Index", "Pedido");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+
+            return RedirectToAction("Index", "Pedido");
+        }
+
+        public ActionResult RecusarPedido(int? idPedido)
+        {
+            DataLinq db = new DataLinq();
+            
+            try
+            {
+                var pedido = db.ItensPedidos.FirstOrDefault(c => c.Id == idPedido);
+                pedido.Status = "Recusado";
+
+                db.SubmitChanges();
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                db.Dispose();
+                return RedirectToAction("Index", "Pedido");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+
+            return RedirectToAction("Index", "Pedido");
+        }
+        
+        public ActionResult FinalizarPedido(int? idPedido)
+        {
+            DataLinq db = new DataLinq();
+            
+            try
+            {
+                var pedido = db.ItensPedidos.FirstOrDefault(c => c.Id == idPedido);
+                pedido.Status = "Entregue";
+
+                db.SubmitChanges();
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                db.Dispose();
+                return RedirectToAction("Index", "Pedido");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+
+            return RedirectToAction("Index", "Pedido");
+        }
+
+        public ActionResult ConcluirPedido(int? idPedido)
+        {
+            DataLinq db = new DataLinq();
+            
+            try
+            {
+                var pedido = db.ItensPedidos.FirstOrDefault(c => c.Id == idPedido);
+                pedido.Status = "Concluido";
+
+                db.SubmitChanges();
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                db.Dispose();
+                return RedirectToAction("Index", "Pedido");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+
+            return RedirectToAction("Index", "Pedido");
+        }
+        
+        public ActionResult NaoConcluirPedido(int? idPedido)
+        {
+            DataLinq db = new DataLinq();
+            
+            try
+            {
+                var pedido = db.ItensPedidos.FirstOrDefault(c => c.Id == idPedido);
+                pedido.Status = "Não Recebido";
+
+                db.SubmitChanges();
+                db.Dispose();
+            }
+            catch (Exception ex)
+            {
+                db.Dispose();
+                return RedirectToAction("Index", "Pedido");
+            }
+            finally
+            {
+                db.Dispose();
+            }
+
+            return RedirectToAction("Index", "Pedido");
+        }
+
     }
 }
