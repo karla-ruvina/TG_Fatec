@@ -7,7 +7,20 @@
 
 
 <section class="ftco-section">
+
+    @if (TGOrganicos.Web.Models.Credential.IsProdutor())
+    {
+        <div class="text-right">
+            <div class="mb-2">
+                <a href="@Url.Action("Cadastro", "Produto")" class="btn-icon btn btn-primary btn-round btn-sm ">Adicionar</a>
+
+            </div>
+        </div>
+    }
+
+
     <div class="container">
+
         <div class="row justify-content-center">
             <div class="col-md-10 mb-5 text-center">
                 <ul class="product-category">
@@ -16,7 +29,7 @@
                     <li><a class="@(ViewBag.Tipo == 2 ? "active" : "")" href="@Url.Action("Index", "Produto", new { tipo = 2})">Frutas</a></li>
                     <li><a class="@(ViewBag.Tipo == 3 ? "active" : "")" href="@Url.Action("Index", "Produto", new { tipo = 3})">Sucos</a></li>
                     <li><a class="@(ViewBag.Tipo == 4 ? "active" : "")" href="@Url.Action("Index", "Produto", new { tipo = 4})">Grãos</a></li>
-                </ul>              
+                </ul>
             </div>
         </div>
         <div class="row">
@@ -27,14 +40,14 @@
                 <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
                         <a href="#" class="img-prod">
-                            <img class="img-fluid" src="~/Content/images/product-2.jpg">
+                            <img class="img-fluid" src="@(item.Imagem != null && item.Imagem != "" ? item.Imagem : "/Content/images/sem_foto.jpg")">
                             <div class="overlay"></div>
                         </a>
                         <div class="text py-3 pb-4 px-3 text-center">
                             <h3><a href="#">@item.Nome</a></h3>
                             <div class="d-flex">
                                 <div class="pricing">
-                                    <p class="price"><span>@item.Valor/@item.UnidadeMedida</span></p>
+                                    <p class="price"><span>@item.Valor.Value.ToString("C")/@item.UnidadeMedida</span></p>
                                 </div>
                             </div>
                             <div class="bottom-area d-flex px-3">
@@ -42,9 +55,19 @@
                                     <a href="@Url.Action("Detalhe", "Produto" , new { id=item.Id})" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                         <span><i class="ion-ios-menu"></i></span>
                                     </a>
-                                    <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                        <span><i class="ion-ios-cart"></i></span>
-                                    </a>
+                                    @if (TGOrganicos.Web.Models.Credential.IsProdutor())
+                                    {
+                                        <a href="@Url.Action("Cadastro", "Produto" , new { id=item.Id})" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                            <span><i class="ion-ios-refresh"></i></span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                            <span><i class="ion-ios-cart"></i></span>
+                                        </a>
+                                    }
+
                                 </div>
                             </div>
                         </div>
@@ -73,39 +96,18 @@
     </div>
 </section>
 
-<section class="ftco-section img" style="background-image: url(/Content/images/bg_3.jpg);">
-    <div class="container">
-        <div class="row justify-content-end">
-            <div class="col-md-6 heading-section ftco-animate deal-of-the-day ftco-animate">
-                <span class="subheading">Melhor preço para você!</span>
-                <h2 class="mb-4">Oferta do Dia.</h2>
-                <p>Garanta uma alimentação livre de agrotóxicos e produzidas com muito amor.</p>
-                <h3><a href="#">Alface Americana</a></h3>
-                <span class="price">R$5 <a href="#">agora por apenas R$3.00 </a></span>
-                <div id="timer" class="d-flex mt-5">
-                    <div class="time" id="days"></div>
-                    <div class="time pl-3" id="hours"></div>
-                    <div class="time pl-3" id="minutes"></div>
-                    <div class="time pl-3" id="seconds"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 @section Scripts{
     <script>
 
-        
+
         $(document).ready(function () {
 
-            
-
+           
         });
 
 
 
     </script>
-    
-    
-    } 
+
+
+} 

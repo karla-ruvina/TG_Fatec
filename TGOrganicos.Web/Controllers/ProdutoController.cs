@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,6 +14,9 @@ namespace TGOrganicos.Web.Controllers
     public class ProdutoController : Controller
     {
         // GET: Produto
+
+        public static string pastaUpload = "/UploadArquivos";
+
         public ActionResult Index(int? tipo)
         {
             DataLinq db = new DataLinq();
@@ -50,7 +54,7 @@ namespace TGOrganicos.Web.Controllers
                 produto.Valor = aux.Valor;
                 produto.Descricao = aux.Descricao;
                 produto.UnidadeMedida = aux.UnidadeMedida;
-                produto.Medida = aux.Medida;
+                produto.Imagem = aux.Imagem;
             }
 
 
@@ -79,7 +83,6 @@ namespace TGOrganicos.Web.Controllers
                 produto.Valor = aux.Valor;
                 produto.Descricao = aux.Descricao;
                 produto.UnidadeMedida = aux.UnidadeMedida;
-                produto.Medida = aux.Medida;
                 produto.TipoProduto = aux.TipoProduto;
                 produto.Imagem = aux.Imagem;
             }
@@ -91,19 +94,40 @@ namespace TGOrganicos.Web.Controllers
         {
             DataLinq db = new DataLinq();
 
-            var session = Newtonsoft.Json.JsonConvert.DeserializeObject<Credential>(HttpContext.User.Identity.Name);
-
             try
             {
-                var obj = model.Id > 0 ? db.Produtos.SingleOrDefault(c => c.Id == model.Id) : new Produto();
+
+                Produto obj = db.Produtos.FirstOrDefault(c => c.Id == model.Id) ?? new Produto();
                 obj.Nome = model.Nome;
                 obj.Quantidade = model.Quantidade;
                 obj.Valor = model.Valor;
                 obj.Descricao = model.Descricao;
                 obj.UnidadeMedida = model.UnidadeMedida;
-                obj.Medida = model.Medida;
                 obj.TipoProduto = model.TipoProduto;
-                obj.Imagem = model.Imagem;
+
+                foreach (string fileName in Request.Files)
+                {
+                    HttpPostedFileBase file = Request.Files[fileName];
+                    //Save file content goes here
+                    var fName = file.FileName;
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        var fileName1 = Path.GetFileName(file.FileName);
+
+                        string NovaPasta = pastaUpload + "/Produtos/";
+
+                        if (!System.IO.Directory.Exists(Server.MapPath(NovaPasta)))
+                            System.IO.Directory.CreateDirectory(Server.MapPath(NovaPasta));
+
+                        var path = string.Format("{0}{1}", NovaPasta, file.FileName);
+                        file.SaveAs(Server.MapPath(path));
+
+                        if (fileName == "Imagem")
+                            obj.Imagem = path;
+                    }
+                }
+
+                db.SubmitChanges();
 
                 if (obj.Id == 0)
                 {
@@ -113,8 +137,9 @@ namespace TGOrganicos.Web.Controllers
 
                 var prodprodutor = new ProdutosProdutor();
                 prodprodutor.IdProduto = obj.Id;
-                prodprodutor.IdProdutor = session.Id;
+                prodprodutor.IdProdutor = Credential.Current.Id;
                 prodprodutor.DataCadastro = DateTime.Now;
+                db.ProdutosProdutors.InsertOnSubmit(prodprodutor);
 
                 db.SubmitChanges();
 

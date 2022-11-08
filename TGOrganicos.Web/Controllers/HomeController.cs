@@ -12,8 +12,8 @@ namespace TGOrganicos.Web.Controllers
         public ActionResult Index()
         {
             DataLinq db = new DataLinq();
-
-            return View();
+            
+            return View(db.Produtos.Take(4).ToList());
         }
 
         public ActionResult About()
@@ -23,11 +23,5 @@ namespace TGOrganicos.Web.Controllers
             return View();
         }
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
     }
 }

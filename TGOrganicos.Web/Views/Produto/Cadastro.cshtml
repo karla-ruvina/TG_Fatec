@@ -7,7 +7,6 @@
         padding-top: 6em 0 !important;
         padding-bottom: 0 !important;
     }
-
 </style>
 
 
@@ -29,17 +28,32 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="firstname">Imagem</label>
-                                <input type="file" class="form-control" placeholder="Inserir imagem"/>
+                        @if (Model.Imagem != null && Model.Imagem != "")
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Image">Imagem</label>
+                                    @Html.TextBoxFor(c => c.Imagem, new { @class = "form-control", @disabled = "disabled" })
+                                </div>
                             </div>
-                        </div>
+                            
+                        }
+                        else
+                        {
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Image">Imagem</label>
+                                    <input type="file" class="form-control" placeholder="Inserir imagem" id="Imagem" name="Imagem" />
+                                </div>
+                            </div>
+                        }
+
 
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="firstname">Tipo</label>
-                                @Html.DropDownListFor(c=> c.TipoProduto, (SelectList)ViewBag.TipoProduto, new { @class = "form-control select2", data_placeholder = "Selecione o Atributo", data_init_plugin = "select2" })
+                                @Html.Hidden("TipoProdutoInicial", Model.TipoProduto)
+                                @Html.DropDownListFor(c => c.TipoProduto, (SelectList)ViewBag.TipoProduto, new { @class = "form-control select2", data_placeholder = "Selecione o Atributo", data_init_plugin = "select2" })
                             </div>
                         </div>
 
@@ -48,7 +62,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="country">Valor</label>
-                                @Html.TextBoxFor(c => c.Valor, new { @class = "form-control " })
+                                @Html.TextBoxFor(c => c.Valor, new { @class = "form-control money" })
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -96,6 +110,10 @@
 
         $(document).ready(function () {
 
+            $("#TipoProduto").val($("#TipoProdutoInicial").val()).trigger('change', [true])
+
+
+
             formatInputs()
 
         });
@@ -103,21 +121,27 @@
 
         function formatInputs() {
 
-            $(".cep").mask("00000-000");
+            $('.money').each(function () {
+                var field = $(this)
 
-            var maskCpfCnpj = function (val) {
-                return val.replace(/\D/g, '').length < 12 ? '000.000.000-009' : '00.000.000/0000-00';
-            },
-                optionsCpfCnpj = {
-                    onKeyPress: function (val, e, field, options) {
-                        field.mask(maskCpfCnpj.apply({}, arguments), options);
-                    }
-                };
+                var valor = $(field).val().replace(".", ",")
+                if (valor.includes("R$") == false) {
+                    $(field).val(valor)
+                }
 
-            $('.cpf-cnpj').mask(maskCpfCnpj, optionsCpfCnpj);
+            })
+            $(".money").maskMoney({ prefix: 'R$ ', allowNegative: false, allowZero: true, thousands: '.', decimal: ',', affixesStay: true }).maskMoney('mask');
 
         }
 
+        $(document).on('submit', 'form', function (e) {
+
+            // Campos com máscaras
+            $('.money').each(function () {
+                $(this).siblings(".actual-money").val($(this).maskMoney('unmasked')[0].toString().replace(".", ","))
+            })
+
+        })
 
     </script>
 }

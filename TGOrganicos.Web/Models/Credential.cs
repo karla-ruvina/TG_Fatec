@@ -50,7 +50,7 @@ namespace TGOrganicos.Web.Models
 
             var iduser = Credential.Current.Id;
             var usuario = db.Usuarios.FirstOrDefault(c => c.Id == iduser);
-            return usuario.TipoUsuario == 1 ? true : false;
+            return usuario != null && usuario.TipoUsuario == 1 ? true : false;
         }
 
         //cliente é tipousuario 2
@@ -60,7 +60,7 @@ namespace TGOrganicos.Web.Models
 
             var iduser = Credential.Current.Id;
             var usuario = db.Usuarios.FirstOrDefault(c => c.Id == iduser);
-            return usuario.TipoUsuario == 2 ? true : false;
+            return usuario != null && usuario.TipoUsuario == 2 ? true : false;
         }
 
 
