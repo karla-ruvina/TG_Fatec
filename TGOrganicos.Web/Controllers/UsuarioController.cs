@@ -67,6 +67,8 @@ namespace TGOrganicos.Web.Controllers
                     objprod.CertificadoOrganico = model.UserProd.CertificadoOrganico;
                     objprod.EnderecoProducao = model.UserProd.EnderecoProducao;
                     objprod.RealizaEntregas = model.UserProd.RealizaEntrega;
+
+                    db.Produtors.InsertOnSubmit(objprod);
                 }
 
                 if (model.User.TipoUsuario == 2)
@@ -75,6 +77,8 @@ namespace TGOrganicos.Web.Controllers
                     objcli.IdUsuario = obj.Id;
                     objcli.AceitaReceberEmails = model.UserCli.AceitaReceberEmail;
                     objcli.AceitaReceberSMS = model.UserCli.AceitaReceberSMS;
+
+                    db.Clientes.InsertOnSubmit(objcli);
                 }
 
                 db.SubmitChanges();

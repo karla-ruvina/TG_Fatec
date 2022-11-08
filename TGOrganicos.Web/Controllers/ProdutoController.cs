@@ -137,7 +137,7 @@ namespace TGOrganicos.Web.Controllers
 
                 var prodprodutor = new ProdutosProdutor();
                 prodprodutor.IdProduto = obj.Id;
-                prodprodutor.IdProdutor = Credential.Current.Id;
+                prodprodutor.IdProdutor = Credential.IdProdutor();
                 prodprodutor.DataCadastro = DateTime.Now;
                 db.ProdutosProdutors.InsertOnSubmit(prodprodutor);
 

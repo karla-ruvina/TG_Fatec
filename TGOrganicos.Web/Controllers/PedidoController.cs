@@ -14,26 +14,26 @@ namespace TGOrganicos.Web.Controllers
         public ActionResult Index()
         {
             DataLinq db = new DataLinq();
-            var user = Credential.Current.Id;
-
+            var idcliente = Credential.IdCliente();
+            var idprodutor = Credential.IdProdutor();
             var pedido = db.Pedidos.ToList();
 
             if (Credential.IsProdutor())
             {
                 var query = (from itens in db.ItensPedidos
-                             
+                             join pedidos in db.Pedidos on itens.IdPedido equals pedidos.Id
                              join prodprod in db.ProdutosProdutors on itens.IdProduto equals prodprod.IdProduto
                              join produtor in db.Produtors on prodprod.IdProdutor equals produtor.Id
                              join prodtos in db.Produtos on prodprod.IdProduto equals prodtos.Id
 
-                             where produtor.Id == user
-                             select itens.Id).Distinct().ToList();
+                             where produtor.Id == idprodutor
+                             select pedidos.Id).Distinct().ToList();
 
                 pedido = pedido.Where(c => query.Contains(c.Id)).ToList();
             }
             if (Credential.IsCliente())
             {
-                pedido = pedido.Where(c => c.IdCliente == user).ToList();
+                pedido = pedido.Where(c => c.IdCliente == idcliente).ToList();
             }
 
             return View(pedido);
@@ -42,8 +42,43 @@ namespace TGOrganicos.Web.Controllers
         public ActionResult Carrinho()
         {
             DataLinq db = new DataLinq();
-            var user = Credential.Current.Id;
-            return View(db.Pedidos.Where(c=> c.IdCliente == user).ToList());
+
+            var idcliente = Credential.IdCliente();
+
+            return View(db.Pedidos.Where(c => c.IdCliente == idcliente).ToList());
+        }
+
+        public ActionResult Detalhe(int? id)
+        {
+            DataLinq db = new DataLinq();
+            var idcliente = Credential.IdCliente();
+            var idprodutor = Credential.IdProdutor();
+
+            var itenspedido = db.ItensPedidos.ToList();
+
+            if (id.HasValue && id.Value > 0)
+            {
+                if (Credential.IsProdutor())
+                {
+                    var query = (from itens in db.ItensPedidos
+                                 join pedidos in db.Pedidos on itens.IdPedido equals pedidos.Id
+                                 join prodprod in db.ProdutosProdutors on itens.IdProduto equals prodprod.IdProduto
+                                 join produtor in db.Produtors on prodprod.IdProdutor equals produtor.Id
+                                 join prodtos in db.Produtos on prodprod.IdProduto equals prodtos.Id
+
+                                 where produtor.Id == idprodutor
+                                 where pedidos.Id == id
+                                 select itens.Id).Distinct().ToList();
+
+                    itenspedido = itenspedido.Where(c => query.Contains(c.Id)).ToList();
+                }
+                if (Credential.IsCliente())
+                {
+                    itenspedido = itenspedido.Where(c => c.IdPedido == id && c.Pedido.IdCliente == idcliente).ToList();
+                }
+            }
+
+            return View(itenspedido);
         }
 
         public ActionResult Cadastro(int? id)
@@ -85,7 +120,7 @@ namespace TGOrganicos.Web.Controllers
                 }
                 db.SubmitChanges();
 
-                foreach(var itens in model.ItensPedidos)
+                foreach (var itens in model.ItensPedidos)
                 {
 
                 }
@@ -119,7 +154,6 @@ namespace TGOrganicos.Web.Controllers
             return RedirectToAction("Index", "Pedido");
         }
 
-
         public ActionResult AceitarPedido(int? idPedido)
         {
             DataLinq db = new DataLinq();
@@ -148,7 +182,7 @@ namespace TGOrganicos.Web.Controllers
         public ActionResult RecusarPedido(int? idPedido)
         {
             DataLinq db = new DataLinq();
-            
+
             try
             {
                 var pedido = db.ItensPedidos.FirstOrDefault(c => c.Id == idPedido);
@@ -169,11 +203,11 @@ namespace TGOrganicos.Web.Controllers
 
             return RedirectToAction("Index", "Pedido");
         }
-        
+
         public ActionResult FinalizarPedido(int? idPedido)
         {
             DataLinq db = new DataLinq();
-            
+
             try
             {
                 var pedido = db.ItensPedidos.FirstOrDefault(c => c.Id == idPedido);
@@ -198,7 +232,7 @@ namespace TGOrganicos.Web.Controllers
         public ActionResult ConcluirPedido(int? idPedido)
         {
             DataLinq db = new DataLinq();
-            
+
             try
             {
                 var pedido = db.ItensPedidos.FirstOrDefault(c => c.Id == idPedido);
@@ -219,11 +253,11 @@ namespace TGOrganicos.Web.Controllers
 
             return RedirectToAction("Index", "Pedido");
         }
-        
+
         public ActionResult NaoConcluirPedido(int? idPedido)
         {
             DataLinq db = new DataLinq();
-            
+
             try
             {
                 var pedido = db.ItensPedidos.FirstOrDefault(c => c.Id == idPedido);

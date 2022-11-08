@@ -52,6 +52,15 @@ namespace TGOrganicos.Web.Models
             var usuario = db.Usuarios.FirstOrDefault(c => c.Id == iduser);
             return usuario != null && usuario.TipoUsuario == 1 ? true : false;
         }
+        
+        public static int IdProdutor()
+        {
+            DataLinq db = new DataLinq();
+
+            var iduser = Credential.Current.Id;
+            var produtor = db.Produtors.FirstOrDefault(c => c.IdUsuario == iduser);
+            return produtor != null ? produtor.Id : 0;
+        }
 
         //cliente é tipousuario 2
         public static bool IsCliente()
@@ -61,6 +70,15 @@ namespace TGOrganicos.Web.Models
             var iduser = Credential.Current.Id;
             var usuario = db.Usuarios.FirstOrDefault(c => c.Id == iduser);
             return usuario != null && usuario.TipoUsuario == 2 ? true : false;
+        }
+
+        public static int IdCliente()
+        {
+            DataLinq db = new DataLinq();
+
+            var iduser = Credential.Current.Id;
+            var cliente = db.Clientes.FirstOrDefault(c => c.IdUsuario == iduser);
+            return cliente != null ? cliente.Id : 0;
         }
 
 
