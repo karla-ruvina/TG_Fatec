@@ -109,7 +109,7 @@ namespace TGOrganicos.Web.Controllers
                 var obj = model.Id > 0 ? db.Pedidos.SingleOrDefault(c => c.Id == model.Id) : new Pedido();
                 obj.IdCliente = model.IdCliente;
                 obj.DataPedido = model.DataPedido;
-                obj.ValorPedido = model.ValorPedido;\
+                obj.ValorPedido = model.ValorPedido;
                 obj.TipoEntrega = model.TipoEntrega;
                 obj.QuantidadeItens = model.QuantidadeItens;
                 obj.Status = "Processando";
