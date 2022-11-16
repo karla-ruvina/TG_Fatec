@@ -66,6 +66,14 @@ namespace TGOrganicos.Web.Controllers
             DataLinq db = new DataLinq();
             Produto produto = new Produto();
 
+            var unidademedida = new SelectList(new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Grama", Value = "Grama" },
+                new SelectListItem { Text = "Kilograma", Value = "Kilograma" },
+                new SelectListItem { Text = "Unidade", Value = "Unidade" },
+            }, "Value", "Text");
+            ViewBag.UnidMedida = unidademedida;
+
             var listatipoprodutos = Enum.GetValues(typeof(TipoProduto)).Cast<TipoProduto>().Select(c => new SelectItem
             {
                 Id = (int)c,

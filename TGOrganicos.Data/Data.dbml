@@ -1,4 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="TG_fatec" Class="DataDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.Avaliacao" Member="Avaliacaos">
+    <Type Name="Avaliacao">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdEntrega" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Estrelas" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Comentario" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Association Name="Entrega_Avaliacao" Member="Entrega" ThisKey="IdEntrega" OtherKey="Id" Type="Entrega" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.Usuario" Member="Usuarios">
     <Type Name="Usuario">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -21,15 +30,6 @@
       <Association Name="Usuario_Produtor" Member="Produtors" ThisKey="Id" OtherKey="IdUsuario" Type="Produtor" />
     </Type>
   </Table>
-  <Table Name="dbo.Avaliacao" Member="Avaliacaos">
-    <Type Name="Avaliacao">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="IdEntrega" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Estrelas" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Comentario" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
-      <Association Name="Entrega_Avaliacao" Member="Entrega" ThisKey="IdEntrega" OtherKey="Id" Type="Entrega" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Cliente" Member="Clientes">
     <Type Name="Cliente">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -47,10 +47,10 @@
       <Column Name="Saida" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="PrevisaoEntrega" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Entrega" Member="Entrega1" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Distancia" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Column Name="ValorEntrega" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="Distancia" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="ValorEntrega" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="Troco" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="ValorTroco" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="ValorTroco" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="Cartao" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Association Name="Entrega_Avaliacao" Member="Avaliacaos" ThisKey="Id" OtherKey="IdEntrega" Type="Avaliacao" />
       <Association Name="Pedido_Entrega" Member="Pedido" ThisKey="IdPedido" OtherKey="Id" Type="Pedido" IsForeignKey="true" />
@@ -62,8 +62,8 @@
       <Column Name="IdProduto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IdPedido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DataCadastro" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Valor" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Column Name="Quantidade" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="Valor" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Quantidade" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="Status" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
       <Association Name="Pedido_ItensPedido" Member="Pedido" ThisKey="IdPedido" OtherKey="Id" Type="Pedido" IsForeignKey="true" />
       <Association Name="Produto_ItensPedido" Member="Produto" ThisKey="IdProduto" OtherKey="Id" Type="Produto" IsForeignKey="true" />
@@ -75,8 +75,8 @@
       <Column Name="IdCliente" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DataPedido" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="TipoEntrega" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="ValorPedido" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Column Name="QuantidadeItens" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="ValorPedido" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="QuantidadeItens" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="Status" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
       <Association Name="Pedido_Entrega" Member="Entregas" ThisKey="Id" OtherKey="IdPedido" Type="Entrega" />
       <Association Name="Pedido_ItensPedido" Member="ItensPedidos" ThisKey="Id" OtherKey="IdPedido" Type="ItensPedido" />
@@ -87,11 +87,10 @@
     <Type Name="Produto">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Nome" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Quantidade" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
-      <Column Name="Valor" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="Quantidade" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Valor" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="Descricao" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
       <Column Name="UnidadeMedida" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="Medida" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
       <Column Name="Imagem" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
       <Column Name="TipoProduto" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="Produto_ItensPedido" Member="ItensPedidos" ThisKey="Id" OtherKey="IdProduto" Type="ItensPedido" />

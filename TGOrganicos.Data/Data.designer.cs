@@ -30,12 +30,12 @@ namespace TGOrganicos.Data
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertUsuario(Usuario instance);
-    partial void UpdateUsuario(Usuario instance);
-    partial void DeleteUsuario(Usuario instance);
     partial void InsertAvaliacao(Avaliacao instance);
     partial void UpdateAvaliacao(Avaliacao instance);
     partial void DeleteAvaliacao(Avaliacao instance);
+    partial void InsertUsuario(Usuario instance);
+    partial void UpdateUsuario(Usuario instance);
+    partial void DeleteUsuario(Usuario instance);
     partial void InsertCliente(Cliente instance);
     partial void UpdateCliente(Cliente instance);
     partial void DeleteCliente(Cliente instance);
@@ -83,19 +83,19 @@ namespace TGOrganicos.Data
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<Usuario> Usuarios
-		{
-			get
-			{
-				return this.GetTable<Usuario>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Avaliacao> Avaliacaos
 		{
 			get
 			{
 				return this.GetTable<Avaliacao>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Usuario> Usuarios
+		{
+			get
+			{
+				return this.GetTable<Usuario>();
 			}
 		}
 		
@@ -152,6 +152,181 @@ namespace TGOrganicos.Data
 			get
 			{
 				return this.GetTable<ProdutosProdutor>();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Avaliacao")]
+	public partial class Avaliacao : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _Id;
+		
+		private int _IdEntrega;
+		
+		private System.Nullable<int> _Estrelas;
+		
+		private string _Comentario;
+		
+		private EntityRef<Entrega> _Entrega;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnIdChanging(int value);
+    partial void OnIdChanged();
+    partial void OnIdEntregaChanging(int value);
+    partial void OnIdEntregaChanged();
+    partial void OnEstrelasChanging(System.Nullable<int> value);
+    partial void OnEstrelasChanged();
+    partial void OnComentarioChanging(string value);
+    partial void OnComentarioChanged();
+    #endregion
+		
+		public Avaliacao()
+		{
+			this._Entrega = default(EntityRef<Entrega>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this.OnIdChanging(value);
+					this.SendPropertyChanging();
+					this._Id = value;
+					this.SendPropertyChanged("Id");
+					this.OnIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEntrega", DbType="Int NOT NULL")]
+		public int IdEntrega
+		{
+			get
+			{
+				return this._IdEntrega;
+			}
+			set
+			{
+				if ((this._IdEntrega != value))
+				{
+					if (this._Entrega.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdEntregaChanging(value);
+					this.SendPropertyChanging();
+					this._IdEntrega = value;
+					this.SendPropertyChanged("IdEntrega");
+					this.OnIdEntregaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Estrelas", DbType="Int")]
+		public System.Nullable<int> Estrelas
+		{
+			get
+			{
+				return this._Estrelas;
+			}
+			set
+			{
+				if ((this._Estrelas != value))
+				{
+					this.OnEstrelasChanging(value);
+					this.SendPropertyChanging();
+					this._Estrelas = value;
+					this.SendPropertyChanged("Estrelas");
+					this.OnEstrelasChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comentario", DbType="VarChar(500)")]
+		public string Comentario
+		{
+			get
+			{
+				return this._Comentario;
+			}
+			set
+			{
+				if ((this._Comentario != value))
+				{
+					this.OnComentarioChanging(value);
+					this.SendPropertyChanging();
+					this._Comentario = value;
+					this.SendPropertyChanged("Comentario");
+					this.OnComentarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Entrega_Avaliacao", Storage="_Entrega", ThisKey="IdEntrega", OtherKey="Id", IsForeignKey=true)]
+		public Entrega Entrega
+		{
+			get
+			{
+				return this._Entrega.Entity;
+			}
+			set
+			{
+				Entrega previousValue = this._Entrega.Entity;
+				if (((previousValue != value) 
+							|| (this._Entrega.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Entrega.Entity = null;
+						previousValue.Avaliacaos.Remove(this);
+					}
+					this._Entrega.Entity = value;
+					if ((value != null))
+					{
+						value.Avaliacaos.Add(this);
+						this._IdEntrega = value.Id;
+					}
+					else
+					{
+						this._IdEntrega = default(int);
+					}
+					this.SendPropertyChanged("Entrega");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -634,181 +809,6 @@ namespace TGOrganicos.Data
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Avaliacao")]
-	public partial class Avaliacao : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private int _IdEntrega;
-		
-		private System.Nullable<int> _Estrelas;
-		
-		private string _Comentario;
-		
-		private EntityRef<Entrega> _Entrega;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnIdEntregaChanging(int value);
-    partial void OnIdEntregaChanged();
-    partial void OnEstrelasChanging(System.Nullable<int> value);
-    partial void OnEstrelasChanged();
-    partial void OnComentarioChanging(string value);
-    partial void OnComentarioChanged();
-    #endregion
-		
-		public Avaliacao()
-		{
-			this._Entrega = default(EntityRef<Entrega>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEntrega", DbType="Int NOT NULL")]
-		public int IdEntrega
-		{
-			get
-			{
-				return this._IdEntrega;
-			}
-			set
-			{
-				if ((this._IdEntrega != value))
-				{
-					if (this._Entrega.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdEntregaChanging(value);
-					this.SendPropertyChanging();
-					this._IdEntrega = value;
-					this.SendPropertyChanged("IdEntrega");
-					this.OnIdEntregaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Estrelas", DbType="Int")]
-		public System.Nullable<int> Estrelas
-		{
-			get
-			{
-				return this._Estrelas;
-			}
-			set
-			{
-				if ((this._Estrelas != value))
-				{
-					this.OnEstrelasChanging(value);
-					this.SendPropertyChanging();
-					this._Estrelas = value;
-					this.SendPropertyChanged("Estrelas");
-					this.OnEstrelasChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comentario", DbType="VarChar(500)")]
-		public string Comentario
-		{
-			get
-			{
-				return this._Comentario;
-			}
-			set
-			{
-				if ((this._Comentario != value))
-				{
-					this.OnComentarioChanging(value);
-					this.SendPropertyChanging();
-					this._Comentario = value;
-					this.SendPropertyChanged("Comentario");
-					this.OnComentarioChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Entrega_Avaliacao", Storage="_Entrega", ThisKey="IdEntrega", OtherKey="Id", IsForeignKey=true)]
-		public Entrega Entrega
-		{
-			get
-			{
-				return this._Entrega.Entity;
-			}
-			set
-			{
-				Entrega previousValue = this._Entrega.Entity;
-				if (((previousValue != value) 
-							|| (this._Entrega.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Entrega.Entity = null;
-						previousValue.Avaliacaos.Remove(this);
-					}
-					this._Entrega.Entity = value;
-					if ((value != null))
-					{
-						value.Avaliacaos.Add(this);
-						this._IdEntrega = value.Id;
-					}
-					else
-					{
-						this._IdEntrega = default(int);
-					}
-					this.SendPropertyChanged("Entrega");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Cliente")]
 	public partial class Cliente : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1179,7 +1179,7 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Distancia", DbType="Decimal(18,0)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Distancia", DbType="Decimal(18,2)")]
 		public System.Nullable<decimal> Distancia
 		{
 			get
@@ -1199,7 +1199,7 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorEntrega", DbType="Decimal(18,0)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorEntrega", DbType="Decimal(18,2)")]
 		public System.Nullable<decimal> ValorEntrega
 		{
 			get
@@ -1239,7 +1239,7 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorTroco", DbType="Decimal(18,0)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorTroco", DbType="Decimal(18,2)")]
 		public System.Nullable<decimal> ValorTroco
 		{
 			get
@@ -1498,7 +1498,7 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Valor", DbType="Decimal(18,0)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Valor", DbType="Decimal(18,2)")]
 		public System.Nullable<decimal> Valor
 		{
 			get
@@ -1518,7 +1518,7 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quantidade", DbType="Decimal(18,0)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quantidade", DbType="Decimal(18,2)")]
 		public System.Nullable<decimal> Quantidade
 		{
 			get
@@ -1785,7 +1785,7 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorPedido", DbType="Decimal(18,0)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorPedido", DbType="Decimal(18,2)")]
 		public System.Nullable<decimal> ValorPedido
 		{
 			get
@@ -1805,7 +1805,7 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QuantidadeItens", DbType="Decimal(18,0)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QuantidadeItens", DbType="Decimal(18,2)")]
 		public System.Nullable<decimal> QuantidadeItens
 		{
 			get
@@ -1968,8 +1968,6 @@ namespace TGOrganicos.Data
 		
 		private string _UnidadeMedida;
 		
-		private System.Nullable<decimal> _Medida;
-		
 		private string _Imagem;
 		
 		private System.Nullable<int> _TipoProduto;
@@ -1994,8 +1992,6 @@ namespace TGOrganicos.Data
     partial void OnDescricaoChanged();
     partial void OnUnidadeMedidaChanging(string value);
     partial void OnUnidadeMedidaChanged();
-    partial void OnMedidaChanging(System.Nullable<decimal> value);
-    partial void OnMedidaChanged();
     partial void OnImagemChanging(string value);
     partial void OnImagemChanged();
     partial void OnTipoProdutoChanging(System.Nullable<int> value);
@@ -2049,7 +2045,7 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quantidade", DbType="Decimal(18,0)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quantidade", DbType="Decimal(18,2)")]
 		public System.Nullable<decimal> Quantidade
 		{
 			get
@@ -2069,7 +2065,7 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Valor", DbType="Decimal(18,0)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Valor", DbType="Decimal(18,2)")]
 		public System.Nullable<decimal> Valor
 		{
 			get
@@ -2125,26 +2121,6 @@ namespace TGOrganicos.Data
 					this._UnidadeMedida = value;
 					this.SendPropertyChanged("UnidadeMedida");
 					this.OnUnidadeMedidaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Medida", DbType="Decimal(18,0)")]
-		public System.Nullable<decimal> Medida
-		{
-			get
-			{
-				return this._Medida;
-			}
-			set
-			{
-				if ((this._Medida != value))
-				{
-					this.OnMedidaChanging(value);
-					this.SendPropertyChanging();
-					this._Medida = value;
-					this.SendPropertyChanged("Medida");
-					this.OnMedidaChanged();
 				}
 			}
 		}

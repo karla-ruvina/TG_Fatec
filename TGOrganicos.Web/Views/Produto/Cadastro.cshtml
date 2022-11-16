@@ -23,7 +23,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="firstname">Nome</label>
+                                <label >Nome</label>
                                 @Html.TextBoxFor(c => c.Nome, new { @class = "form-control" })
                             </div>
                         </div>
@@ -51,7 +51,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="firstname">Tipo</label>
+                                <label >Tipo</label>
                                 @Html.Hidden("TipoProdutoInicial", Model.TipoProduto)
                                 @Html.DropDownListFor(c => c.TipoProduto, (SelectList)ViewBag.TipoProduto, new { @class = "form-control select2", data_placeholder = "Selecione o Atributo", data_init_plugin = "select2" })
                             </div>
@@ -61,21 +61,27 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="country">Valor</label>
-                                @Html.TextBoxFor(c => c.Valor, new { @class = "form-control" })
+                                <label >Valor</label>
+                                @Html.TextBoxFor(c => c.Valor, new { @class = "form-control money" })
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="country">Quantidade</label>
-                                @Html.TextBoxFor(c => c.Quantidade, new { @class = "form-control" })
+                                <label >Quantidade</label>
+                                @Html.TextBoxFor(c => c.Quantidade, new { @class = "form-control decimal" })
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="country">Unidade Medida</label>
-                                @Html.TextBoxFor(c => c.UnidadeMedida, new { @class = "form-control" })
+                                <label>Unidade Medida</label>
+                                @Html.Hidden("UnidadeMedidaInicial", Model.UnidadeMedida)
+                                @Html.DropDownListFor(c =>
+                                    c.UnidadeMedida,
+                                    (SelectList)ViewBag.UnidMedida,
+                                    new { @class = "form-control select2" }
+                                )
                             </div>
+                           
                         </div>
 
                         <div class="w-100"></div>
@@ -111,8 +117,7 @@
         $(document).ready(function () {
 
             $("#TipoProduto").val($("#TipoProdutoInicial").val()).trigger('change', [true])
-
-
+            $("#UnidadeMedida").val($("#UnidadeMedidaInicial").val()).trigger('change', [true])
 
             formatInputs()
 
@@ -120,17 +125,8 @@
 
 
         function formatInputs() {
-
-            $('.money').each(function () {
-                var field = $(this)
-
-                var valor = $(field).val().replace(".", ",")
-                if (valor.includes("R$") == false) {
-                    $(field).val(valor)
-                }
-
-            })
-            $(".money").maskMoney({ prefix: 'R$ ', allowNegative: false, allowZero: true, thousands: '.', decimal: ',', affixesStay: true }).maskMoney('mask');
+            $('.decimal').mask("#.##0,00", { reverse: true });
+            $(".money").maskMoney({ prefix: 'R$ ', allowNegative: true, allowZero: true, thousands: '.', decimal: ',', affixesStay: true }).maskMoney('mask');
 
         }
 
@@ -138,7 +134,9 @@
 
             // Campos com máscaras
             $('.money').each(function () {
-                $(this).siblings(".actual-money").val($(this).maskMoney('unmasked')[0].toString().replace(".", ","))
+                var valor = $(this).maskMoney('unmasked')[0]
+                $(this).maskMoney('destroy')
+                $(this).val(valor.toString().replaceAll("R$", "").replace(".", ",").trim())
             })
 
         })

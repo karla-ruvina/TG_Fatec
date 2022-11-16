@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,6 +12,9 @@ namespace TGOrganicos.Web.Controllers
     public class UsuarioController : Controller
     {
         // GET: Usuario
+
+        public static string pastaUpload = "/UploadArquivos";
+
         public ActionResult Index()
         {
             DataLinq db = new DataLinq();
@@ -64,9 +68,31 @@ namespace TGOrganicos.Web.Controllers
                     objprod.IdUsuario = obj.Id;
                     objprod.AceitaPix = model.UserProd.AceitaPix;
                     objprod.AceitaCartao = model.UserProd.AceitaCartao;
-                    objprod.CertificadoOrganico = model.UserProd.CertificadoOrganico;
                     objprod.EnderecoProducao = model.UserProd.EnderecoProducao;
                     objprod.RealizaEntregas = model.UserProd.RealizaEntrega;
+
+                    foreach (string fileName in Request.Files)
+                    {
+                        HttpPostedFileBase file = Request.Files[fileName];
+                        //Save file content goes here
+                        var fName = file.FileName;
+                        if (file != null && file.ContentLength > 0)
+                        {
+                            var fileName1 = Path.GetFileName(file.FileName);
+
+                            string NovaPasta = pastaUpload + "/Produtores/";
+
+                            if (!System.IO.Directory.Exists(Server.MapPath(NovaPasta)))
+                                System.IO.Directory.CreateDirectory(Server.MapPath(NovaPasta));
+
+                            var path = string.Format("{0}{1}", NovaPasta, file.FileName);
+                            file.SaveAs(Server.MapPath(path));
+
+                            if (fileName == "Certificado")
+                                objprod.CertificadoOrganico = path;
+                        }
+                    }
+
 
                     db.Produtors.InsertOnSubmit(objprod);
                 }

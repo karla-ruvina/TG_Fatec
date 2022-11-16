@@ -87,7 +87,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="country">Telefone</label>
-                                @Html.TextBoxFor(c => c.User.Telefone, new { @class = "form-control" })
+                                @Html.TextBoxFor(c => c.User.Telefone, new { @class = "form-control telefone" })
                             </div>
                         </div>
 
@@ -145,11 +145,10 @@
 
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="emailaddress">Certificado Orgânico</label>
-                                @Html.TextBoxFor(c => c.UserProd.CertificadoOrganico, new { @class = "form-control" })
+                                <label for="cert">Certificado Orgânico</label>
+                                <input type="file" class="form-control" placeholder="Inserir Certificado" id="Certificado" name="Certificado" />
                             </div>
                         </div>
-
                         <div class="w-100"></div>
 
                         <div class="col-md-12">
@@ -207,7 +206,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="country">Telefone</label>
-                                @Html.TextBoxFor(c => c.User.Telefone, new { @class = "form-control" })
+                                @Html.TextBoxFor(c => c.User.Telefone, new { @class = "form-control telefone" })
                             </div>
                         </div>
 
@@ -326,7 +325,7 @@
         function formatInputs() {
 
             $(".cep").mask("00000-000");
-
+            $('.telefone').mask('(00) 00009-0000');
             var maskCpfCnpj = function (val) {
                 return val.replace(/\D/g, '').length < 12 ? '000.000.000-009' : '00.000.000/0000-00';
             },

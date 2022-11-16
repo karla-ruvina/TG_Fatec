@@ -57,16 +57,16 @@
                                 @if (TGOrganicos.Web.Models.Credential.IsProdutor())
                                 {
                                     <td class="product-remove">
-                                        <a href="@Url.Action("AceitarPedido", "Produto", new { idPedido = item.Id})" @(item.Status != "Processando" ? "hidden" : "") class="btn-success"><span class="ion-ios-add-circle" title="Aceitar Pedido"></span></a>
-                                        <a href="@Url.Action("RecusarPedido", "Produto", new { idPedido = item.Id})" @(item.Status != "Processando" ? "hidden" : "") class="btn-danger"><span class="ion-ios-close-circle" title="Recusar Pedido"></span></a>
-                                        <a href="@Url.Action("FinalizarPedido", "Produto", new { idPedido = item.Id})" @(item.Status != "Em preparação" ? "hidden" : "") class="btn-primary"><span class="ion-ios-checkmark-circle" title="Pedido Finalizado"></span></a>
+                                        <a href="@Url.Action("AceitarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Processando" ? "hidden" : "") class="btn-success"><span class="ion-ios-add-circle" title="Aceitar Pedido"></span></a>
+                                        <a href="@Url.Action("RecusarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Processando" ? "hidden" : "") class="btn-danger"><span class="ion-ios-close-circle" title="Recusar Pedido"></span></a>
+                                        <a href="@Url.Action("FinalizarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Em preparação" ? "hidden" : "") class="btn-primary"><span class="ion-ios-checkmark-circle" title="Pedido Finalizado"></span></a>
                                     </td>
                                 }
                                 else if (TGOrganicos.Web.Models.Credential.IsCliente())
                                 {
                                     <td class="product-remove">
-                                        <a href="@Url.Action("ConcluirPedido ", "Produto", new { idPedido = item.Id})" @(item.Status != "Finalizado" ? "hidden" : "") class="btn-success"><span class="ion-ios-add-circle" title="Recebi meu pedido."></span></a>
-                                        <a href="@Url.Action("NaoConcluirPedido ", "Produto", new { idPedido = item.Id})" @(item.Status != "Finalizado" ? "hidden" : "") class="btn-danger"><span class="ion-ios-close-circle" title="Não recebi meu pedido."></span></a>
+                                        <a href="@Url.Action("ConcluirPedido ", "Pedido", new { idPedido = item.Id})" @(item.Status != "Finalizado" ? "hidden" : "") class="btn-success"><span class="ion-ios-add-circle" title="Recebi meu pedido."></span></a>
+                                        <a href="@Url.Action("NaoConcluirPedido ", "Pedido", new { idPedido = item.Id})" @(item.Status != "Finalizado" ? "hidden" : "") class="btn-danger"><span class="ion-ios-close-circle" title="Não recebi meu pedido."></span></a>
                                     </td>
                                 }
 
