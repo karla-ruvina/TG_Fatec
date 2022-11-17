@@ -1373,7 +1373,9 @@ namespace TGOrganicos.Data
 		
 		private System.Nullable<System.DateTime> _DataCadastro;
 		
-		private System.Nullable<decimal> _Valor;
+		private System.Nullable<decimal> _ValorUnitario;
+		
+		private System.Nullable<decimal> _ValorTotal;
 		
 		private System.Nullable<decimal> _Quantidade;
 		
@@ -1395,8 +1397,10 @@ namespace TGOrganicos.Data
     partial void OnIdPedidoChanged();
     partial void OnDataCadastroChanging(System.Nullable<System.DateTime> value);
     partial void OnDataCadastroChanged();
-    partial void OnValorChanging(System.Nullable<decimal> value);
-    partial void OnValorChanged();
+    partial void OnValorUnitarioChanging(System.Nullable<decimal> value);
+    partial void OnValorUnitarioChanged();
+    partial void OnValorTotalChanging(System.Nullable<decimal> value);
+    partial void OnValorTotalChanged();
     partial void OnQuantidadeChanging(System.Nullable<decimal> value);
     partial void OnQuantidadeChanged();
     partial void OnStatusChanging(string value);
@@ -1498,22 +1502,42 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Valor", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> Valor
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorUnitario", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> ValorUnitario
 		{
 			get
 			{
-				return this._Valor;
+				return this._ValorUnitario;
 			}
 			set
 			{
-				if ((this._Valor != value))
+				if ((this._ValorUnitario != value))
 				{
-					this.OnValorChanging(value);
+					this.OnValorUnitarioChanging(value);
 					this.SendPropertyChanging();
-					this._Valor = value;
-					this.SendPropertyChanged("Valor");
-					this.OnValorChanged();
+					this._ValorUnitario = value;
+					this.SendPropertyChanged("ValorUnitario");
+					this.OnValorUnitarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorTotal", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> ValorTotal
+		{
+			get
+			{
+				return this._ValorTotal;
+			}
+			set
+			{
+				if ((this._ValorTotal != value))
+				{
+					this.OnValorTotalChanging(value);
+					this.SendPropertyChanging();
+					this._ValorTotal = value;
+					this.SendPropertyChanged("ValorTotal");
+					this.OnValorTotalChanged();
 				}
 			}
 		}

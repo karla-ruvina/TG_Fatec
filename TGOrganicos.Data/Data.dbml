@@ -62,7 +62,8 @@
       <Column Name="IdProduto" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IdPedido" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="DataCadastro" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Valor" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="ValorUnitario" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="ValorTotal" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="Quantidade" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="Status" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
       <Association Name="Pedido_ItensPedido" Member="Pedido" ThisKey="IdPedido" OtherKey="Id" Type="Pedido" IsForeignKey="true" />
