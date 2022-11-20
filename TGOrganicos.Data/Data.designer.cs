@@ -39,9 +39,6 @@ namespace TGOrganicos.Data
     partial void InsertCliente(Cliente instance);
     partial void UpdateCliente(Cliente instance);
     partial void DeleteCliente(Cliente instance);
-    partial void InsertEntrega(Entrega instance);
-    partial void UpdateEntrega(Entrega instance);
-    partial void DeleteEntrega(Entrega instance);
     partial void InsertItensPedido(ItensPedido instance);
     partial void UpdateItensPedido(ItensPedido instance);
     partial void DeleteItensPedido(ItensPedido instance);
@@ -107,14 +104,6 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		public System.Data.Linq.Table<Entrega> Entregas
-		{
-			get
-			{
-				return this.GetTable<Entrega>();
-			}
-		}
-		
 		public System.Data.Linq.Table<ItensPedido> ItensPedidos
 		{
 			get
@@ -164,13 +153,13 @@ namespace TGOrganicos.Data
 		
 		private int _Id;
 		
-		private int _IdEntrega;
+		private int _IdPedido;
 		
 		private System.Nullable<int> _Estrelas;
 		
 		private string _Comentario;
 		
-		private EntityRef<Entrega> _Entrega;
+		private EntityRef<Pedido> _Pedido;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -178,8 +167,8 @@ namespace TGOrganicos.Data
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
-    partial void OnIdEntregaChanging(int value);
-    partial void OnIdEntregaChanged();
+    partial void OnIdPedidoChanging(int value);
+    partial void OnIdPedidoChanged();
     partial void OnEstrelasChanging(System.Nullable<int> value);
     partial void OnEstrelasChanged();
     partial void OnComentarioChanging(string value);
@@ -188,7 +177,7 @@ namespace TGOrganicos.Data
 		
 		public Avaliacao()
 		{
-			this._Entrega = default(EntityRef<Entrega>);
+			this._Pedido = default(EntityRef<Pedido>);
 			OnCreated();
 		}
 		
@@ -212,26 +201,26 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdEntrega", DbType="Int NOT NULL")]
-		public int IdEntrega
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdPedido", DbType="Int NOT NULL")]
+		public int IdPedido
 		{
 			get
 			{
-				return this._IdEntrega;
+				return this._IdPedido;
 			}
 			set
 			{
-				if ((this._IdEntrega != value))
+				if ((this._IdPedido != value))
 				{
-					if (this._Entrega.HasLoadedOrAssignedValue)
+					if (this._Pedido.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.OnIdEntregaChanging(value);
+					this.OnIdPedidoChanging(value);
 					this.SendPropertyChanging();
-					this._IdEntrega = value;
-					this.SendPropertyChanged("IdEntrega");
-					this.OnIdEntregaChanged();
+					this._IdPedido = value;
+					this.SendPropertyChanged("IdPedido");
+					this.OnIdPedidoChanged();
 				}
 			}
 		}
@@ -276,36 +265,36 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Entrega_Avaliacao", Storage="_Entrega", ThisKey="IdEntrega", OtherKey="Id", IsForeignKey=true)]
-		public Entrega Entrega
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_Avaliacao", Storage="_Pedido", ThisKey="IdPedido", OtherKey="Id", IsForeignKey=true)]
+		public Pedido Pedido
 		{
 			get
 			{
-				return this._Entrega.Entity;
+				return this._Pedido.Entity;
 			}
 			set
 			{
-				Entrega previousValue = this._Entrega.Entity;
+				Pedido previousValue = this._Pedido.Entity;
 				if (((previousValue != value) 
-							|| (this._Entrega.HasLoadedOrAssignedValue == false)))
+							|| (this._Pedido.HasLoadedOrAssignedValue == false)))
 				{
 					this.SendPropertyChanging();
 					if ((previousValue != null))
 					{
-						this._Entrega.Entity = null;
+						this._Pedido.Entity = null;
 						previousValue.Avaliacaos.Remove(this);
 					}
-					this._Entrega.Entity = value;
+					this._Pedido.Entity = value;
 					if ((value != null))
 					{
 						value.Avaliacaos.Add(this);
-						this._IdEntrega = value.Id;
+						this._IdPedido = value.Id;
 					}
 					else
 					{
-						this._IdEntrega = default(int);
+						this._IdPedido = default(int);
 					}
-					this.SendPropertyChanged("Entrega");
+					this.SendPropertyChanged("Pedido");
 				}
 			}
 		}
@@ -1012,353 +1001,6 @@ namespace TGOrganicos.Data
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Entrega")]
-	public partial class Entrega : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _Id;
-		
-		private int _IdPedido;
-		
-		private System.Nullable<System.DateTime> _Saida;
-		
-		private System.Nullable<System.DateTime> _PrevisaoEntrega;
-		
-		private System.Nullable<System.DateTime> _Entrega1;
-		
-		private System.Nullable<decimal> _Distancia;
-		
-		private System.Nullable<decimal> _ValorEntrega;
-		
-		private System.Nullable<bool> _Troco;
-		
-		private System.Nullable<decimal> _ValorTroco;
-		
-		private System.Nullable<bool> _Cartao;
-		
-		private EntitySet<Avaliacao> _Avaliacaos;
-		
-		private EntityRef<Pedido> _Pedido;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnIdChanging(int value);
-    partial void OnIdChanged();
-    partial void OnIdPedidoChanging(int value);
-    partial void OnIdPedidoChanged();
-    partial void OnSaidaChanging(System.Nullable<System.DateTime> value);
-    partial void OnSaidaChanged();
-    partial void OnPrevisaoEntregaChanging(System.Nullable<System.DateTime> value);
-    partial void OnPrevisaoEntregaChanged();
-    partial void OnEntrega1Changing(System.Nullable<System.DateTime> value);
-    partial void OnEntrega1Changed();
-    partial void OnDistanciaChanging(System.Nullable<decimal> value);
-    partial void OnDistanciaChanged();
-    partial void OnValorEntregaChanging(System.Nullable<decimal> value);
-    partial void OnValorEntregaChanged();
-    partial void OnTrocoChanging(System.Nullable<bool> value);
-    partial void OnTrocoChanged();
-    partial void OnValorTrocoChanging(System.Nullable<decimal> value);
-    partial void OnValorTrocoChanged();
-    partial void OnCartaoChanging(System.Nullable<bool> value);
-    partial void OnCartaoChanged();
-    #endregion
-		
-		public Entrega()
-		{
-			this._Avaliacaos = new EntitySet<Avaliacao>(new Action<Avaliacao>(this.attach_Avaliacaos), new Action<Avaliacao>(this.detach_Avaliacaos));
-			this._Pedido = default(EntityRef<Pedido>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int Id
-		{
-			get
-			{
-				return this._Id;
-			}
-			set
-			{
-				if ((this._Id != value))
-				{
-					this.OnIdChanging(value);
-					this.SendPropertyChanging();
-					this._Id = value;
-					this.SendPropertyChanged("Id");
-					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdPedido", DbType="Int NOT NULL")]
-		public int IdPedido
-		{
-			get
-			{
-				return this._IdPedido;
-			}
-			set
-			{
-				if ((this._IdPedido != value))
-				{
-					if (this._Pedido.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnIdPedidoChanging(value);
-					this.SendPropertyChanging();
-					this._IdPedido = value;
-					this.SendPropertyChanged("IdPedido");
-					this.OnIdPedidoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Saida", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Saida
-		{
-			get
-			{
-				return this._Saida;
-			}
-			set
-			{
-				if ((this._Saida != value))
-				{
-					this.OnSaidaChanging(value);
-					this.SendPropertyChanging();
-					this._Saida = value;
-					this.SendPropertyChanged("Saida");
-					this.OnSaidaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PrevisaoEntrega", DbType="DateTime")]
-		public System.Nullable<System.DateTime> PrevisaoEntrega
-		{
-			get
-			{
-				return this._PrevisaoEntrega;
-			}
-			set
-			{
-				if ((this._PrevisaoEntrega != value))
-				{
-					this.OnPrevisaoEntregaChanging(value);
-					this.SendPropertyChanging();
-					this._PrevisaoEntrega = value;
-					this.SendPropertyChanged("PrevisaoEntrega");
-					this.OnPrevisaoEntregaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="Entrega", Storage="_Entrega1", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Entrega1
-		{
-			get
-			{
-				return this._Entrega1;
-			}
-			set
-			{
-				if ((this._Entrega1 != value))
-				{
-					this.OnEntrega1Changing(value);
-					this.SendPropertyChanging();
-					this._Entrega1 = value;
-					this.SendPropertyChanged("Entrega1");
-					this.OnEntrega1Changed();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Distancia", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> Distancia
-		{
-			get
-			{
-				return this._Distancia;
-			}
-			set
-			{
-				if ((this._Distancia != value))
-				{
-					this.OnDistanciaChanging(value);
-					this.SendPropertyChanging();
-					this._Distancia = value;
-					this.SendPropertyChanged("Distancia");
-					this.OnDistanciaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorEntrega", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> ValorEntrega
-		{
-			get
-			{
-				return this._ValorEntrega;
-			}
-			set
-			{
-				if ((this._ValorEntrega != value))
-				{
-					this.OnValorEntregaChanging(value);
-					this.SendPropertyChanging();
-					this._ValorEntrega = value;
-					this.SendPropertyChanged("ValorEntrega");
-					this.OnValorEntregaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Troco", DbType="Bit")]
-		public System.Nullable<bool> Troco
-		{
-			get
-			{
-				return this._Troco;
-			}
-			set
-			{
-				if ((this._Troco != value))
-				{
-					this.OnTrocoChanging(value);
-					this.SendPropertyChanging();
-					this._Troco = value;
-					this.SendPropertyChanged("Troco");
-					this.OnTrocoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ValorTroco", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> ValorTroco
-		{
-			get
-			{
-				return this._ValorTroco;
-			}
-			set
-			{
-				if ((this._ValorTroco != value))
-				{
-					this.OnValorTrocoChanging(value);
-					this.SendPropertyChanging();
-					this._ValorTroco = value;
-					this.SendPropertyChanged("ValorTroco");
-					this.OnValorTrocoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cartao", DbType="Bit")]
-		public System.Nullable<bool> Cartao
-		{
-			get
-			{
-				return this._Cartao;
-			}
-			set
-			{
-				if ((this._Cartao != value))
-				{
-					this.OnCartaoChanging(value);
-					this.SendPropertyChanging();
-					this._Cartao = value;
-					this.SendPropertyChanged("Cartao");
-					this.OnCartaoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Entrega_Avaliacao", Storage="_Avaliacaos", ThisKey="Id", OtherKey="IdEntrega")]
-		public EntitySet<Avaliacao> Avaliacaos
-		{
-			get
-			{
-				return this._Avaliacaos;
-			}
-			set
-			{
-				this._Avaliacaos.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_Entrega", Storage="_Pedido", ThisKey="IdPedido", OtherKey="Id", IsForeignKey=true)]
-		public Pedido Pedido
-		{
-			get
-			{
-				return this._Pedido.Entity;
-			}
-			set
-			{
-				Pedido previousValue = this._Pedido.Entity;
-				if (((previousValue != value) 
-							|| (this._Pedido.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Pedido.Entity = null;
-						previousValue.Entregas.Remove(this);
-					}
-					this._Pedido.Entity = value;
-					if ((value != null))
-					{
-						value.Entregas.Add(this);
-						this._IdPedido = value.Id;
-					}
-					else
-					{
-						this._IdPedido = default(int);
-					}
-					this.SendPropertyChanged("Pedido");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Avaliacaos(Avaliacao entity)
-		{
-			this.SendPropertyChanging();
-			entity.Entrega = this;
-		}
-		
-		private void detach_Avaliacaos(Avaliacao entity)
-		{
-			this.SendPropertyChanging();
-			entity.Entrega = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ItensPedido")]
 	public partial class ItensPedido : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1691,7 +1333,7 @@ namespace TGOrganicos.Data
 		
 		private string _Status;
 		
-		private EntitySet<Entrega> _Entregas;
+		private EntitySet<Avaliacao> _Avaliacaos;
 		
 		private EntitySet<ItensPedido> _ItensPedidos;
 		
@@ -1719,7 +1361,7 @@ namespace TGOrganicos.Data
 		
 		public Pedido()
 		{
-			this._Entregas = new EntitySet<Entrega>(new Action<Entrega>(this.attach_Entregas), new Action<Entrega>(this.detach_Entregas));
+			this._Avaliacaos = new EntitySet<Avaliacao>(new Action<Avaliacao>(this.attach_Avaliacaos), new Action<Avaliacao>(this.detach_Avaliacaos));
 			this._ItensPedidos = new EntitySet<ItensPedido>(new Action<ItensPedido>(this.attach_ItensPedidos), new Action<ItensPedido>(this.detach_ItensPedidos));
 			this._Cliente = default(EntityRef<Cliente>);
 			OnCreated();
@@ -1869,16 +1511,16 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_Entrega", Storage="_Entregas", ThisKey="Id", OtherKey="IdPedido")]
-		public EntitySet<Entrega> Entregas
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Pedido_Avaliacao", Storage="_Avaliacaos", ThisKey="Id", OtherKey="IdPedido")]
+		public EntitySet<Avaliacao> Avaliacaos
 		{
 			get
 			{
-				return this._Entregas;
+				return this._Avaliacaos;
 			}
 			set
 			{
-				this._Entregas.Assign(value);
+				this._Avaliacaos.Assign(value);
 			}
 		}
 		
@@ -1949,13 +1591,13 @@ namespace TGOrganicos.Data
 			}
 		}
 		
-		private void attach_Entregas(Entrega entity)
+		private void attach_Avaliacaos(Avaliacao entity)
 		{
 			this.SendPropertyChanging();
 			entity.Pedido = this;
 		}
 		
-		private void detach_Entregas(Entrega entity)
+		private void detach_Avaliacaos(Avaliacao entity)
 		{
 			this.SendPropertyChanging();
 			entity.Pedido = null;
