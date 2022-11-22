@@ -164,6 +164,7 @@
     <Compile Include="Models\Enums\Enum.cs" />
     <Compile Include="Models\Enums\TipoProduto.cs" />
     <Compile Include="Models\Helpers\ComboBox.cs" />
+    <Compile Include="Models\PedidoCadastro.cs" />
     <Compile Include="Models\SelectItem.cs" />
     <Compile Include="Models\Usuarios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

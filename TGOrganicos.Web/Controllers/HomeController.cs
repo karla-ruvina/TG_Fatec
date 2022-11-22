@@ -13,7 +13,7 @@ namespace TGOrganicos.Web.Controllers
         {
             DataLinq db = new DataLinq();
             
-            return View(db.Produtos.Take(4).ToList());
+            return View(db.Produtos.Take(4).OrderByDescending(c => c.Id).ToList());
         }
 
         public ActionResult About()

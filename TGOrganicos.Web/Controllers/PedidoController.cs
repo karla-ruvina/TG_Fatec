@@ -43,9 +43,10 @@ namespace TGOrganicos.Web.Controllers
         {
             DataLinq db = new DataLinq();
 
-            var idcliente = Credential.IdCliente();
+            PedidoCadastro carrinho = new PedidoCadastro();
+            carrinho.Itens = new List<Models.ItensPedido>();
 
-            return View(db.Pedidos.Where(c => c.IdCliente == idcliente).ToList());
+            return View(carrinho);
         }
 
         public ActionResult Detalhe(int? id)
@@ -100,13 +101,13 @@ namespace TGOrganicos.Web.Controllers
             return View(pedido);
         }
 
-        public ActionResult Salvar(Pedido model)
+        public ActionResult Salvar(PedidoCadastro model)
         {
             DataLinq db = new DataLinq();
 
             try
             {
-                var obj = model.Id > 0 ? db.Pedidos.SingleOrDefault(c => c.Id == model.Id) : new Pedido();
+                Pedido obj = model.Id > 0 ? db.Pedidos.SingleOrDefault(c => c.Id == model.Id) : new Pedido();
                 obj.IdCliente = model.IdCliente;
                 obj.DataPedido = model.DataPedido;
                 obj.ValorPedido = model.ValorPedido;
@@ -120,10 +121,22 @@ namespace TGOrganicos.Web.Controllers
                 }
                 db.SubmitChanges();
 
-                foreach (var itens in model.ItensPedidos)
+                if(model.Itens != null && model.Itens.Count > 0)
                 {
+                    foreach (var itens in model.Itens)
+                    {
+                        var objItem = itens.Id > 0 ? db.ItensPedidos.SingleOrDefault(c => c.Id == itens.Id) : new Data.ItensPedido();
+                        objItem.IdPedido = obj.Id;
+                        objItem.IdProduto = itens.IdProduto;
+                        objItem.DataCadastro = itens.DataCadastro;
+                        objItem.ValorUnitario = itens.ValorUnitario;
+                        objItem.ValorTotal = itens.ValorTotal;
+                        objItem.Quantidade = itens.Quantidade;
+                        objItem.Status = "Processando";
 
+                    }
                 }
+                
 
 
                 return RedirectToAction("Index");

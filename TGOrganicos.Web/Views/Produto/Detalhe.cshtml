@@ -13,23 +13,23 @@
             </div>
             <div class="col-lg-6 product-details pl-md-5 ftco-animate">
                 <h3>@Model.Nome</h3>
-                
+
                 <p class="price"><span>@Model.Valor.Value.ToString("C")/@Model.UnidadeMedida</span></p>
                 <p>
                     @Model.Descricao
                 </p>
                 <div class="row mt-4">
-                    
+
                     <div class="w-100"></div>
                     <div class="input-group col-md-6 d-flex mb-3">
                         <span class="input-group-btn mr-2">
-                            <button type="button" class="quantity-left-minus btn" data-type="minus" data-field="">
+                            <button type="button" class="quantity-left-minus btn menos" data-type="minus" data-field="">
                                 <i class="ion-ios-remove"></i>
                             </button>
                         </span>
-                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+                        <input type="text" id="quantidade" name="quantidade" class="form-control" value="1">
                         <span class="input-group-btn ml-2">
-                            <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
+                            <button type="button" class="quantity-right-plus btn mais" data-type="plus" data-field="">
                                 <i class="ion-ios-add"></i>
                             </button>
                         </span>
@@ -37,10 +37,108 @@
                     <div class="w-100"></div>
                     <div class="col-md-12">
                         <p style="color: #000;">@Model.Quantidade restantes</p>
+
+                        <input id="qtdrestante" value="@Model.Quantidade" hidden disabled />
+                        <input id="unidademedida" value="@Model.UnidadeMedida" hidden disabled />
+                        <input id="valor" value="@Model.Valor" hidden disabled />
+                        <input id="id" value="@Model.Id" hidden disabled />
+                        <input id="nome" value="@Model.Nome" hidden disabled />
+
                     </div>
                 </div>
-                <p><a href="cart.html" class="btn btn-black py-3 px-5">Adicionar ao carrinho</a></p>
+                <p><a class="btn btn-black py-3 px-5 btn-add">Adicionar ao carrinho</a></p>
             </div>
         </div>
     </div>
 </section>
+
+@section Scripts{
+
+    <script src="~/Scripts/jquery.mask.js"></script>
+    <script src="~/Scripts/jquery.maskMoney.min.js.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $(document).on('change', '#quantidade', function (e) {
+
+                var qtd = parseFloat($(this).val());
+                var max = parseFloat($(".qtdrestante").val());
+
+                if (qtd > max) {
+                    alert("Quantidade excedida!");
+                    $("#quantidade").val(max)
+                }
+
+                if (qtd < 1) {
+                    $("#quantidade").val(1)
+                }
+
+            })
+
+            $(document).on('click', '.menos', function (e) {
+                var qtd = parseFloat($("#quantidade").val());
+                $("#quantidade").val(qtd - 1).trigger("change")
+            })
+
+            $(document).on('click', '.mais', function (e) {
+                var qtd = parseFloat($("#quantidade").val());
+                $("#quantidade").val(qtd + 1).trigger("change")
+            })
+
+
+
+            $('.btn-add').on("click", function (e, simulated) {
+
+                var qtdcarrinho = parseFloat($("#qtdcarrinho").val()) + 1;
+                $("#qtdcarrinho").val(qtdcarrinho);
+
+                var index = $("#table-carrinho #body-carrinho tr").length;
+                debugger;
+                var id = $("#id").val();
+                var quantidade = parseFloat($("#quantidade").val());
+                var unidademedida = $("#unidademedida").val();
+                var valor = parseFloat($("#valor").val());
+                var nome = $("#nome").val();
+
+                var valorTotal = quantidade * valor;
+
+                var row = `
+                        <tr class="text-center add-row">
+                            <td>
+                                <input name="Itens[${index}].Index" value="${id}" hidden />
+                                <input name="Itens[${index}].IdProduto" value="${id}" hidden />
+                                <input name="Itens[${index}].IdPedido" value="${id}" hidden />
+                                <button type="button" role="button" class="btn-remove"><span class="ion-ios-close"></span></button>
+                            </td>
+
+                            <td class="product-name">
+                                <input name="Itens[${index}].NomeProduto" value="${nome}" />
+                            </td>
+                            
+                            <td class="price">
+                                <input name="Itens[${index}].ValorUnitario" value="${valor}" /> /
+                                <input name="Itens[${index}].UnidadeMedida" value="${unidademedida}" />
+                            </td>
+                            
+                            <td class="quantity">
+                                <div class="input-group mb-3">
+                                    <input class="quantity form-control input-number" name="Itens[${index}].Quantidade" value="${quantidade}" />
+                                </div>
+                            </td>
+                            
+                            <td class="total">
+                                <input name="Itens[${index}].ValorTotal" value="${valorTotal}" />
+                            </td>
+                        </tr>
+                      `;
+
+                $("#table-carrinho #body-carrinho").append(row);
+                
+            });
+        });
+
+
+    </script>
+}
