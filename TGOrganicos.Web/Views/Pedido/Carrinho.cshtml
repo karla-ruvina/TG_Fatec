@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-12 ftco-animate">
                     <div class="cart-list">
-                        <table class="table" id="table-carrinho">
+                        <table class="table carrinhotable" id="table-carrinho">
                             <thead class="thead-primary">
                                 <tr class="text-center">
                                     <th>&nbsp;</th>
@@ -32,21 +32,23 @@
                                         </td>
 
                                         <td class="product-name">
-                                            @Html.TextBoxFor(c => c.Itens[i].NomeProduto)
+                                            @Html.TextBoxFor(c => c.Itens[i].NomeProduto, new { @readonly="readonly"})
                                         </td>
 
                                         <td class="price">
-                                            @Html.TextBoxFor(c => c.Itens[i].ValorUnitario) / @Html.TextBoxFor(c => c.Itens[i].UnidadeMedida)
+                                            @Html.TextBoxFor(c => c.Itens[i].ValorUnitario, new { @readonly = "readonly" }) / <p style="margin-top: auto !important;"></p>
+                                            
+                                            @Html.HiddenFor(c => c.Itens[i].UnidadeMedida)
                                         </td>
 
                                         <td class="quantity">
                                             <div class="input-group mb-3">
-                                                @Html.TextBoxFor(c => c.Itens[i].Quantidade , new {@class="quantity form-control input-number" })
+                                                @Html.TextBoxFor(c => c.Itens[i].Quantidade, new { @class = "quantity form-control input-number", @readonly = "readonly" })
                                             </div>
                                         </td>
 
                                         <td class="total">
-                                            @Html.TextBoxFor(c => c.Itens[i].ValorTotal)
+                                            @Html.TextBoxFor(c => c.Itens[i].ValorTotal, new { @readonly = "readonly" })
                                         </td>
                                     </tr>
                                 }
@@ -56,7 +58,7 @@
                 </div>
             </div>
             <div class="row justify-content-end">
-                
+
                 <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
                     <div class="cart-total mb-3">
                         <h3>Total</h3>
@@ -71,9 +73,73 @@
                         </p>
                     </div>
                     <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Finalizar compra</a></p>
+                    <p><a onclick=" localStorage.clear(); location.reload(); localStorage.setItem('qtdcarrinho' + 1, 0);" class="btn btn-primary py-3 px-4">Limpar carrinho</a></p>
                 </div>
             </div>
         </div>
     </section>
+}
+
+@section Scripts{
+
+    <script src="~/Scripts/jquery.mask.js"></script>
+    <script src="~/Scripts/jquery.maskMoney.min.js.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+        for (i = 0; i <= 99; i++)
+        {
+            var prod = localStorage.getItem("IdProduto" + i + ""); 
+            
+            if (prod != null) {
+
+                var html = "";
+                html += '<tr class="text-center add-row">';
+                html += '   <td>';
+                html += '       <input id="Itens_' + i + '__Id" name="Itens[' + i + '].IdProduto" value="' + localStorage.getItem("IdProduto" + i) + '" hidden />';
+                html += '       <a type="button" role="button" class="btn-remove"><span class="ion-ios-close"></span></a>';
+                html += '   </td>';
+                html += '   <td>';
+                html += '      <div class="input-group mb-3">';
+                html += '           <input id="Itens_' + i + '__NomeProduto" name="Itens[' + i + '].NomeProduto" value="' + localStorage.getItem("NomeProduto" + i) + '" class="quantity form-control input-number" style="box-shadow: 0 0 0 0 !important; border: 0 none!important;" readonly/>';
+                html += '      </div>';
+                html += '   </td>';
+                html += '   <td>';
+                html += '      <div class="input-group mb-3">';
+                html += '           <input id="Itens_' + i + '__ValorUnitario" name="Itens[' + i + '].ValorUnitario" value="' + localStorage.getItem("ValorUnitario" + i) + '" class="quantity form-control input-number money" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/> <p style="margin-top: auto!important;"> / ' + localStorage.getItem("UnidadeMedida" + i) + '</p>';
+                html += '           <input id="Itens_' + i + '__UnidadeMedida" name="Itens[' + i + '].UnidadeMedida" value="' + localStorage.getItem("UnidadeMedida" + i) + '" class="quantity form-control input-number" readonly hidden/>';
+                html += '      </div>';
+                html += '   </td>';
+                html += '   <td class="quantity">';
+                html += '      <div class="input-group mb-3">';
+                html += '          <input id="Itens_' + i + '__Quantidade" name="Itens[' + i + '].Quantidade" value="' + localStorage.getItem("Quantidade" + i) + '" class="quantity form-control input-number input-semborda" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/>';
+                html += '      </div>';
+                html += '   </td>';
+                html += '   <td>';
+                html += '       <div class="input-group mb-3">';
+                html += '           <input id="Itens_' + i + '__ValorTotal" name="Itens[' + i + '].ValorTotal" value="' + localStorage.getItem("ValorTotal" + i) + '" class="quantity form-control input-number money input-semborda" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/>';
+                html += '       </div>';
+                html += '   </td>';
+                html += '</tr>';
+
+                $(".carrinhotable tbody").append(html);
+                formatInputs()
+            }
+        }
+
+
+        });
+
+
+        function formatInputs() {
+            $('.decimal').mask("#.##0,00", { reverse: true });
+            $(".money").maskMoney({ prefix: 'R$ ', allowNegative: true, allowZero: true, thousands: '.', decimal: ',', affixesStay: true }).maskMoney('mask');
+
+        }
+
+    </script>
+
+
 }
 

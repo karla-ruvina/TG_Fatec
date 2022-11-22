@@ -39,14 +39,10 @@
                         <p style="color: #000;">@Model.Quantidade restantes</p>
 
                         <input id="qtdrestante" value="@Model.Quantidade" hidden disabled />
-                        <input id="unidademedida" value="@Model.UnidadeMedida" hidden disabled />
-                        <input id="valor" value="@Model.Valor" hidden disabled />
-                        <input id="id" value="@Model.Id" hidden disabled />
-                        <input id="nome" value="@Model.Nome" hidden disabled />
-
+                       
                     </div>
                 </div>
-                <p><a class="btn btn-black py-3 px-5 btn-add">Adicionar ao carrinho</a></p>
+                <p><a class="btn btn-black py-3 px-5" onclick="AddCarrinho(@Model.Id, '@Model.Nome', document.getElementById('quantidade').value, '@Model.Valor', '@Model.UnidadeMedida')">Adicionar ao carrinho</a></p>
             </div>
         </div>
     </div>
@@ -58,6 +54,26 @@
     <script src="~/Scripts/jquery.maskMoney.min.js.js"></script>
 
     <script>
+
+        function AddCarrinho(id, nome, quantidade, valor, unidademedida) {
+
+            var qtdcarrinho = parseFloat($("#qtdcarrinho").val()) + 1;
+            
+            localStorage.setItem("qtdcarrinho" + 1, qtdcarrinho);
+            $("#qtdcarrinho").val(localStorage.getItem("qtdcarrinho" + 1));
+            
+            debugger;
+            var valorTotal = parseFloat(quantidade) * parseFloat(valor);
+
+            localStorage.setItem("IdProduto" + qtdcarrinho, id);
+            localStorage.setItem("NomeProduto" + qtdcarrinho, nome);
+            localStorage.setItem("Quantidade" + qtdcarrinho, quantidade);
+            localStorage.setItem("ValorUnitario" + qtdcarrinho, valor);
+            localStorage.setItem("UnidadeMedida" + qtdcarrinho, unidademedida);
+            localStorage.setItem("ValorTotal" + qtdcarrinho, valorTotal);
+
+            alert("Produto adicionado ao carrinho!");
+        }
 
         $(document).ready(function () {
 
@@ -87,56 +103,6 @@
                 $("#quantidade").val(qtd + 1).trigger("change")
             })
 
-
-
-            $('.btn-add').on("click", function (e, simulated) {
-
-                var qtdcarrinho = parseFloat($("#qtdcarrinho").val()) + 1;
-                $("#qtdcarrinho").val(qtdcarrinho);
-
-                var index = $("#table-carrinho #body-carrinho tr").length;
-                debugger;
-                var id = $("#id").val();
-                var quantidade = parseFloat($("#quantidade").val());
-                var unidademedida = $("#unidademedida").val();
-                var valor = parseFloat($("#valor").val());
-                var nome = $("#nome").val();
-
-                var valorTotal = quantidade * valor;
-
-                var row = `
-                        <tr class="text-center add-row">
-                            <td>
-                                <input name="Itens[${index}].Index" value="${id}" hidden />
-                                <input name="Itens[${index}].IdProduto" value="${id}" hidden />
-                                <input name="Itens[${index}].IdPedido" value="${id}" hidden />
-                                <button type="button" role="button" class="btn-remove"><span class="ion-ios-close"></span></button>
-                            </td>
-
-                            <td class="product-name">
-                                <input name="Itens[${index}].NomeProduto" value="${nome}" />
-                            </td>
-                            
-                            <td class="price">
-                                <input name="Itens[${index}].ValorUnitario" value="${valor}" /> /
-                                <input name="Itens[${index}].UnidadeMedida" value="${unidademedida}" />
-                            </td>
-                            
-                            <td class="quantity">
-                                <div class="input-group mb-3">
-                                    <input class="quantity form-control input-number" name="Itens[${index}].Quantidade" value="${quantidade}" />
-                                </div>
-                            </td>
-                            
-                            <td class="total">
-                                <input name="Itens[${index}].ValorTotal" value="${valorTotal}" />
-                            </td>
-                        </tr>
-                      `;
-
-                $("#table-carrinho #body-carrinho").append(row);
-                
-            });
         });
 
 
