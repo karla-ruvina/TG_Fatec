@@ -73,7 +73,7 @@
                             <li class="nav-item"><a href="@Url.Action("Index", "Produto")" class="nav-link">Vender</a></li>
 
                             <li class="nav-item"><a href="@Url.Action("Index", "Pedido")" class="nav-link">Minhas Vendas</a></li>
-                            <li class="nav-item"><a href="@Url.Action("LogOff", "Login")" class="nav-link">Sair</a></li>
+                            <li class="nav-item"><a href="@Url.Action("LogOff", "Login")" onclick="localStorage.clear(); location.reload(); localStorage.setItem('qtdcarrinho' + 1, 0);" class="nav-link">Sair</a></li>
                         </ul>
                     </div>
                 }
@@ -100,7 +100,7 @@
                                 </a>
                             </li>
 
-                            <li class="nav-item"><a href="@Url.Action("LogOff", "Login")" class="nav-link">Sair</a></li>
+                            <li class="nav-item"><a href="@Url.Action("LogOff", "Login")" onclick="localStorage.clear(); location.reload(); localStorage.setItem('qtdcarrinho' + 1, 0);" class="nav-link">Sair</a></li>
                         </ul>
                     </div>
                 }

@@ -10,6 +10,8 @@
 </style>
 
 
+<div></div>
+
 @using (Html.BeginForm("Salvar", "Produto", FormMethod.Post, new { @class = "form-prod", role = "form", @id = "form-prod", @autocomplete = "off", enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(c => c.Id)
@@ -23,7 +25,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label >Nome</label>
+                                <label>Nome</label>
                                 @Html.TextBoxFor(c => c.Nome, new { @class = "form-control" })
                             </div>
                         </div>
@@ -36,7 +38,7 @@
                                     @Html.TextBoxFor(c => c.Imagem, new { @class = "form-control", @disabled = "disabled" })
                                 </div>
                             </div>
-                            
+
                         }
                         else
                         {
@@ -51,7 +53,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label >Tipo</label>
+                                <label>Tipo</label>
                                 @Html.Hidden("TipoProdutoInicial", Model.TipoProduto)
                                 @Html.DropDownListFor(c => c.TipoProduto, (SelectList)ViewBag.TipoProduto, new { @class = "form-control select2", data_placeholder = "Selecione o Atributo", data_init_plugin = "select2" })
                             </div>
@@ -61,13 +63,13 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label >Valor</label>
+                                <label>Valor</label>
                                 @Html.TextBoxFor(c => c.Valor, new { @class = "form-control money" })
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label >Quantidade</label>
+                                <label>Quantidade</label>
                                 @Html.TextBoxFor(c => c.Quantidade, new { @class = "form-control decimal" })
                             </div>
                         </div>
@@ -81,7 +83,7 @@
                                     new { @class = "form-control select2" }
                                 )
                             </div>
-                           
+
                         </div>
 
                         <div class="w-100"></div>

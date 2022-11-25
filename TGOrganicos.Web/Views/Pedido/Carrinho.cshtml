@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div></div>
+
 @using (Html.BeginForm("Salvar", "Pedidos", FormMethod.Post, new { @class = "form-pedidos", role = "form", @id = "form-pedidos", @autocomplete = "off", enctype = "multipart/form-data" }))
 {
     <section class="ftco-section ftco-cart">
@@ -15,42 +17,38 @@
                                 <tr class="text-center">
                                     <th>&nbsp;</th>
                                     <th>Nome</th>
-                                    <th>Preço</th>
                                     <th>Quantidade</th>
+                                    <th>Preço</th>
                                     <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody id="body-carrinho">
                                 @for (int i = 0; i < Model.Itens.Count; i++)
                                 {
-                                    <tr class="text-center">
-                                        <td>
-                                            @Html.HiddenFor(c => c.Itens[i].Index)
-                                            @Html.HiddenFor(c => c.Itens[i].IdProduto)
-                                            @Html.HiddenFor(c => c.Itens[i].IdPedido)
-                                            <button type="button" role="button" class="btn-remove"><span class="ion-ios-close"></span></button>
-                                        </td>
+                                <tr class="text-center">
+                                    <td>
+                                        @Html.HiddenFor(c => c.Itens[i].Index)
+                                        @Html.HiddenFor(c => c.Itens[i].IdProduto)
+                                        @Html.HiddenFor(c => c.Itens[i].IdPedido)
+                                        <button type="button" role="button" class="btn-remove"><span class="ion-ios-close"></span></button>
+                                    </td>
+                                    <td class="product-name">
+                                        @Html.TextBoxFor(c => c.Itens[i].NomeProduto, new { @readonly = "readonly" })
+                                    </td>
+                                    <td class="quantity">
+                                        <div class="input-group mb-3">
+                                            @Html.TextBoxFor(c => c.Itens[i].Quantidade, new { @class = "quantity form-control input-number", @readonly = "readonly" })
+                                        </div>
+                                    </td>
+                                    <td class="price">
+                                        @Html.TextBoxFor(c => c.Itens[i].ValorUnitario, new { @readonly = "readonly" }) / <p style="margin-top: auto !important;"></p>
 
-                                        <td class="product-name">
-                                            @Html.TextBoxFor(c => c.Itens[i].NomeProduto, new { @readonly="readonly"})
-                                        </td>
-
-                                        <td class="price">
-                                            @Html.TextBoxFor(c => c.Itens[i].ValorUnitario, new { @readonly = "readonly" }) / <p style="margin-top: auto !important;"></p>
-                                            
-                                            @Html.HiddenFor(c => c.Itens[i].UnidadeMedida)
-                                        </td>
-
-                                        <td class="quantity">
-                                            <div class="input-group mb-3">
-                                                @Html.TextBoxFor(c => c.Itens[i].Quantidade, new { @class = "quantity form-control input-number", @readonly = "readonly" })
-                                            </div>
-                                        </td>
-
-                                        <td class="total">
-                                            @Html.TextBoxFor(c => c.Itens[i].ValorTotal, new { @readonly = "readonly" })
-                                        </td>
-                                    </tr>
+                                        @Html.HiddenFor(c => c.Itens[i].UnidadeMedida)
+                                    </td>
+                                    <td class="total">
+                                        @Html.TextBoxFor(c => c.Itens[i].ValorTotal, new { @readonly = "readonly" })
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>
@@ -61,19 +59,20 @@
 
                 <div class="col-lg-4 mt-5 cart-wrap ftco-animate">
                     <div class="cart-total mb-3">
-                        <h3>Total</h3>
-                        <p class="d-flex">
-                            <span>Subtotal</span>
-                            <span>R$21.50</span>
-                        </p>
-                        <hr>
                         <p class="d-flex total-price">
-                            <span>Total</span>
-                            <span>R$20.00</span>
+                            <span style="align-items: center; display: flex;">Total</span>
+                            @Html.TextBoxFor(c => c.ValorPedido, new { @readonly = "readonly", @class="money form-control", @style = "box-shadow: 0 0 0 0 !important; border: 0 none!important;" })
                         </p>
                     </div>
-                    <p><a href="checkout.html" class="btn btn-primary py-3 px-4">Finalizar compra</a></p>
-                    <p><a onclick=" localStorage.clear(); location.reload(); localStorage.setItem('qtdcarrinho' + 1, 0);" class="btn btn-primary py-3 px-4">Limpar carrinho</a></p>
+
+                </div>
+            </div>
+            <div class="row justify-content-end">
+                <div class="col-lg-4 mt-3 cart-wrap ftco-animate">
+                    <div class="btn-group">
+                        <a href="checkout.html" class="btn btn-primary py-3 px-3">Finalizar compra</a>
+                        <a onclick=" localStorage.clear(); location.reload(); localStorage.setItem('qtdcarrinho' + 1, 0);" class="btn btn-danger py-3 px-3" style="color:white">Limpar carrinho</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,45 +87,54 @@
     <script>
         $(document).ready(function () {
 
-        for (i = 0; i <= 99; i++)
-        {
-            var prod = localStorage.getItem("IdProduto" + i + ""); 
-            
-            if (prod != null) {
+            for (i = 0; i <= 99; i++) {
+                var prod = localStorage.getItem("IdProduto" + i + "");
 
-                var html = "";
-                html += '<tr class="text-center add-row">';
-                html += '   <td>';
-                html += '       <input id="Itens_' + i + '__Id" name="Itens[' + i + '].IdProduto" value="' + localStorage.getItem("IdProduto" + i) + '" hidden />';
-                html += '       <a type="button" role="button" class="btn-remove"><span class="ion-ios-close"></span></a>';
-                html += '   </td>';
-                html += '   <td>';
-                html += '      <div class="input-group mb-3">';
-                html += '           <input id="Itens_' + i + '__NomeProduto" name="Itens[' + i + '].NomeProduto" value="' + localStorage.getItem("NomeProduto" + i) + '" class="quantity form-control input-number" style="box-shadow: 0 0 0 0 !important; border: 0 none!important;" readonly/>';
-                html += '      </div>';
-                html += '   </td>';
-                html += '   <td>';
-                html += '      <div class="input-group mb-3">';
-                html += '           <input id="Itens_' + i + '__ValorUnitario" name="Itens[' + i + '].ValorUnitario" value="' + localStorage.getItem("ValorUnitario" + i) + '" class="quantity form-control input-number money" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/> <p style="margin-top: auto!important;"> / ' + localStorage.getItem("UnidadeMedida" + i) + '</p>';
-                html += '           <input id="Itens_' + i + '__UnidadeMedida" name="Itens[' + i + '].UnidadeMedida" value="' + localStorage.getItem("UnidadeMedida" + i) + '" class="quantity form-control input-number" readonly hidden/>';
-                html += '      </div>';
-                html += '   </td>';
-                html += '   <td class="quantity">';
-                html += '      <div class="input-group mb-3">';
-                html += '          <input id="Itens_' + i + '__Quantidade" name="Itens[' + i + '].Quantidade" value="' + localStorage.getItem("Quantidade" + i) + '" class="quantity form-control input-number input-semborda" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/>';
-                html += '      </div>';
-                html += '   </td>';
-                html += '   <td>';
-                html += '       <div class="input-group mb-3">';
-                html += '           <input id="Itens_' + i + '__ValorTotal" name="Itens[' + i + '].ValorTotal" value="' + localStorage.getItem("ValorTotal" + i) + '" class="quantity form-control input-number money input-semborda" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/>';
-                html += '       </div>';
-                html += '   </td>';
-                html += '</tr>';
+                if (prod != null) {
 
-                $(".carrinhotable tbody").append(html);
-                formatInputs()
+                    var html = "";
+                    html += '<tr class="text-center add-row">';
+                    html += '   <td>';
+                    html += '       <input id="Itens_' + i + '__Id" name="Itens[' + i + '].IdProduto" value="' + localStorage.getItem("IdProduto" + i) + '" hidden />';
+                    html += '       <a type="button" role="button" class="btn-remove"><span class="ion-ios-close"></span></a>';
+                    html += '   </td>';
+                    html += '   <td>';
+                    html += '      <div class="input-group mb-3">';
+                    html += '           <input id="Itens_' + i + '__NomeProduto" name="Itens[' + i + '].NomeProduto" value="' + localStorage.getItem("NomeProduto" + i) + '" class="quantity form-control input-number" style="box-shadow: 0 0 0 0 !important; border: 0 none!important;" readonly/>';
+                    html += '      </div>';
+                    html += '   </td>';
+                    html += '   <td class="quantity">';
+                    html += '      <div class="input-group mb-3">';
+                    html += '          <input id="Itens_' + i + '__Quantidade" name="Itens[' + i + '].Quantidade" value="' + localStorage.getItem("Quantidade" + i) + '" class="quantity form-control input-number input-semborda" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/>';
+                    html += '      </div>';
+                    html += '   </td>';
+                    html += '   <td>';
+                    html += '      <div class="input-group mb-3">';
+                    html += '           <input id="Itens_' + i + '__ValorUnitario" name="Itens[' + i + '].ValorUnitario" value="' + localStorage.getItem("ValorUnitario" + i) + '" class="quantity form-control input-number money" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/> <p style="margin-top: auto!important;"> / ' + localStorage.getItem("UnidadeMedida" + i) + '</p>';
+                    html += '           <input id="Itens_' + i + '__UnidadeMedida" name="Itens[' + i + '].UnidadeMedida" value="' + localStorage.getItem("UnidadeMedida" + i) + '" class="quantity form-control input-number" readonly hidden/>';
+                    html += '      </div>';
+                    html += '   </td>';
+                    html += '   <td>';
+                    html += '       <div class="input-group mb-3">';
+                    html += '           <input id="Itens_' + i + '__ValorTotal" name="Itens[' + i + '].ValorTotal" value="' + localStorage.getItem("ValorTotal" + i) + '" class="quantity form-control input-number money input-semborda" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/>';
+                    html += '       </div>';
+                    html += '   </td>';
+                    html += '</tr>';
+
+                    $(".carrinhotable tbody").append(html);
+                    formatInputs()
+                }
             }
-        }
+
+
+            var rows = $("#body-carrinho tr")
+            var totalValorLinha = 0
+            $(rows).each(function () {
+
+                totalValorLinha += $(this).find(`[name$="ValorTotal"]`).maskMoney('unmasked')[0]
+               
+            });
+            $('#ValorPedido').val(Number(totalValorLinha).toFixed(2).replace(".", ","))
 
 
         });

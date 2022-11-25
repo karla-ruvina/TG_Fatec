@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div></div>
 <section class="ftco-section">
     <div class="container">
         <div class="row">
@@ -39,7 +40,7 @@
                         <p style="color: #000;">@Model.Quantidade restantes</p>
 
                         <input id="qtdrestante" value="@Model.Quantidade" hidden disabled />
-                       
+
                     </div>
                 </div>
                 <p><a class="btn btn-black py-3 px-5" onclick="AddCarrinho(@Model.Id, '@Model.Nome', document.getElementById('quantidade').value, '@Model.Valor', '@Model.UnidadeMedida')">Adicionar ao carrinho</a></p>
@@ -58,10 +59,10 @@
         function AddCarrinho(id, nome, quantidade, valor, unidademedida) {
 
             var qtdcarrinho = parseFloat($("#qtdcarrinho").val()) + 1;
-            
+
             localStorage.setItem("qtdcarrinho" + 1, qtdcarrinho);
             $("#qtdcarrinho").val(localStorage.getItem("qtdcarrinho" + 1));
-            
+
             debugger;
             var valorTotal = parseFloat(quantidade) * parseFloat(valor);
 
