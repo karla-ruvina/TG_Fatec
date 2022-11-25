@@ -139,6 +139,12 @@
 
         });
 
+        $(document).on('click', '.btn-remove', function () {
+
+            var row = $(this).closest("tr")
+            $(row).attr("hidden", "hidden")
+            
+        });
 
         function formatInputs() {
             $('.decimal').mask("#.##0,00", { reverse: true });
