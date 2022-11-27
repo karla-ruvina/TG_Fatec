@@ -5,7 +5,7 @@
 
 <div></div>
 
-@using (Html.BeginForm("Salvar", "Pedidos", FormMethod.Post, new { @class = "form-pedidos", role = "form", @id = "form-pedidos", @autocomplete = "off", enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Salvar", "Pedido", FormMethod.Post, new { @class = "form-pedidos", role = "form", @id = "form-pedidos", @autocomplete = "off", enctype = "multipart/form-data" }))
 {
     <section class="ftco-section ftco-cart">
         <div class="container">
@@ -70,7 +70,7 @@
             <div class="row justify-content-end">
                 <div class="col-lg-4 mt-3 cart-wrap ftco-animate">
                     <div class="btn-group">
-                        <a href="checkout.html" class="btn btn-primary py-3 px-3">Finalizar compra</a>
+                        <button type="submit" class="btn btn-primary py-3 px-3">Finalizar compra</button>
                         <a onclick=" localStorage.clear(); location.reload(); localStorage.setItem('qtdcarrinho' + 1, 0);" class="btn btn-danger py-3 px-3" style="color:white">Limpar carrinho</a>
                     </div>
                 </div>
@@ -95,6 +95,7 @@
                     var html = "";
                     html += '<tr class="text-center add-row">';
                     html += '   <td>';
+                    html += '       <input id="Itens_' + i + '__Remove" name="Itens[' + i + '].Remove" value="false" hidden />';
                     html += '       <input id="Itens_' + i + '__Id" name="Itens[' + i + '].IdProduto" value="' + localStorage.getItem("IdProduto" + i) + '" hidden />';
                     html += '       <a type="button" role="button" class="btn-remove"><span class="ion-ios-close"></span></a>';
                     html += '   </td>';
@@ -123,18 +124,9 @@
 
                     $(".carrinhotable tbody").append(html);
                     formatInputs()
+                    CalculaValor()
                 }
             }
-
-
-            var rows = $("#body-carrinho tr")
-            var totalValorLinha = 0
-            $(rows).each(function () {
-
-                totalValorLinha += $(this).find(`[name$="ValorTotal"]`).maskMoney('unmasked')[0]
-               
-            });
-            $('#ValorPedido').val(Number(totalValorLinha).toFixed(2).replace(".", ","))
 
 
         });
@@ -142,9 +134,30 @@
         $(document).on('click', '.btn-remove', function () {
 
             var row = $(this).closest("tr")
+
+            var flag = $(row).find(`[name*="Remove"]`);
+            $(flag).val(true)
+
+            // Oculta linha
             $(row).attr("hidden", "hidden")
-            
+
+            CalculaValor()
+
         });
+
+        function CalculaValor() {
+
+            var rows = $("#body-carrinho tr")
+            var totalValorLinha = 0
+            $(rows).each(function () {
+
+                totalValorLinha += $(this).find(`[name$="ValorTotal"]`).maskMoney('unmasked')[0]
+
+            });
+            $('#ValorPedido').val(Number(totalValorLinha).toFixed(2).replace(".", ","))
+
+
+        }
 
         function formatInputs() {
             $('.decimal').mask("#.##0,00", { reverse: true });

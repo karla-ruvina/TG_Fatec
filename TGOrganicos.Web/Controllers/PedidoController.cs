@@ -122,7 +122,7 @@ namespace TGOrganicos.Web.Controllers
 
                 if(model.Itens != null && model.Itens.Count > 0)
                 {
-                    foreach (var itens in model.Itens)
+                    foreach (var itens in model.Itens.Where(c => c.Remove == false))
                     {
                         var objItem = itens.Id > 0 ? db.ItensPedidos.SingleOrDefault(c => c.Id == itens.Id) : new Data.ItensPedido();
                         objItem.IdPedido = obj.Id;

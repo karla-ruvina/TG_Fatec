@@ -18,6 +18,7 @@ namespace TGOrganicos.Web.Models
 
     public class ItensPedido
     {
+        public bool Remove{ get; set; }
         public int Index { get; set; }
         public int Id { get; set; }
         public int IdProduto { get; set; }
