@@ -63,15 +63,14 @@
             localStorage.setItem("qtdcarrinho" + 1, qtdcarrinho);
             $("#qtdcarrinho").val(localStorage.getItem("qtdcarrinho" + 1));
 
-            debugger;
             var valorTotal = parseFloat(quantidade) * parseFloat(valor);
 
-            localStorage.setItem("IdProduto" + qtdcarrinho, id);
-            localStorage.setItem("NomeProduto" + qtdcarrinho, nome);
-            localStorage.setItem("Quantidade" + qtdcarrinho, quantidade);
-            localStorage.setItem("ValorUnitario" + qtdcarrinho, valor);
-            localStorage.setItem("UnidadeMedida" + qtdcarrinho, unidademedida);
-            localStorage.setItem("ValorTotal" + qtdcarrinho, valorTotal);
+            localStorage.setItem("IdProduto" + qtdcarrinho-1, id);
+            localStorage.setItem("NomeProduto" + qtdcarrinho-1, nome);
+            localStorage.setItem("Quantidade" + qtdcarrinho-1, quantidade);
+            localStorage.setItem("ValorUnitario" + qtdcarrinho-1, valor);
+            localStorage.setItem("UnidadeMedida" + qtdcarrinho-1, unidademedida);
+            localStorage.setItem("ValorTotal" + qtdcarrinho-1, valorTotal);
 
             alert("Produto adicionado ao carrinho!");
         }

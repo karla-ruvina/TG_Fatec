@@ -7,6 +7,8 @@
 
 @using (Html.BeginForm("Salvar", "Pedido", FormMethod.Post, new { @class = "form-pedidos", role = "form", @id = "form-pedidos", @autocomplete = "off", enctype = "multipart/form-data" }))
 {
+    @Html.HiddenFor(c=> c.Id)
+
     <section class="ftco-section ftco-cart">
         <div class="container">
             <div class="row">
@@ -23,32 +25,38 @@
                                 </tr>
                             </thead>
                             <tbody id="body-carrinho">
-                                @for (int i = 0; i < Model.Itens.Count; i++)
+                                @for (var i = 0; i < Model.ItensPedido.Count(); i++)
                                 {
-                                <tr class="text-center">
-                                    <td>
-                                        @Html.HiddenFor(c => c.Itens[i].Index)
-                                        @Html.HiddenFor(c => c.Itens[i].IdProduto)
-                                        @Html.HiddenFor(c => c.Itens[i].IdPedido)
-                                        <button type="button" role="button" class="btn-remove"><span class="ion-ios-close"></span></button>
-                                    </td>
-                                    <td class="product-name">
-                                        @Html.TextBoxFor(c => c.Itens[i].NomeProduto, new { @readonly = "readonly" })
-                                    </td>
-                                    <td class="quantity">
-                                        <div class="input-group mb-3">
-                                            @Html.TextBoxFor(c => c.Itens[i].Quantidade, new { @class = "quantity form-control input-number", @readonly = "readonly" })
-                                        </div>
-                                    </td>
-                                    <td class="price">
-                                        @Html.TextBoxFor(c => c.Itens[i].ValorUnitario, new { @readonly = "readonly" }) / <p style="margin-top: auto !important;"></p>
+                                    <tr class="text-center">
+                                        <td>
+                                            @Html.HiddenFor(c => c.ItensPedido[i].Remove)
+                                            @Html.HiddenFor(c => c.ItensPedido[i].IdProduto)
+                                            <a role="button" class="btn-remove"><span class="ion-ios-close"></span></a>
+                                        </td>
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                @Html.TextBoxFor(c => c.ItensPedido[i].NomeProduto, new { @readonly = "readonly", @class = "quantity form-control input-number", @style = "box-shadow: 0 0 0 0 !important; border: 0 none!important;" })
+                                            </div>
+                                        </td>
+                                        <td class="quantity">
+                                            ';
+                                            <div class="input-group mb-3">
+                                                @Html.TextBoxFor(c => c.ItensPedido[i].Quantidade, new { @readonly = "readonly", @class = "quantity form-control input-number  input-semborda", @style = "box-shadow: 0 0 0 0 !important; border: 0 none!important;" })
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                @Html.TextBoxFor(c => c.ItensPedido[i].ValorUnitario, new { @readonly = "readonly", @class = "quantity form-control input-number money", @style = "box-shadow: 0 0 0 0 !important; border: 0 none!important;" })
+                                                @Html.TextBoxFor(c => c.ItensPedido[i].UnidadeMedida, new { @readonly = "readonly", @class = "quantity form-control input-number", @style = "box-shadow: 0 0 0 0 !important; border: 0 none!important;", @hidden = "hidden" })
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="input-group mb-3">
+                                                @Html.TextBoxFor(c => c.ItensPedido[i].ValorTotal, new { @readonly = "readonly", @class = "quantity form-control input-number money input-semborda", @style = "box-shadow: 0 0 0 0 !important; border: 0 none!important;" })
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                                        @Html.HiddenFor(c => c.Itens[i].UnidadeMedida)
-                                    </td>
-                                    <td class="total">
-                                        @Html.TextBoxFor(c => c.Itens[i].ValorTotal, new { @readonly = "readonly" })
-                                    </td>
-                                </tr>
                                 }
                             </tbody>
                         </table>
@@ -61,7 +69,7 @@
                     <div class="cart-total mb-3">
                         <p class="d-flex total-price">
                             <span style="align-items: center; display: flex;">Total</span>
-                            @Html.TextBoxFor(c => c.ValorPedido, new { @readonly = "readonly", @class="money form-control", @style = "box-shadow: 0 0 0 0 !important; border: 0 none!important;" })
+                            @Html.TextBoxFor(c => c.ValorPedido, new { @readonly = "readonly", @class = "money form-control", @style = "box-shadow: 0 0 0 0 !important; border: 0 none!important;" })
                         </p>
                     </div>
 
@@ -87,42 +95,41 @@
     <script>
         $(document).ready(function () {
 
-            for (i = 0; i <= 99; i++) {
+            for (var i = 0; i <= 99; i++) {
                 var prod = localStorage.getItem("IdProduto" + i + "");
 
                 if (prod != null) {
 
-                    var html = "";
-                    html += '<tr class="text-center add-row">';
-                    html += '   <td>';
-                    html += '       <input id="Itens_' + i + '__Remove" name="Itens[' + i + '].Remove" value="false" hidden />';
-                    html += '       <input id="Itens_' + i + '__Id" name="Itens[' + i + '].IdProduto" value="' + localStorage.getItem("IdProduto" + i) + '" hidden />';
-                    html += '       <a type="button" role="button" class="btn-remove"><span class="ion-ios-close"></span></a>';
-                    html += '   </td>';
-                    html += '   <td>';
-                    html += '      <div class="input-group mb-3">';
-                    html += '           <input id="Itens_' + i + '__NomeProduto" name="Itens[' + i + '].NomeProduto" value="' + localStorage.getItem("NomeProduto" + i) + '" class="quantity form-control input-number" style="box-shadow: 0 0 0 0 !important; border: 0 none!important;" readonly/>';
-                    html += '      </div>';
-                    html += '   </td>';
-                    html += '   <td class="quantity">';
-                    html += '      <div class="input-group mb-3">';
-                    html += '          <input id="Itens_' + i + '__Quantidade" name="Itens[' + i + '].Quantidade" value="' + localStorage.getItem("Quantidade" + i) + '" class="quantity form-control input-number input-semborda" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/>';
-                    html += '      </div>';
-                    html += '   </td>';
-                    html += '   <td>';
-                    html += '      <div class="input-group mb-3">';
-                    html += '           <input id="Itens_' + i + '__ValorUnitario" name="Itens[' + i + '].ValorUnitario" value="' + localStorage.getItem("ValorUnitario" + i) + '" class="quantity form-control input-number money" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/> <p style="margin-top: auto!important;"> / ' + localStorage.getItem("UnidadeMedida" + i) + '</p>';
-                    html += '           <input id="Itens_' + i + '__UnidadeMedida" name="Itens[' + i + '].UnidadeMedida" value="' + localStorage.getItem("UnidadeMedida" + i) + '" class="quantity form-control input-number" readonly hidden/>';
-                    html += '      </div>';
-                    html += '   </td>';
-                    html += '   <td>';
-                    html += '       <div class="input-group mb-3">';
-                    html += '           <input id="Itens_' + i + '__ValorTotal" name="Itens[' + i + '].ValorTotal" value="' + localStorage.getItem("ValorTotal" + i) + '" class="quantity form-control input-number money input-semborda" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/>';
-                    html += '       </div>';
-                    html += '   </td>';
-                    html += '</tr>';
+                    var row = `<tr class="text-center add-row">
+                       <td>
+                           <input id="ItensPedido_` + i + `__Remove" name="ItensPedido[' + i + '].Remove" value="false" hidden />
+                           <input id="ItensPedido_` + i + `__IdProduto" name="ItensPedido[` + i + `].IdProduto" value="` + localStorage.getItem("IdProduto" + i) + `" hidden />
+                           <a role="button" class="btn-remove"><span class="ion-ios-close"></span></a>
+                       </td>
+                       <td>
+                          <div class="input-group mb-3">
+                               <input id="ItensPedido_` + i + `__NomeProduto" name="ItensPedido[` + i + `].NomeProduto" value="` + localStorage.getItem("NomeProduto" + i) + `" class="quantity form-control input-number" style="box-shadow: 0 0 0 0 !important; border: 0 none!important;" readonly/>
+                          </div>
+                       </td>
+                       <td class="quantity">
+                          <div class="input-group mb-3">
+                              <input id="ItensPedido_` + i + `__Quantidade" name="ItensPedido[` + i + `].Quantidade" value="` + localStorage.getItem("Quantidade" + i) + `" class="quantity form-control input-number input-semborda" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/>
+                          </div>
+                       </td>
+                       <td>
+                          <div class="input-group mb-3">
+                               <input id="ItensPedido_` + i + `__ValorUnitario" name="ItensPedido[` + i + `].ValorUnitario" value="` + localStorage.getItem("ValorUnitario" + i) + `" class="quantity form-control input-number money" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/> <p style="margin-top: auto!important;"> / ` + localStorage.getItem("UnidadeMedida" + i) + `</p>
+                               <input id="ItensPedido_` + i + `__UnidadeMedida" name="ItensPedido[` + i + `].UnidadeMedida" value="` + localStorage.getItem("UnidadeMedida" + i) + `" class="quantity form-control input-number" readonly hidden/>
+                          </div>
+                       </td>
+                       <td>
+                           <div class="input-group mb-3">
+                               <input id="ItensPedido_` + i + `__ValorTotal" name="ItensPedido[` + i + `].ValorTotal" value="` + localStorage.getItem("ValorTotal" + i) + `" class="quantity form-control input-number money input-semborda" readonly style="box-shadow: 0 0 0 0 !important; border: 0 none!important;"/>
+                           </div>
+                       </td>
+                    </tr>`;
 
-                    $(".carrinhotable tbody").append(html);
+                    $(".carrinhotable tbody").append(row);
                     formatInputs()
                     CalculaValor()
                 }

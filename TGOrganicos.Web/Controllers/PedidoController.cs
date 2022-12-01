@@ -44,7 +44,7 @@ namespace TGOrganicos.Web.Controllers
             DataLinq db = new DataLinq();
 
             PedidoCadastro carrinho = new PedidoCadastro();
-            carrinho.Itens = new List<Models.ItensPedido>();
+            carrinho.ItensPedido = new List<Models.ItensPedido>();
 
             return View(carrinho);
         }
@@ -104,11 +104,11 @@ namespace TGOrganicos.Web.Controllers
         public ActionResult Salvar(PedidoCadastro model)
         {
             DataLinq db = new DataLinq();
-
+            var idcliente = Credential.IdCliente();
             try
             {
                 Pedido obj = model.Id > 0 ? db.Pedidos.SingleOrDefault(c => c.Id == model.Id) : new Pedido();
-                obj.IdCliente = model.IdCliente;
+                obj.IdCliente = idcliente;
                 obj.DataPedido = DateTime.Now;
                 obj.ValorPedido = model.ValorPedido;
                 obj.QuantidadeItens = model.QuantidadeItens;
@@ -120,9 +120,9 @@ namespace TGOrganicos.Web.Controllers
                 }
                 db.SubmitChanges();
 
-                if(model.Itens != null && model.Itens.Count > 0)
+                if(model.ItensPedido != null && model.ItensPedido.Count > 0)
                 {
-                    foreach (var itens in model.Itens.Where(c => c.Remove == false))
+                    foreach (var itens in model.ItensPedido.Where(c => c.Remove == false))
                     {
                         var objItem = itens.Id > 0 ? db.ItensPedidos.SingleOrDefault(c => c.Id == itens.Id) : new Data.ItensPedido();
                         objItem.IdPedido = obj.Id;
@@ -133,6 +133,10 @@ namespace TGOrganicos.Web.Controllers
                         objItem.Quantidade = itens.Quantidade;
                         objItem.Status = "Processando";
 
+
+                        var prod = db.Produtos.FirstOrDefault(c => c.Id == itens.IdProduto);
+                        prod.Quantidade -= itens.Quantidade;
+                        db.SubmitChanges();
                     }
                 }
                 

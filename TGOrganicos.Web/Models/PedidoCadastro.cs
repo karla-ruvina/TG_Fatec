@@ -5,15 +5,17 @@ using System.Web;
 
 namespace TGOrganicos.Web.Models
 {
-    public class PedidoCadastro : Data.Pedido
+    public class PedidoCadastro
     {
-        public List<ItensPedido> Itens { get; set; }
 
+        public int Id { get; set; }
+        public int IdCliente { get; set; }
+        public DateTime DataPedido { get; set; }
+        public decimal ValorPedido { get; set; }
+        public decimal QuantidadeItens { get; set; }
+        public string Status { get; set; }
+        public List<ItensPedido> ItensPedido { get; set; }
 
-        public PedidoCadastro()
-        {
-            Itens = new List<ItensPedido>();
-        }
     }
 
     public class ItensPedido
