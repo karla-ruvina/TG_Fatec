@@ -155,9 +155,13 @@ namespace TGOrganicos.Data
 		
 		private int _IdPedido;
 		
+		private System.Nullable<int> _IdCliente;
+		
 		private System.Nullable<int> _Estrelas;
 		
 		private string _Comentario;
+		
+		private EntityRef<Cliente> _Cliente;
 		
 		private EntityRef<Pedido> _Pedido;
 		
@@ -169,6 +173,8 @@ namespace TGOrganicos.Data
     partial void OnIdChanged();
     partial void OnIdPedidoChanging(int value);
     partial void OnIdPedidoChanged();
+    partial void OnIdClienteChanging(System.Nullable<int> value);
+    partial void OnIdClienteChanged();
     partial void OnEstrelasChanging(System.Nullable<int> value);
     partial void OnEstrelasChanged();
     partial void OnComentarioChanging(string value);
@@ -177,6 +183,7 @@ namespace TGOrganicos.Data
 		
 		public Avaliacao()
 		{
+			this._Cliente = default(EntityRef<Cliente>);
 			this._Pedido = default(EntityRef<Pedido>);
 			OnCreated();
 		}
@@ -225,6 +232,30 @@ namespace TGOrganicos.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IdCliente", DbType="Int")]
+		public System.Nullable<int> IdCliente
+		{
+			get
+			{
+				return this._IdCliente;
+			}
+			set
+			{
+				if ((this._IdCliente != value))
+				{
+					if (this._Cliente.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnIdClienteChanging(value);
+					this.SendPropertyChanging();
+					this._IdCliente = value;
+					this.SendPropertyChanged("IdCliente");
+					this.OnIdClienteChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Estrelas", DbType="Int")]
 		public System.Nullable<int> Estrelas
 		{
@@ -261,6 +292,40 @@ namespace TGOrganicos.Data
 					this._Comentario = value;
 					this.SendPropertyChanged("Comentario");
 					this.OnComentarioChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cliente_Avaliacao", Storage="_Cliente", ThisKey="IdCliente", OtherKey="Id", IsForeignKey=true)]
+		public Cliente Cliente
+		{
+			get
+			{
+				return this._Cliente.Entity;
+			}
+			set
+			{
+				Cliente previousValue = this._Cliente.Entity;
+				if (((previousValue != value) 
+							|| (this._Cliente.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Cliente.Entity = null;
+						previousValue.Avaliacaos.Remove(this);
+					}
+					this._Cliente.Entity = value;
+					if ((value != null))
+					{
+						value.Avaliacaos.Add(this);
+						this._IdCliente = value.Id;
+					}
+					else
+					{
+						this._IdCliente = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Cliente");
 				}
 			}
 		}
@@ -812,6 +877,8 @@ namespace TGOrganicos.Data
 		
 		private System.Nullable<bool> _AceitaReceberSMS;
 		
+		private EntitySet<Avaliacao> _Avaliacaos;
+		
 		private EntitySet<Pedido> _Pedidos;
 		
 		private EntityRef<Usuario> _Usuario;
@@ -832,6 +899,7 @@ namespace TGOrganicos.Data
 		
 		public Cliente()
 		{
+			this._Avaliacaos = new EntitySet<Avaliacao>(new Action<Avaliacao>(this.attach_Avaliacaos), new Action<Avaliacao>(this.detach_Avaliacaos));
 			this._Pedidos = new EntitySet<Pedido>(new Action<Pedido>(this.attach_Pedidos), new Action<Pedido>(this.detach_Pedidos));
 			this._Usuario = default(EntityRef<Usuario>);
 			OnCreated();
@@ -921,6 +989,19 @@ namespace TGOrganicos.Data
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cliente_Avaliacao", Storage="_Avaliacaos", ThisKey="Id", OtherKey="IdCliente")]
+		public EntitySet<Avaliacao> Avaliacaos
+		{
+			get
+			{
+				return this._Avaliacaos;
+			}
+			set
+			{
+				this._Avaliacaos.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Cliente_Pedido", Storage="_Pedidos", ThisKey="Id", OtherKey="IdCliente")]
 		public EntitySet<Pedido> Pedidos
 		{
@@ -986,6 +1067,18 @@ namespace TGOrganicos.Data
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_Avaliacaos(Avaliacao entity)
+		{
+			this.SendPropertyChanging();
+			entity.Cliente = this;
+		}
+		
+		private void detach_Avaliacaos(Avaliacao entity)
+		{
+			this.SendPropertyChanging();
+			entity.Cliente = null;
 		}
 		
 		private void attach_Pedidos(Pedido entity)

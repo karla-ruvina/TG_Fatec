@@ -26,7 +26,9 @@
                             {
                                 <tr class="text-center">
                                     <td class="product-remove">
-                                        <a href="@Url.Action("Detalhe", "Pedido", new { idPedido = pedido.Id})"><span class="ion-ios-eye"></span></a>
+                                        <a href="@Url.Action("Detalhe", "Pedido", new { idPedido = pedido.Id})" title="Visualizar"><span class="ion-ios-eye"></span></a>
+                                    
+                                        <a href="@Url.Action("Cadastro", "Avaliacao", new { idPedido = pedido.Id, idCliente = pedido.IdCliente})" title="Avaliar"><span class="ion-ios-star"></span></a>
                                     </td>
                                     <td class="qtd">@pedido.Status</td>
                                     <td class="product-name">@pedido.DataPedido.Value.ToString("dd/MM/yyyy")</td>

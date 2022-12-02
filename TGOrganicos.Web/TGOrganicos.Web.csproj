@@ -152,6 +152,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AvaliacaoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PedidoController.cs" />
@@ -233,6 +234,8 @@
     <Content Include="Content\images\product-8.jpg" />
     <Content Include="Content\images\product-9.jpg" />
     <Content Include="Content\images\sem_foto.jpg" />
+    <Content Include="Content\images\star0.png" />
+    <Content Include="Content\images\star1.png" />
     <Content Include="Content\js\aos.js" />
     <Content Include="Content\js\bootstrap-datepicker.js" />
     <Content Include="Content\js\bootstrap.min.js" />
@@ -406,6 +409,8 @@
     <Content Include="Views\Pedido\Index.cshtml" />
     <Content Include="Views\Pedido\Detalhe.cshtml" />
     <Content Include="Views\Pedido\Carrinho.cshtml" />
+    <Content Include="Views\Avaliacao\Cadastro.cshtml" />
+    <Content Include="Views\Avaliacao\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

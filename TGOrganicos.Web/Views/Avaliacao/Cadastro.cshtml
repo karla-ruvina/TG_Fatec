@@ -1,0 +1,202 @@
+﻿@using TGOrganicos.Data
+@model TGOrganicos.Data.Avaliacao
+
+<style>
+
+    .ftco-section {
+        padding-top: 6em 0 !important;
+        padding-bottom: 0 !important;
+    }
+</style>
+
+
+<div></div>
+
+@using (Html.BeginForm("Salvar", "Avaliacao", FormMethod.Post, new { @class = "form-av", role = "form", @id = "form-av", @autocomplete = "off", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(c => c.Id)
+
+    <div class="py-3" id="produtor">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-12 ftco-animate">
+                    <h3 class="mb-4 billing-heading">Avaliar pedido</h3>
+
+
+                    <div class="row align-items-end">
+
+                        <div class="col-md-4"></div>
+
+                        <div class="col-md-4">
+                            <a href="javascript:void(0)" onclick="Avaliar(1)">
+                                <img style="width:18px" src="~/Content/images/star0.png" id="s1"/>
+                            </a>
+
+                            <a href="javascript:void(0)" onclick="Avaliar(2)">
+                                <img style="width:18px" src="~/Content/images/star0.png" id="s2"/>
+                            </a>
+
+                            <a href="javascript:void(0)" onclick="Avaliar(3)">
+                                <img style="width:18px" src="~/Content/images/star0.png" id="s3" />
+                            </a>
+
+                            <a href="javascript:void(0)" onclick="Avaliar(4)">
+                                <img style="width:18px" src="~/Content/images/star0.png" id="s4" />
+                            </a>
+
+                            <a href="javascript:void(0)" onclick="Avaliar(5)">
+                                <img style="width:18px" src="~/Content/images/star0.png" id="s5" />
+                            </a>
+                        </div>
+
+                        <div class="col-md-4"></div>
+
+                    </div>
+
+                    <div class="row align-items-end mt-3">
+
+
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Comentário</label>
+                                @Html.TextAreaFor(c => c.Comentario, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-4"></div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="text-center py-3">
+            <button class="btn btn-primary" type="submit">Salvar</button>
+        </div>
+    </div>
+
+}
+
+@section Scripts{
+
+    <script src="~/Scripts/jquery.mask.js"></script>
+    <script src="~/Scripts/jquery.maskMoney.min.js.js"></script>
+
+    <script>
+
+        function Avaliar(estrela) {
+            var url = window.location;
+            url = url.toString()
+            url = url.split("index.html");
+            url = url[0];
+
+            debugger;
+
+            var s1 = document.getElementById("s1").src;
+            var s2 = document.getElementById("s2").src;
+            var s3 = document.getElementById("s3").src;
+            var s4 = document.getElementById("s4").src;
+            var s5 = document.getElementById("s5").src;
+            var avaliacao = 0;
+
+            if (estrela == 5) {
+                if (s5.includes("/Content/images/star0.png")) {
+                    document.getElementById("s1").src = "/Content/images/star1.png";
+                    document.getElementById("s2").src = "/Content/images/star1.png";
+                    document.getElementById("s3").src = "/Content/images/star1.png";
+                    document.getElementById("s4").src = "/Content/images/star1.png";
+                    document.getElementById("s5").src = "/Content/images/star1.png";
+                    avaliacao = 5;
+                } else {
+                    document.getElementById("s1").src = "/Content/images/star1.png";
+                    document.getElementById("s2").src = "/Content/images/star1.png";
+                    document.getElementById("s3").src = "/Content/images/star1.png";
+                    document.getElementById("s4").src = "/Content/images/star1.png";
+                    document.getElementById("s5").src = "/Content/images/star0.png";
+                    avaliacao = 4;
+                }
+            }
+
+            //ESTRELA 4
+            if (estrela == 4) {
+                if (s4.includes("/Content/images/star0.png")) {
+                    document.getElementById("s1").src = "/Content/images/star1.png";
+                    document.getElementById("s2").src = "/Content/images/star1.png";
+                    document.getElementById("s3").src = "/Content/images/star1.png";
+                    document.getElementById("s4").src = "/Content/images/star1.png";
+                    document.getElementById("s5").src = "/Content/images/star0.png";
+                    avaliacao = 4;
+                } else {
+                    document.getElementById("s1").src = "/Content/images/star1.png";
+                    document.getElementById("s2").src = "/Content/images/star1.png";
+                    document.getElementById("s3").src = "/Content/images/star1.png";
+                    document.getElementById("s4").src = "/Content/images/star0.png";
+                    document.getElementById("s5").src = "/Content/images/star0.png";
+                    avaliacao = 3;
+                }
+            }
+
+            //ESTRELA 3
+            if (estrela == 3) {
+                if (s3.includes("/Content/images/star0.png")) {
+                    document.getElementById("s1").src = "/Content/images/star1.png";
+                    document.getElementById("s2").src = "/Content/images/star1.png";
+                    document.getElementById("s3").src = "/Content/images/star1.png";
+                    document.getElementById("s4").src = "/Content/images/star0.png";
+                    document.getElementById("s5").src = "/Content/images/star0.png";
+                    avaliacao = 3;
+                } else {
+                    document.getElementById("s1").src = "/Content/images/star1.png";
+                    document.getElementById("s2").src = "/Content/images/star1.png";
+                    document.getElementById("s3").src = "/Content/images/star0.png";
+                    document.getElementById("s4").src = "/Content/images/star0.png";
+                    document.getElementById("s5").src = "/Content/images/star0.png";
+                    avaliacao = 2;
+                }
+            }
+
+            //ESTRELA 2
+            if (estrela == 2) {
+                if (s2.includes("/Content/images/star0.png")) {
+                    document.getElementById("s1").src = "/Content/images/star1.png";
+                    document.getElementById("s2").src = "/Content/images/star1.png";
+                    document.getElementById("s3").src = "/Content/images/star0.png";
+                    document.getElementById("s4").src = "/Content/images/star0.png";
+                    document.getElementById("s5").src = "/Content/images/star0.png";
+                    avaliacao = 2;
+                } else {
+                    document.getElementById("s1").src = "/Content/images/star1.png";
+                    document.getElementById("s2").src = "/Content/images/star0.png";
+                    document.getElementById("s3").src = "/Content/images/star0.png";
+                    document.getElementById("s4").src = "/Content/images/star0.png";
+                    document.getElementById("s5").src = "/Content/images/star0.png";
+                    avaliacao = 1;
+                }
+            }
+
+            //ESTRELA 1
+            if (estrela == 1) {
+                if (s1.includes("/Content/images/star0.png")) {
+                    document.getElementById("s1").src = "/Content/images/star1.png";
+                    document.getElementById("s2").src = "/Content/images/star0.png";
+                    document.getElementById("s3").src = "/Content/images/star0.png";
+                    document.getElementById("s4").src = "/Content/images/star0.png";
+                    document.getElementById("s5").src = "/Content/images/star0.png";
+                    avaliacao = 1;
+                } else {
+                    document.getElementById("s1").src = "/Content/images/star0.png";
+                    document.getElementById("s2").src = "/Content/images/star0.png";
+                    document.getElementById("s3").src = "/Content/images/star0.png";
+                    document.getElementById("s4").src = "/Content/images/star0.png";
+                    document.getElementById("s5").src = "/Content/images/star0.png";
+                    avaliacao = 0;
+                }
+            }
+
+        }
+
+    </script>
+}
