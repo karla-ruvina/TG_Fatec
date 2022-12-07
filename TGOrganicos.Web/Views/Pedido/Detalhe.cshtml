@@ -8,14 +8,14 @@
 <style>
     .btn-danger:hover {
         color: #fff !important;
-        background-color: #890b0b!important;
-        border-color: #890b0b!important;
+        background-color: #890b0b !important;
+        border-color: #890b0b !important;
     }
 
     .btn-danger.focus, .btn-danger:focus {
         color: #fff !important;
-        background-color: #890b0b!important;
-        border-color: #890b0b!important;
+        background-color: #890b0b !important;
+        border-color: #890b0b !important;
     }
 
     .btn-primary:hover {
@@ -53,31 +53,33 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                            <tr class="text-center">
-                                @if (TGOrganicos.Web.Models.Credential.IsProdutor())
-                                {
-                                    <td class="product-remove">
-                                        <a href="@Url.Action("AceitarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Processando" ? "hidden" : "") class="btn-success"><span class="ion-ios-add-circle" title="Aceitar Pedido"></span></a>
-                                        <a href="@Url.Action("RecusarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Processando" ? "hidden" : "") class="btn-danger"><span class="ion-ios-close-circle" title="Recusar Pedido"></span></a>
-                                        <a href="@Url.Action("FinalizarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Em preparação" ? "hidden" : "") class="btn-primary"><span class="ion-ios-checkmark-circle" title="Pedido Finalizado"></span></a>
-                                    </td>
-                                }
-                                else if (TGOrganicos.Web.Models.Credential.IsCliente())
-                                {
-                                    <td class="product-remove">
-                                        <a href="@Url.Action("ConcluirPedido ", "Pedido", new { idPedido = item.Id})" @(item.Status != "Finalizado" ? "hidden" : "") class="btn-success"><span class="ion-ios-add-circle" title="Recebi meu pedido."></span></a>
-                                        <a href="@Url.Action("NaoConcluirPedido ", "Pedido", new { idPedido = item.Id})" @(item.Status != "Finalizado" ? "hidden" : "") class="btn-danger"><span class="ion-ios-close-circle" title="Não recebi meu pedido."></span></a>
-                                    </td>
-                                }
+                                <tr class="text-center">
+                                    @if (TGOrganicos.Web.Models.Credential.IsProdutor())
+                                    {
+                                        <td class="product-remove">
+                                            <a href="@Url.Action("AceitarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Processando" ? "hidden" : "") class="btn-success"><span class="ion-ios-add-circle" title="Aceitar Pedido"></span></a>
+                                            <a href="@Url.Action("RecusarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Processando" ? "hidden" : "") class="btn-danger"><span class="ion-ios-close-circle" title="Recusar Pedido"></span></a>
+                                            <a href="@Url.Action("FinalizarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Em preparação" ? "hidden" : "") class="btn-primary"><span class="ion-ios-checkmark-circle" title="Pedido Finalizado"></span></a>
+                                        </td>
+                                    }
+                                    else if (TGOrganicos.Web.Models.Credential.IsCliente())
+                                    {
+                                        <td class="product-remove">
+                                            <a href="@Url.Action("ConcluirPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Entregue" ? "hidden" : "") class="btn-success"><span class="ion-ios-add-circle" title="Recebi meu pedido"></span></a>
+                                            <a href="@Url.Action("NaoConcluirPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Entregue" ? "hidden" : "") class="btn-danger"><span class="ion-ios-close-circle" title="Não recebi meu pedido"></span></a>
+                                            <a href="@Url.Action("Cadastro", "Avaliacao", new { idPedido = item.Id, idCliente = item.Pedido.IdCliente})" @(item.Status != "Concluido" ? "hidden" : "") class="btn-primary"><span class="ion-ios-star" title="Avaliar"></span></a>
 
-                                <td class="qtd">@item.Status</td>
-                                <td class="qtd">@item.Quantidade</td>
-                                <td class="qtd">@item.Produto.UnidadeMedida</td>
-                                <td class="qtd">@item.Produto.Nome</td>
-                                <td class="qtd">@item.ValorUnitario.Value.ToString("C")</td>
-                                <td class="qtd">@item.ValorTotal.Value.ToString("C")</td>
-                                <td class="product-name">@item.DataCadastro.Value.ToString("dd/MM/yyyy")</td>
-                            </tr>
+                                        </td>
+                                    }
+
+                                    <td class="qtd">@item.Status</td>
+                                    <td class="qtd">@item.Quantidade</td>
+                                    <td class="qtd">@item.Produto.UnidadeMedida</td>
+                                    <td class="qtd">@item.Produto.Nome</td>
+                                    <td class="qtd">@item.ValorUnitario.Value.ToString("C")</td>
+                                    <td class="qtd">@item.ValorTotal.Value.ToString("C")</td>
+                                    <td class="product-name">@item.DataCadastro.Value.ToString("dd/MM/yyyy")</td>
+                                </tr>
                             }
                         </tbody>
                     </table>

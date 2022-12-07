@@ -57,7 +57,7 @@ namespace TGOrganicos.Web.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return RedirectToAction("Cadastro", model);
+                return RedirectToAction("Index", "Avaliacao");
             }
         }
 
