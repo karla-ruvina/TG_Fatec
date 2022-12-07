@@ -124,7 +124,7 @@ namespace TGOrganicos.Web.Controllers
                 {
                     foreach (var itens in model.ItensPedido.Where(c => c.Remove == false))
                     {
-                        var objItem = itens.Id > 0 ? db.ItensPedidos.SingleOrDefault(c => c.Id == itens.Id) : new Data.ItensPedido();
+                        var objItem = new Data.ItensPedido();
                         objItem.IdPedido = obj.Id;
                         objItem.IdProduto = itens.IdProduto;
                         objItem.DataCadastro = DateTime.Now;
@@ -133,14 +133,13 @@ namespace TGOrganicos.Web.Controllers
                         objItem.Quantidade = itens.Quantidade;
                         objItem.Status = "Processando";
 
+                        db.ItensPedidos.InsertOnSubmit(objItem);
 
                         var prod = db.Produtos.FirstOrDefault(c => c.Id == itens.IdProduto);
                         prod.Quantidade -= itens.Quantidade;
                         db.SubmitChanges();
                     }
                 }
-                
-
 
                 return RedirectToAction("Index");
             }

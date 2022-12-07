@@ -71,6 +71,10 @@
                             <span style="align-items: center; display: flex;">Total</span>
                             @Html.TextBoxFor(c => c.ValorPedido, new { @readonly = "readonly", @class = "money form-control", @style = "box-shadow: 0 0 0 0 !important; border: 0 none!important;" })
                         </p>
+                        <p class="d-flex total-price">
+                            <span style="align-items: center; display: flex;">Quantidade</span>
+                            @Html.TextBoxFor(c => c.QuantidadeItens, new { @readonly = "readonly", @class = "form-control", @style = "box-shadow: 0 0 0 0 !important; border: 0 none!important;" })
+                        </p>
                     </div>
 
                 </div>
@@ -79,7 +83,7 @@
                 <div class="col-lg-4 mt-3 cart-wrap ftco-animate">
                     <div class="btn-group">
                         <button type="submit" class="btn btn-primary py-3 px-3">Finalizar compra</button>
-                        <a onclick=" localStorage.clear(); location.reload(); localStorage.setItem('qtdcarrinho' + 1, 0);" class="btn btn-danger py-3 px-3" style="color:white">Limpar carrinho</a>
+                        <button onclick=" localStorage.clear(); location.reload(); localStorage.setItem('qtdcarrinho' + 1, 0);" class="btn btn-danger py-3 px-3" style="color:white">Limpar carrinho</button>
                     </div>
                 </div>
             </div>
@@ -132,6 +136,7 @@
                     $(".carrinhotable tbody").append(row);
                     formatInputs()
                     CalculaValor()
+                    CalculaQuantidade()
                 }
             }
 
@@ -163,6 +168,23 @@
             });
             $('#ValorPedido').val(Number(totalValorLinha).toFixed(2).replace(".", ","))
 
+            formatInputs();
+
+        }
+
+        function CalculaQuantidade() {
+
+            var rows = $("#body-carrinho tr")
+
+            var quantidade = 0
+            $(rows).each(function () {
+
+                quantidade += parseFloat($(this).find(`[name$="Quantidade"]`).val())
+
+            });
+            $('#QuantidadeItens').val(quantidade)
+
+            formatInputs();
 
         }
 
@@ -171,6 +193,22 @@
             $(".money").maskMoney({ prefix: 'R$ ', allowNegative: true, allowZero: true, thousands: '.', decimal: ',', affixesStay: true }).maskMoney('mask');
 
         }
+
+        $(document).on('submit', 'form', function (e) {
+
+            // Campos com máscaras
+            $('.money').each(function () {
+                var valor = $(this).maskMoney('unmasked')[0]
+                $(this).maskMoney('destroy')
+                $(this).val(valor.toString().replaceAll("R$", "").replace(".", ",").trim())
+            })
+
+
+            localStorage.clear();
+            location.reload();
+            localStorage.setItem('qtdcarrinho' + 1, 0);
+
+        })
 
     </script>
 

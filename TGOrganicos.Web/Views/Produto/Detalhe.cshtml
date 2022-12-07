@@ -65,12 +65,12 @@
 
             var valorTotal = parseFloat(quantidade) * parseFloat(valor);
 
-            localStorage.setItem("IdProduto" + qtdcarrinho-1, id);
-            localStorage.setItem("NomeProduto" + qtdcarrinho-1, nome);
-            localStorage.setItem("Quantidade" + qtdcarrinho-1, quantidade);
-            localStorage.setItem("ValorUnitario" + qtdcarrinho-1, valor);
-            localStorage.setItem("UnidadeMedida" + qtdcarrinho-1, unidademedida);
-            localStorage.setItem("ValorTotal" + qtdcarrinho-1, valorTotal);
+            localStorage.setItem("IdProduto" + (qtdcarrinho == 1 ? 0 : qtdcarrinho - 1), id);
+            localStorage.setItem("NomeProduto" + (qtdcarrinho == 1 ? 0 : qtdcarrinho - 1), nome);
+            localStorage.setItem("Quantidade" + (qtdcarrinho == 1 ? 0 : qtdcarrinho - 1), quantidade);
+            localStorage.setItem("ValorUnitario" + (qtdcarrinho == 1 ? 0 : qtdcarrinho - 1), valor);
+            localStorage.setItem("UnidadeMedida" + (qtdcarrinho == 1 ? 0 : qtdcarrinho - 1), unidademedida);
+            localStorage.setItem("ValorTotal" + (qtdcarrinho == 1 ? 0 : qtdcarrinho - 1), valorTotal);
 
             alert("Produto adicionado ao carrinho!");
         }

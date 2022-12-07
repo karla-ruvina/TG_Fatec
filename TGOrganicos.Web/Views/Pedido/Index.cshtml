@@ -15,7 +15,6 @@
                         <thead class="thead-primary">
                             <tr class="text-center">
                                 <th>&nbsp;</th>
-                                <th>Status</th>
                                 <th>Data</th>
                                 <th>Itens</th>
                                 <th>Valor</th>
@@ -28,7 +27,6 @@
                                     <td class="product-remove">
                                         <a href="@Url.Action("Detalhe", "Pedido", new { idPedido = pedido.Id})" title="Visualizar"><span class="ion-ios-eye"></span></a>
                                     </td>
-                                    <td class="qtd">@pedido.Status</td>
                                     <td class="product-name">@pedido.DataPedido.Value.ToString("dd/MM/yyyy")</td>
                                     <td class="qtd">@pedido.QuantidadeItens</td>
                                     <td class="">@pedido.ValorPedido.Value.ToString("C")</td>
