@@ -41,6 +41,11 @@
                         <thead class="thead-primary">
                             <tr class="text-center">
                                 <th>&nbsp;</th>
+                                @if (TGOrganicos.Web.Models.Credential.IsProdutor())
+                                {
+                                    <th width="20%">Cidade/Estado</th>
+                                    <th width="20%">Rua/Bairro</th>
+                                }
                                 <th>Status</th>
                                 <th>Quantidade</th>
                                 <th>Medida</th>
@@ -61,6 +66,11 @@
                                             <a href="@Url.Action("RecusarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Processando" ? "hidden" : "") class="btn-danger"><span class="ion-ios-close-circle" title="Recusar Pedido"></span></a>
                                             <a href="@Url.Action("FinalizarPedido", "Pedido", new { idPedido = item.Id})" @(item.Status != "Em preparação" ? "hidden" : "") class="btn-primary"><span class="ion-ios-checkmark-circle" title="Pedido Finalizado"></span></a>
                                         </td>
+
+                                        <td>@item.Pedido.Cliente.Usuario.Cidade / @item.Pedido.Cliente.Usuario.UF             </td>
+                                        <td>@item.Pedido.Cliente.Usuario.Logradouro / @item.Pedido.Cliente.Usuario.Bairro     </td>
+
+
                                     }
                                     else if (TGOrganicos.Web.Models.Credential.IsCliente())
                                     {
@@ -71,6 +81,7 @@
 
                                         </td>
                                     }
+
 
                                     <td class="qtd">@item.Status</td>
                                     <td class="qtd">@item.Quantidade</td>

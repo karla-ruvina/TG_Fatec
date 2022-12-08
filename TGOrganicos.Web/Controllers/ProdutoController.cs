@@ -20,13 +20,17 @@ namespace TGOrganicos.Web.Controllers
         public ActionResult Index(int? tipo)
         {
             DataLinq db = new DataLinq();
+
+            var idcliente = Credential.IdCliente();
+            var idprodutor = Credential.IdProdutor();
+
             ViewBag.Tipo = tipo;
 
             var prod = tipo != null && tipo > 0 ? db.Produtos.Where(c => c.TipoProduto == tipo).ToList() : db.Produtos.ToList();
 
             if (Credential.IsProdutor())
             {
-                var user = Credential.Current.Id;
+                var user = idprodutor;
 
                 var query = (from prodprod in db.ProdutosProdutors
                              join produtor in db.Produtors on prodprod.IdProdutor equals produtor.Id

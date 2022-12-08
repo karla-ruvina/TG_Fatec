@@ -98,4 +98,3 @@ C:\Users\Karla\source\repos\TGOrganicos\TGOrganicos.Web\bin\System.Threading.Tas
 C:\Users\Karla\source\repos\TGOrganicos\TGOrganicos.Web\bin\System.ValueTuple.xml
 C:\Users\Karla\source\repos\TGOrganicos\TGOrganicos.Web\bin\TGOrganicos.Data.dll
 C:\Users\Karla\source\repos\TGOrganicos\TGOrganicos.Web\bin\TGOrganicos.Data.dll.config
-C:\Users\Karla\source\repos\TGOrganicos\TGOrganicos.Web\bin\Anexs.Lib.dll

@@ -47,11 +47,11 @@
     @Html.HiddenFor(c => c.User.Id)
     @Html.HiddenFor(c => c.User.TipoUsuario, new { @class = "tipousuario" })
 
-    <div class="ftco-section" id="produtor">
+    <div class="ftco-section" id="modal">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-12 ftco-animate">
-                    <h3 class="mb-4 billing-heading">Cadastrar-se como Produtor</h3>
+                    <h3 class="mb-4 billing-heading">Cadastrar-se como <span id="nometipousuario"></span></h3>
                     <div class="row align-items-end">
 
                         <div class="col-md-12">
@@ -143,135 +143,26 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="cert">Certificado Orgânico</label>
-                                <input type="file" class="form-control" placeholder="Inserir Certificado" id="Certificado" name="Certificado" />
+                        <div id="produtor" class="col-md-12">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="cert">Certificado Orgânico</label>
+                                    <input type="file" class="form-control" placeholder="Inserir Certificado" id="Certificado" name="Certificado" />
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-100"></div>
+                            <div class="w-100"></div>
 
-                        <div class="col-md-12">
-                            <div class="form-group text-center mt-4">
-                                <div class="checkbox">
-                                    <label class="mr-3">@Html.CheckBoxFor(c => c.UserProd.AceitaPix) Aceita Pix? </label>
-                                    <label class="mr-3">@Html.CheckBoxFor(c => c.UserProd.AceitaCartao) Aceita Cartão? </label>
-                                    <label class="mr-3">@Html.CheckBoxFor(c => c.UserProd.RealizaEntrega) Realiza Entrega? </label>
+                            <div class="col-md-12">
+                                <div class="form-group text-center mt-4">
+                                    <div class="checkbox">
+                                        <label class="mr-3">@Html.CheckBoxFor(c => c.UserProd.AceitaPix) Aceita Pix? </label>
+                                        <label class="mr-3">@Html.CheckBoxFor(c => c.UserProd.AceitaCartao) Aceita Cartão? </label>
+                                        <label class="mr-3">@Html.CheckBoxFor(c => c.UserProd.RealizaEntrega) Realiza Entrega? </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="ftco-section" id="cliente">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-12 ftco-animate">
-                    <h3 class="mb-4 billing-heading">Cadastrar-se como Cliente</h3>
-                    <div class="row align-items-end">
-
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="firstname">Nome</label>
-                                @Html.TextBoxFor(c => c.User.Nome, new { @class = "form-control" })
-                            </div>
-                        </div>
-
-                        <div class="w-100"></div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="country">Email</label>
-                                @Html.TextBoxFor(c => c.User.Email, new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="country">Senha</label>
-                                @Html.PasswordFor(c => c.User.Senha, new { @class = "form-control" })
-                            </div>
-                        </div>
-
-                        <div class="w-100"></div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="country">CPF/CNPJ</label>
-                                @Html.TextBoxFor(c => c.User.CPF, new { @class = "form-control cpf-cnpj" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="country">Telefone</label>
-                                @Html.TextBoxFor(c => c.User.Telefone, new { @class = "form-control telefone" })
-                            </div>
-                        </div>
-
-                        <div class="w-100"></div>
-
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="streetaddress">CEP</label>
-                                @Html.TextBoxFor(c => c.User.CEP, new { @class = "form-control cep" })
-                            </div>
-                        </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label for="towncity">Cidade</label>
-                                @Html.TextBoxFor(c => c.User.Cidade, new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="towncity">UF</label>
-                                @Html.TextBoxFor(c => c.User.UF, new { @class = "form-control" })
-                            </div>
-                        </div>
-
-                        <div class="w-100"></div>
-
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <label for="postcodezip">Logradouro</label>
-                                @Html.TextBoxFor(c => c.User.Logradouro, new { @class = "form-control" })
-                            </div>
-                        </div>
-
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="postcodezip">Numero</label>
-                                @Html.TextBoxFor(c => c.User.Numero, new { @class = "form-control" })
-                            </div>
-                        </div>
-
-                        <div class="w-100"></div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="phone">Bairro</label>
-                                @Html.TextBoxFor(c => c.User.Bairro, new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="emailaddress">Complemento</label>
-                                @Html.TextBoxFor(c => c.User.Complemento, new { @class = "form-control" })
-                            </div>
-                        </div>
-
-                        <div class="w-100"></div>
-
-                        <div class="col-md-12">
-                            <div class="form-group text-center mt-4">
-                                <div class="checkbox">
-                                    <label class="mr-3">@Html.CheckBoxFor(c => c.UserCli.AceitaReceberEmail) Aceita Receber Emails? </label>
-                                    <label class="mr-3">@Html.CheckBoxFor(c => c.UserCli.AceitaReceberSMS) Aceita Receber SMS? </label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -298,21 +189,22 @@
 
             formatInputs()
 
-            $("#produtor").hide();
-            $("#cliente").hide();
+            $("#modal").hide();
             $(".botaosalvar").hide();
 
 
             $(document).on("click", "#prod", function () {
+                $("#modal").show();
+                $("#nometipousuario").html("Produtor");
                 $("#produtor").show();
-                $("#cliente").hide();
                 $(".botaosalvar").show();
 
                 $(".tipousuario").val(1);
             });
 
             $(document).on("click", "#cli", function () {
-                $("#cliente").show();
+                $("#modal").show();
+                $("#nometipousuario").html("Cliente");
                 $("#produtor").hide();
                 $(".botaosalvar").show();
 

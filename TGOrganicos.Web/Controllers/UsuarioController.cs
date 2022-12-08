@@ -101,8 +101,6 @@ namespace TGOrganicos.Web.Controllers
                 {
                     var objcli = new Cliente();
                     objcli.IdUsuario = obj.Id;
-                    objcli.AceitaReceberEmails = model.UserCli.AceitaReceberEmail;
-                    objcli.AceitaReceberSMS = model.UserCli.AceitaReceberSMS;
 
                     db.Clientes.InsertOnSubmit(objcli);
                 }
